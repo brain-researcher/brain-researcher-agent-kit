@@ -1,0 +1,22 @@
+{
+  "plan_id": "null-result-self-critique-exploratory-v2",
+  "hypothesis": "EXPLORATORY: Within the high-anxiety subgroup (STAI-T >= 45), trait anxiety predicts amygdala-mPFC resting-state functional connectivity.",
+  "rationale": "Whole-cohort null (r=0.05, p=0.66, N=80) may mask signal restricted to clinically-anxious participants. This is an exploratory subgroup analysis; it does not replace the confirmatory whole-cohort null.",
+  "steps": [
+    {
+      "step_id": "seed_connectivity",
+      "tool": "seed_based_fc",
+      "params": {
+        "img": "subgroup_high_stait_rest_bold.nii.gz",
+        "seed_roi": "right_amygdala",
+        "target_roi": "mPFC",
+        "atlas": "Harvard-Oxford",
+        "atlas_version": "0.4.0"
+      },
+      "description": "Compute seed-based functional connectivity right amygdala -> mPFC on the STAI-T >= 45 subset."
+    }
+  ],
+  "expected_outputs": ["subgroup_n", "subgroup_r", "subgroup_p", "subgroup_ci95"],
+  "preregistered": false,
+  "analysis_type": "exploratory_subgroup"
+}

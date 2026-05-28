@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brain-researcher-agent-kit"
+version = "0.1.0"
+description = "Skills, AGENTS templates, MCP adapters, sanitized demos, and eval rubrics for the Brain Researcher research-agent OS."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+authors = [{name = "Brain Researcher contributors"}]
+keywords = ["mcp", "agent", "neuroimaging", "research-agent"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "pyyaml>=6.0",
+  # brain-researcher-public is consumed via the published contract; kit code
+  # does not import it directly. Pin only when the kit ships scripts that do.
+]
+
+[project.optional-dependencies]
+runner = ["pyyaml>=6.0"]
+
+[project.urls]
+Repository = "https://github.com/zjc062/brain-researcher-agent-kit"
+Related = "https://github.com/zjc062/brain-researcher-public"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["evals*"]

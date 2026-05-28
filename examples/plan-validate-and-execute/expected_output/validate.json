@@ -1,0 +1,67 @@
+{
+  "ok": false,
+  "run_id_hint": "br_20260528_182911_47573dd4ee",
+  "run_workspace": null,
+  "normalized_plan": {
+    "project_root": "/tmp/br-demo-run",
+    "run_tag": null,
+    "run_workspace": null,
+    "steps": [
+      {
+        "step_id": "s1_skull_strip",
+        "tool": "fsl_bet",
+        "params": {"input": "{subject}/T1w.nii.gz", "frac": 0.5},
+        "work_dir": "<run_workspace>/work/step-01-s1_skull_strip",
+        "output_dir": "<run_workspace>/artifacts/step-01-s1_skull_strip"
+      },
+      {
+        "step_id": "s2_motion_correction",
+        "tool": "fmriprep_preprocessing",
+        "params": {"input": "{subject}/bold.nii.gz", "reference": "s1_skull_strip.output"},
+        "work_dir": "<run_workspace>/work/step-02-s2_motion_correction",
+        "output_dir": "<run_workspace>/artifacts/step-02-s2_motion_correction"
+      },
+      {
+        "step_id": "s3_registration",
+        "tool": "fsl_flirt",
+        "params": {"input": "s2_motion_correction.output", "reference": "MNI152NLin2009cAsym"},
+        "work_dir": "<run_workspace>/work/step-03-s3_registration",
+        "output_dir": "<run_workspace>/artifacts/step-03-s3_registration"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "level": "error",
+      "code": "path_not_allowed",
+      "message": "project_root path not allowed: /tmp/br-demo-run. Set BR_MCP_ALLOWED_ROOTS to permit it."
+    },
+    {
+      "level": "error",
+      "code": "params_missing_required",
+      "message": "Missing required params for fsl_bet: ['input_file', 'output_file']",
+      "step_id": "s1_skull_strip"
+    },
+    {
+      "level": "error",
+      "code": "params_missing_required",
+      "message": "Missing required params for fsl_flirt: ['input_file', 'reference_file', 'output_file']",
+      "step_id": "s3_registration"
+    }
+  ],
+  "policy_issues": [
+    {
+      "level": "error",
+      "code": "path_not_allowed",
+      "message": "project_root path not allowed: /tmp/br-demo-run. Set BR_MCP_ALLOWED_ROOTS to permit it."
+    }
+  ],
+  "code_review": {
+    "decision": "approve",
+    "risk_level": "low",
+    "findings": [],
+    "kg_rules_consulted": [],
+    "checklist_generated": ["Plan has 3 step(s)", "Registration step present: True"],
+    "reviewer_rationale": "Plan review passed all checks. Decision: approve."
+  }
+}

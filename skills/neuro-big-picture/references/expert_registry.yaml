@@ -1,0 +1,60 @@
+version: "1.0"
+last_registry_update: "PLACEHOLDER"
+
+# This file is shipped as a SCHEMA-ONLY placeholder. Fill in the experts whose
+# commentary you want this skill to weight. Each entry follows the shape below.
+# `preferred_lenses` must match keys under `perspective_defaults`.
+
+experts:
+  expert_one:
+    name: "<Expert Name>"
+    affiliation: "<Affiliation>"
+    focus_areas:
+      - "<Focus area 1>"
+      - "<Focus area 2>"
+    preferred_lenses:
+      - "method_rigor"
+      - "open_science"
+    watch_channels:
+      - type: "social"        # social | lab | blog | newsletter | institute | podcast
+        label: "<Label>"
+        value: "<URL or handle>"
+        capturability: "medium"  # low | medium | high
+
+  expert_two:
+    name: "<Expert Name>"
+    affiliation: "<Affiliation>"
+    focus_areas:
+      - "<Focus area>"
+    preferred_lenses:
+      - "neuroai_alignment"
+      - "causal_interpretation"
+    watch_channels:
+      - type: "lab"
+        label: "<Lab name>"
+        value: "<URL>"
+        capturability: "high"
+
+# `prioritize_experts` lists expert IDs (keys from `experts:` above) to weight
+# first when the user asks for a given perspective. `include_channels`
+# constrains source_registry.yaml channel types.
+perspective_defaults:
+  neuroai_alignment:
+    prioritize_experts: ["expert_two"]
+    include_channels: ["blog", "newsletter", "journal_editorial"]
+
+  method_rigor:
+    prioritize_experts: ["expert_one"]
+    include_channels: ["journal_editorial", "community", "blog"]
+
+  causal_interpretation:
+    prioritize_experts: ["expert_two"]
+    include_channels: ["blog", "podcast", "journal_editorial"]
+
+  clinical_translation:
+    prioritize_experts: []
+    include_channels: ["journal_editorial", "blog"]
+
+  open_science:
+    prioritize_experts: ["expert_one"]
+    include_channels: ["community", "blog", "journal_editorial"]

@@ -1,0 +1,67 @@
+version: "1.0"
+last_updated: "2026-03-04"
+purpose: "Claim-strength calibration rules to align manuscript language with evidence strength."
+
+decision_table:
+  - evidence_state: "descriptive_only"
+    signals:
+      - "Single-cohort descriptive patterns only"
+      - "No uncertainty estimates or inferential tests"
+    allowed_verbs:
+      - "observe"
+      - "describe"
+      - "report"
+    discouraged_verbs:
+      - "demonstrate"
+      - "establish"
+      - "prove"
+      - "show that"
+    template: "We observed [pattern] in the evaluated data."
+
+  - evidence_state: "associational_with_uncertainty"
+    signals:
+      - "Effect sizes with bootstrap CI/permutation p-values"
+      - "Potential confounding remains"
+    allowed_verbs:
+      - "is associated with"
+      - "is consistent with"
+      - "suggest"
+      - "indicate"
+    discouraged_verbs:
+      - "causes"
+      - "drives"
+      - "explains"
+    template: "[Pattern] was associated with [outcome] under the evaluated protocol."
+
+  - evidence_state: "raw_adjusted_tension"
+    signals:
+      - "Raw split positive"
+      - "Adjusted/composition-controlled estimate attenuated or non-significant"
+    allowed_verbs:
+      - "localize"
+      - "diagnose"
+      - "bound interpretation"
+    discouraged_verbs:
+      - "supports mechanism"
+      - "confirms"
+      - "validates causal effect"
+    required_caveat:
+      - "State attenuation explicitly in Results."
+      - "State non-causal interpretation in Abstract and Discussion."
+    template: "We treat [split] as a diagnostic contrast, with interpretation bounded by attenuation in adjusted analyses."
+
+  - evidence_state: "interventional_or_identified"
+    signals:
+      - "Causal design or strong identification assumptions explicitly justified"
+      - "Sensitivity analyses support identification"
+    allowed_verbs:
+      - "estimate causal effect"
+      - "supports causal interpretation"
+    discouraged_verbs:
+      - "generalizes universally"
+    template: "Under stated identification assumptions, [intervention] changed [outcome]."
+
+headline_guardrails:
+  - "If raw_adjusted_tension holds, titles should emphasize framework/diagnostics/coverage limits rather than universal gains."
+  - "Operational gate pass/fail is not inferential evidence; do not use gate pass as proof language."
+  - "When in doubt, downgrade one rung in claim strength."

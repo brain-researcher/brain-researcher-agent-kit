@@ -1,0 +1,41 @@
+name: Kit bug
+description: A demo fails, a rubric is wrong, an adapter routes badly, a doc lies.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For BR agent behavior bugs (wrong tool, hallucinated args, no session snapshot), use the **Agent behavior** template instead — those belong in the `brain-researcher` repo.
+  - type: input
+    id: where
+    attributes:
+      label: Which file / demo / adapter intent
+      placeholder: e.g. examples/literature-grounding/run.sh, adapters/br-adapter-map.json intent=ground-evidence
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected (one sentence)
+    validations: {required: true}
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+      description: Error message, wrong tool name, surprising rubric verdict, etc.
+    validations: {required: true}
+  - type: input
+    id: contract_version
+    attributes:
+      label: contract_version from server_info
+      placeholder: e.g. 2026-05-27
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options: [Claude Code, Codex CLI, Cursor, Continue, Custom / other]
+  - type: dropdown
+    id: mcp_check
+    attributes:
+      label: Did MCP_SETUP.md's 2-line live check pass?
+      options: [Yes — server_info ok and self_test pass, No — see actual section, Did not run]

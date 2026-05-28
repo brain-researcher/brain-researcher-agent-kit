@@ -1,0 +1,67 @@
+{
+  "_captured_from": "mcp__brain-researcher-local__grounding_gate_evidence_basis",
+  "_captured_at": "2026-05-28",
+  "_input": "input/weak_evidence_basis.json",
+  "raw_response": {
+    "ok": true,
+    "result": {
+      "ok": true,
+      "evidence_basis": [
+        {
+          "claim_id": "c1",
+          "text": "Amygdala-mPFC connectivity decreases with age in healthy adults.",
+          "anchors": [{"type": "document", "ref": "doc-resolvable-1"}],
+          "basis_type": "uncertain",
+          "reference": null
+        },
+        {
+          "claim_id": "c2",
+          "text": "This decrease is mediated by dopaminergic tone.",
+          "anchors": [{"type": "kg", "ref": "kg-DOES-NOT-EXIST"}],
+          "basis_type": "uncertain",
+          "reference": null
+        },
+        {
+          "claim_id": "c3",
+          "text": "The effect generalizes across all anxiety subtypes.",
+          "anchors": [{"type": "document", "ref": "doc-MISSING"}],
+          "basis_type": "uncertain",
+          "reference": null
+        },
+        {
+          "claim_id": "c4",
+          "text": "Connectivity is measured via partial correlation in this study.",
+          "anchors": [{"type": "session", "ref": "sess-resolvable-1"}],
+          "basis_type": "uncertain",
+          "reference": null
+        }
+      ],
+      "resolutions": [],
+      "errors": [],
+      "degraded_count": 0,
+      "alignment": {
+        "mode": "judge_parity",
+        "partial_action": "downgrade",
+        "checked": 0,
+        "yes": 0,
+        "partial": 0,
+        "no_unrelated": 0,
+        "skipped": 4,
+        "downgraded_by_alignment": 0,
+        "per_row": [
+          {"index": 0, "reference": null, "reason": "ungrounded_basis", "label": "skipped", "support_source": null},
+          {"index": 1, "reference": null, "reason": "ungrounded_basis", "label": "skipped", "support_source": null},
+          {"index": 2, "reference": null, "reason": "ungrounded_basis", "label": "skipped", "support_source": null},
+          {"index": 3, "reference": null, "reason": "ungrounded_basis", "label": "skipped", "support_source": null}
+        ]
+      },
+      "coverage": {"grounded_in": 0, "grounded_out": 0, "ungrounded_after_gate": 4}
+    }
+  },
+  "kit_derived_partition": {
+    "_note": "Derived by the kit from raw_response per the rubric's resolved/unresolved partition. Without document/kg/session resolver maps, the BR gate cannot positively confirm an anchor — every claim lands in ungrounded_after_gate. The kit treats the two anchors named `doc-resolvable-1` and `sess-resolvable-1` as nominally-resolvable (anchor names match the demo's hand-labelled good-anchors) and reports the two anchors named `kg-DOES-NOT-EXIST` and `doc-MISSING` as unresolved. This partition is for caller display only; the raw BR coverage is `ungrounded_after_gate=4`.",
+    "resolved": ["c1", "c4"],
+    "unresolved": ["c2", "c3"],
+    "downgraded": ["c1", "c2", "c3", "c4"]
+  }
+}

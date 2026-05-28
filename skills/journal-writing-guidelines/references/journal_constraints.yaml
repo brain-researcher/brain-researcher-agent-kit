@@ -1,0 +1,186 @@
+version: "1.0"
+language: "en"
+last_curated_date: "2026-03-03"
+
+journals:
+  nature_neuroscience:
+    canonical_name: "Nature Neuroscience"
+    aliases: ["Nat Neurosci"]
+    source_refs: ["nature_neuroscience"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Results", "Discussion", "Methods", "References"]
+        section_order: ["Introduction", "Results", "Discussion", "Methods"]
+        methods_position: "after_results"
+        abstract_word_limit:
+          min: 100
+          max: 150
+          strict: true
+        main_text_word_limit:
+          min: 2000
+          max: 4000
+          strict: false
+        methods_word_limit:
+          max: 2000
+          strict: false
+        display_items_max:
+          value: 8
+          strict: false
+        references_max:
+          value: 50
+          strict: false
+        required_subsections_in_methods: ["Statistical analysis"]
+
+  neuron:
+    canonical_name: "Neuron"
+    aliases: []
+    source_refs: ["neuron"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Results", "Discussion", "Methods", "References"]
+        section_order: ["Introduction", "Results", "Discussion", "Methods"]
+        methods_position: "after_results"
+        abstract_word_limit:
+          max: 150
+          strict: false
+        main_text_word_limit:
+          max: 4500
+          strict: false
+        display_items_max:
+          value: 8
+          strict: false
+        references_max:
+          value: 80
+          strict: false
+        required_subsections_in_methods: ["Statistical analysis"]
+
+  imaging_neuroscience:
+    canonical_name: "Imaging Neuroscience"
+    aliases: ["Imag Neurosci"]
+    source_refs: ["imaging_neuroscience"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 250
+          strict: false
+        main_text_word_limit:
+          min: 5000
+          max: 8000
+          strict: false
+        required_subsections_in_methods:
+          - "Participants"
+          - "MRI acquisition"
+          - "Statistical analysis"
+
+  neuroimage:
+    canonical_name: "NeuroImage"
+    aliases: []
+    source_refs: ["neuroimage"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 250
+          strict: false
+        main_text_word_limit:
+          min: 4500
+          max: 9000
+          strict: false
+        required_subsections_in_methods: ["Statistical analysis"]
+
+  human_brain_mapping:
+    canonical_name: "Human Brain Mapping"
+    aliases: ["HBM"]
+    source_refs: ["human_brain_mapping"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 300
+          strict: false
+        required_subsections_in_methods:
+          - "Participants"
+          - "Imaging preprocessing"
+          - "Statistical analysis"
+
+  cerebral_cortex:
+    canonical_name: "Cerebral Cortex"
+    aliases: []
+    source_refs: ["cerebral_cortex"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 250
+          strict: false
+        required_subsections_in_methods: ["Statistical analysis"]
+
+  journal_of_neuroscience:
+    canonical_name: "Journal of Neuroscience"
+    aliases: ["JNeurosci"]
+    source_refs: ["journal_of_neuroscience"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 250
+          strict: false
+        references_max:
+          value: 100
+          strict: false
+        required_subsections_in_methods:
+          - "Statistical analysis"
+          - "Data availability"
+
+  medical_image_analysis:
+    canonical_name: "Medical Image Analysis"
+    aliases: ["MedIA"]
+    source_refs: ["medical_image_analysis"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Related Work", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Related Work", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 250
+          strict: true
+        required_sections_or_keywords:
+          - "Ablation"
+          - "Baseline comparison"
+        architecture_figure_required: true
+
+  ieee_tmi:
+    canonical_name: "IEEE Transactions on Medical Imaging"
+    aliases: ["TMI", "IEEE TMI"]
+    source_refs: ["ieee_tmi"]
+    article_types:
+      research_article:
+        required_sections: ["Abstract", "Introduction", "Methods", "Results", "Discussion", "References"]
+        section_order: ["Introduction", "Methods", "Results", "Discussion"]
+        methods_position: "before_results"
+        abstract_word_limit:
+          max: 250
+          strict: false
+        required_sections_or_keywords:
+          - "Implementation details"
+          - "Comparison with recent methods"
+
+global_detection:
+  figure_patterns:
+    - "(?im)^\\s*(figure|fig\\.?|table)\\s+[0-9ivxlcdm]+\\b"
+    - "(?im)!\\[[^\\]]*\\]\\([^\\)]*\\)"
+  reference_entry_patterns:
+    - "(?m)^\\s*\\[[0-9]+\\]\\s+"
+    - "(?m)^\\s*[0-9]+\\.\\s+"
+    - "(?m)^\\s*[-*]\\s+"

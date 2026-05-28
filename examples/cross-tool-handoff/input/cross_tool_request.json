@@ -1,0 +1,10 @@
+{
+  "request": "Run a 2-step BR pipeline (validate a small fMRI motion-correction plan, then score the resulting run), then generate a short report citing both steps' artifacts.",
+  "expected_chain": [
+    "plan_preflight",
+    "pipeline_plan_validate",
+    "(caller execution)",
+    "run_scorecard",
+    "scientific_report_generate"
+  ]
+}

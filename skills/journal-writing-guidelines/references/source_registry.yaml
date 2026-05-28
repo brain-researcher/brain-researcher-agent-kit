@@ -1,0 +1,106 @@
+version: "1.0"
+last_registry_update: "2026-03-03"
+policy:
+  strategy: "hybrid"
+  hard_constraints_priority: "official_guidelines"
+  style_guidance_priority: "curated_editorial_rules"
+
+sources:
+  nature_neuroscience:
+    journal: "Nature Neuroscience"
+    primary_guideline_url: "https://www.nature.com/neuro/authors-and-referees/preparation"
+    secondary_urls:
+      - "https://www.nature.com/neuro/for-authors-and-referees"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "medium"
+
+  neuron:
+    journal: "Neuron"
+    primary_guideline_url: "https://www.cell.com/neuron/authors"
+    secondary_urls:
+      - "https://www.cell.com/pb/assets/raw/shared/guidelines/Cell-Press-Information-for-Authors.pdf"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "medium"
+
+  imaging_neuroscience:
+    journal: "Imaging Neuroscience"
+    primary_guideline_url: "https://direct.mit.edu/imag/pages/for-authors"
+    secondary_urls:
+      - "https://direct.mit.edu/imag"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "high"
+
+  neuroimage:
+    journal: "NeuroImage"
+    primary_guideline_url: "https://www.sciencedirect.com/journal/neuroimage/publish/guide-for-authors"
+    secondary_urls:
+      - "https://www.elsevier.com/journals/neuroimage/1053-8119/guide-for-authors"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "medium"
+
+  human_brain_mapping:
+    journal: "Human Brain Mapping"
+    primary_guideline_url: "https://onlinelibrary.wiley.com/page/journal/10970193/homepage/forauthors.html"
+    secondary_urls:
+      - "https://onlinelibrary.wiley.com/journal/10970193"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "medium"
+
+  cerebral_cortex:
+    journal: "Cerebral Cortex"
+    primary_guideline_url: "https://academic.oup.com/cercor/pages/General_Instructions"
+    secondary_urls:
+      - "https://academic.oup.com/cercor/pages/Instructions_for_authors"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "medium"
+
+  journal_of_neuroscience:
+    journal: "Journal of Neuroscience"
+    primary_guideline_url: "https://www.jneurosci.org/content/information-authors"
+    secondary_urls:
+      - "https://www.jneurosci.org/"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "high"
+
+  medical_image_analysis:
+    journal: "Medical Image Analysis"
+    primary_guideline_url: "https://www.sciencedirect.com/journal/medical-image-analysis/publish/guide-for-authors"
+    secondary_urls:
+      - "https://www.elsevier.com/journals/medical-image-analysis/1361-8415/guide-for-authors"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "high"
+
+  ieee_tmi:
+    journal: "IEEE Transactions on Medical Imaging"
+    primary_guideline_url: "https://ieee-tmi.org/for-authors/"
+    secondary_urls:
+      - "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=42"
+    last_verified_date: "2026-03-03"
+    verification_mode: "manual"
+    confidence:
+      hard_constraints: "medium"
+      style: "high"

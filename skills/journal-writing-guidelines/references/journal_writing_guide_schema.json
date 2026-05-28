@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "journal-writing-guides-schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "language", "last_curated_date", "journals"],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "last_curated_date": {
+      "type": "string"
+    },
+    "journals": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/journalGuide"
+      }
+    }
+  },
+  "$defs": {
+    "narrativeSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mission", "include", "avoid"],
+      "properties": {
+        "mission": {
+          "type": "string"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "journalGuide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "aliases",
+        "source_refs",
+        "positioning",
+        "core_message",
+        "narrative_goals",
+        "claim_ladder",
+        "figure_strategy",
+        "style_rules",
+        "dos",
+        "donts",
+        "reviewer_focus",
+        "common_reject_reasons"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "positioning": {
+          "type": "string"
+        },
+        "core_message": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary_claim", "value_to_reader", "what_not_to_overclaim"],
+          "properties": {
+            "primary_claim": {
+              "type": "string"
+            },
+            "value_to_reader": {
+              "type": "string"
+            },
+            "what_not_to_overclaim": {
+              "type": "string"
+            }
+          }
+        },
+        "narrative_goals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["abstract", "introduction", "methods", "results", "discussion"],
+          "properties": {
+            "abstract": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "introduction": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "methods": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "results": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "discussion": {
+              "$ref": "#/$defs/narrativeSection"
+            }
+          }
+        },
+        "claim_ladder": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["conservative", "standard", "strong"],
+          "properties": {
+            "conservative": {
+              "type": "string"
+            },
+            "standard": {
+              "type": "string"
+            },
+            "strong": {
+              "type": "string"
+            }
+          }
+        },
+        "figure_strategy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["main_figures", "figure_story_arc", "must_have_figure_types", "supplement_priority"],
+          "properties": {
+            "main_figures": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["min", "target", "max"],
+              "properties": {
+                "min": {
+                  "type": "integer"
+                },
+                "target": {
+                  "type": "integer"
+                },
+                "max": {
+                  "type": "integer"
+                }
+              }
+            },
+            "figure_story_arc": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["slot", "title", "purpose", "must_include"],
+                "properties": {
+                  "slot": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  },
+                  "must_include": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "must_have_figure_types": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "supplement_priority": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "style_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "donts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer_focus": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "common_reject_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reader_translation_rules": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "evidence_alignment_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gate_reporting_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "figure_language_contract": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "figure_drawing_workflow": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

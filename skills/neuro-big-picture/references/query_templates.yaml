@@ -1,0 +1,55 @@
+version: "1.0"
+
+# Lanes group source IDs (keys defined in source_registry.yaml) so the agent
+# can pull a coherent sample per perspective. Replace the placeholder IDs
+# below with the source keys you actually populate in source_registry.yaml.
+
+lanes:
+  editorial_reviews:
+    description: "High-authority editorial and synthesis sources."
+    default_sources:
+      - "source_tier_a"
+    query_template: "{topic_terms} neuroscience review outstanding questions methodological bottlenecks"
+
+  expert_commentary:
+    description: "Expert viewpoints and synthesis channels."
+    default_sources:
+      - "source_tier_b"
+    query_template: "{topic_terms} neuroai expert opinion limitations generalization interpretability"
+
+  community_signal:
+    description: "Community and social chatter for weak-signal exploration."
+    default_sources:
+      - "source_tier_c"
+    query_template: "{topic_terms} neuroscience discussion critique implementation pitfalls"
+
+perspective_templates:
+  neuroai_alignment:
+    query_suffix: "brain-aligned ai representation alignment foundation model"
+    preferred_lanes:
+      - "editorial_reviews"
+      - "expert_commentary"
+
+  method_rigor:
+    query_suffix: "reproducibility confounds statistics multiple comparison correction"
+    preferred_lanes:
+      - "editorial_reviews"
+      - "community_signal"
+
+  causal_interpretation:
+    query_suffix: "causal inference intervention mechanism interpretability"
+    preferred_lanes:
+      - "editorial_reviews"
+      - "expert_commentary"
+
+  clinical_translation:
+    query_suffix: "clinical robustness external validation deployment"
+    preferred_lanes:
+      - "editorial_reviews"
+      - "expert_commentary"
+
+  open_science:
+    query_suffix: "open data open code bids preregistration replication"
+    preferred_lanes:
+      - "community_signal"
+      - "editorial_reviews"

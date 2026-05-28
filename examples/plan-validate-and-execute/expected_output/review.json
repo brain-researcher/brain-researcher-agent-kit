@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "decision": "approve",
+  "risk_level": "low",
+  "findings": [],
+  "kg_rules_consulted": [],
+  "checklist_generated": [
+    "Plan has 3 step(s)",
+    "Registration step present: True"
+  ],
+  "reviewer_rationale": "Plan review passed all checks. Decision: approve."
+}

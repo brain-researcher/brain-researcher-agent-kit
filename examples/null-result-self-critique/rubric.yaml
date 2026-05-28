@@ -1,0 +1,8 @@
+apply:
+  - rejection
+  - provenance
+demo_specific:
+  - expected_output/critique.md MUST list at least 2 null-result diagnoses (granularity, confounders, weak labels, ...)
+  - expected_output/critique.md MUST propose exactly one exploratory follow-up
+  - expected_output/report.md MUST contain both `confirmatory:` and `exploratory:` section markers
+  - expected_output/report.md MUST NOT present the exploratory finding as a confirmed primary result

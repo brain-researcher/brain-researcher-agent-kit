@@ -1,0 +1,19 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'imag-ms-template-instr.blg'
+[32] biber:342> INFO - === Wed Mar  4, 2026, 13:08:42
+[40] Biber.pm:421> INFO - Reading 'imag-ms-template-instr.bcf'
+[74] Biber.pm:999> INFO - Using all citekeys in bib section 0
+[81] Biber.pm:4487> INFO - Processing section 0
+[86] Biber.pm:4678> INFO - Looking for bibtex file 'sample.bib' for section 0
+[86] bibtex.pm:1713> INFO - LaTeX decoding ...
+[88] bibtex.pm:1519> INFO - Found BibTeX data source 'sample.bib'
+[112] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[112] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[112] Biber.pm:4307> INFO - Sorting list 'apa/apasortcite//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[112] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[118] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[118] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[118] Biber.pm:4307> INFO - Sorting list 'apa/global//global/global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[118] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[122] bbl.pm:676> INFO - Writing 'imag-ms-template-instr.bbl' with encoding 'UTF-8'
+[124] bbl.pm:779> INFO - Output to imag-ms-template-instr.bbl

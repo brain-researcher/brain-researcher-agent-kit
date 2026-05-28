@@ -1,0 +1,4 @@
+interface:
+  display_name: "Journal Writing Guidelines"
+  short_description: "Journal fit, writing playbook, figure strategy, and constraint checks"
+  default_prompt: "Use $journal-writing-guidelines to rank journal fit, return the writing guide for the top venue, check constraints, and rewrite my abstract in the target style."

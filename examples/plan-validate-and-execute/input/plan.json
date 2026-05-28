@@ -1,0 +1,20 @@
+{
+  "project_root": "${PROJECT_ROOT:-/tmp/br-demo-run}",
+  "steps": [
+    {
+      "step_id": "s1_skull_strip",
+      "tool": "fsl_bet",
+      "params": {"input": "{subject}/T1w.nii.gz", "frac": 0.5}
+    },
+    {
+      "step_id": "s2_motion_correction",
+      "tool": "fmriprep_preprocessing",
+      "params": {"input": "{subject}/bold.nii.gz", "reference": "s1_skull_strip.output"}
+    },
+    {
+      "step_id": "s3_registration",
+      "tool": "fsl_flirt",
+      "params": {"input": "s2_motion_correction.output", "reference": "MNI152NLin2009cAsym"}
+    }
+  ]
+}

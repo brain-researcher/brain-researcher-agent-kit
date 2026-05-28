@@ -1,0 +1,55 @@
+name: BR agent behavior bug
+description: BR agent picked the wrong tool, hallucinated args, skipped self-critique, etc.
+title: "[agent] "
+labels: ["agent-behavior", "needs-routing"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These almost always belong in the [`brain-researcher`](https://github.com/zjc062/brain-researcher/issues/new) repo, but filing here is fine — we'll route. The most useful single field is `session_id`.
+  - type: dropdown
+    id: failure_mode
+    attributes:
+      label: Failure mode
+      options:
+        - Wrong tool selection
+        - Invented tool name (not in server_info.stable_tools or deprecated_tools)
+        - Hallucinated arguments
+        - Skipped self-critique checkpoint
+        - Skipped write_session_snapshot (status="running" left behind)
+        - Over-claimed execution (planning surface described as having executed)
+        - Pasted raw MCP JSON into the final answer
+        - Contract drift — followed a rule that names a tool the live server no longer exposes
+        - Other (describe below)
+    validations: {required: true}
+  - type: input
+    id: session_id
+    attributes:
+      label: session_id (from log_research_event or write_session_snapshot)
+      placeholder: e.g. codex-foo-20260528
+    validations: {required: true}
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options: [Claude Code, Codex CLI, Cursor, Continue, Web client, Custom / other]
+  - type: textarea
+    id: prompt
+    attributes:
+      label: User prompt (verbatim, redacted if needed per REDACTION_POLICY.md)
+    validations: {required: true}
+  - type: textarea
+    id: expected_actual
+    attributes:
+      label: Expected vs actual (one line each)
+    validations: {required: true}
+  - type: input
+    id: contract_version
+    attributes:
+      label: contract_version at run time
+      placeholder: e.g. 2026-05-27
+  - type: input
+    id: agents_template
+    attributes:
+      label: Which AGENTS template was active (commit SHA if known)
+      placeholder: e.g. agents/AGENTS.brain-researcher.md @ fc82d4b

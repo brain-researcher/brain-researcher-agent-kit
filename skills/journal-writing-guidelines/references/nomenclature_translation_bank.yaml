@@ -1,0 +1,75 @@
+version: "1.0"
+last_updated: "2026-03-04"
+purpose: "Translate internal engineering labels into reader-facing scientific language for manuscript text, figure labels, and table headers."
+
+translation_bank:
+  feature_space:
+    task_structure_baseline:
+      internal_aliases:
+        - "anchor"
+        - "signed_only"
+        - "raw_anchor_signed"
+      preferred_label: "Task-Structure Baseline Features"
+      concise_definition: "Design-derived indicators combining task identity and contrast polarity."
+
+    hybrid_ontology_features:
+      internal_aliases:
+        - "B_raw_signed_plus_filteredKG"
+        - "hybrid_features"
+      preferred_label: "Hybrid Ontology Features"
+      concise_definition: "Task-structure features augmented with ontology-linked cognitive nodes."
+
+  target_space:
+    absolute_parcel_activation:
+      internal_aliases:
+        - "abs_voxel"
+        - "absolute_voxel"
+      preferred_label: "Absolute Parcel Activation"
+      concise_definition: "Parcellated activation without residualization."
+
+    task_specific_residual_activation:
+      internal_aliases:
+        - "residual_voxel"
+        - "residual"
+      preferred_label: "Task-Specific Residual Activation"
+      concise_definition: "Activation after removing dataset-level shared baseline."
+
+    residual_subspace_32d:
+      internal_aliases:
+        - "residual_lowrank32"
+        - "lowrank32"
+      preferred_label: "Residual Subspace (32-D)"
+      concise_definition: "Low-rank projection of residual activation into a 32-dimensional subspace."
+
+  split_terms:
+    ontology_mapped:
+      internal_aliases:
+        - "resolved"
+        - "semantically_resolved"
+      preferred_label: "ontology-mapped"
+      concise_definition: "Task-contrast pairs with deterministic ontology linkage under frozen lookup rules."
+
+    ontology_unmapped:
+      internal_aliases:
+        - "unresolved"
+        - "semantically_unresolved"
+      preferred_label: "ontology-unmapped"
+      concise_definition: "Task-contrast pairs without deterministic ontology linkage under frozen lookup rules."
+
+  cohort_filters:
+    full_cohort:
+      internal_aliases:
+        - "keep"
+      preferred_label: "Full cohort"
+      concise_definition: "All task-contrast pairs included."
+
+    mapped_only_ablation:
+      internal_aliases:
+        - "drop_unresolved"
+      preferred_label: "Ontology-mapped-only ablation"
+      concise_definition: "Ablation that restricts evaluation to ontology-mapped pairs."
+
+style_notes:
+  - "Use preferred labels in main text, figure labels, and table headers."
+  - "If an internal alias appears, define it once in Methods and immediately map to the preferred label."
+  - "Avoid mixed label pairs (e.g., resolved + ontology-mapped) in the same manuscript."

@@ -1,0 +1,79 @@
+{
+  "ok": true,
+  "requested_tool_id": "fsl_bet",
+  "resolved_tool_id": "fsl_bet",
+  "target_runtime": "neurodesk",
+  "cluster_profile": "generic",
+  "execution_story_kind": "binary_backed_atomic",
+  "hosted_via_br_mcp_service": false,
+  "execution_story": {
+    "summary": "Requires runtime-specific binaries; use a Neurodesk, container, or cluster recipe instead of a bare Python recipe.",
+    "next_steps": [
+      "Choose one of the advertised runtime targets.",
+      "Install or mount the required binary environment before running."
+    ]
+  },
+  "supported_recipe_targets": ["neurodesk", "container", "slurm"],
+  "recipe_depth": "runnable",
+  "recipe": {
+    "dependencies": {
+      "python_packages": [],
+      "neurodesk_modules": ["fsl/6.0.7.18"]
+    },
+    "required_env_vars": [],
+    "resource_profile": {},
+    "setup_commands": ["module load fsl/6.0.7.18"],
+    "run_command": "module load fsl/6.0.7.18 && python run_fsl_bet.py",
+    "params_json": "{\n  \"frac\": 0.5,\n  \"input\": \"{subject}/T1w.nii.gz\"\n}",
+    "files": {
+      "run_fsl_bet.py": "import json\nfrom pathlib import Path\n\nfrom brain_researcher.services.tools.executor import execute_tool\n\nparams = json.loads(Path(\"params.json\").read_text(encoding=\"utf-8\"))\nresult = execute_tool(\"fsl_bet\", params)\nprint(json.dumps(result.model_dump(mode=\"python\"), indent=2, sort_keys=True, default=str))\n",
+      "params.json": "{\n  \"frac\": 0.5,\n  \"input\": \"{subject}/T1w.nii.gz\"\n}"
+    }
+  },
+  "commands": {
+    "create": [
+      "mkdir -p ./fsl_bet_neurodesk_recipe",
+      "module load fsl/6.0.7.18",
+      "module load fsl/6.0.7.18 && python run_fsl_bet.py"
+    ]
+  },
+  "python_script": "import json\nfrom pathlib import Path\n\nfrom brain_researcher.services.tools.executor import execute_tool\n\nparams = json.loads(Path(\"params.json\").read_text(encoding=\"utf-8\"))\nresult = execute_tool(\"fsl_bet\", params)\nprint(json.dumps(result.model_dump(mode=\"python\"), indent=2, sort_keys=True, default=str))\n",
+  "run_pack": {
+    "schema_version": "1",
+    "runtime": {"target": "neurodesk", "launcher": "command"},
+    "workspace": "./fsl_bet_neurodesk_recipe",
+    "write_files": ["run_fsl_bet.py", "params.json"],
+    "commands": [
+      "module load fsl/6.0.7.18",
+      "module load fsl/6.0.7.18 && python run_fsl_bet.py"
+    ],
+    "entrypoint": null,
+    "resume_supported": false,
+    "prerequisites": {
+      "setup_once": ["Open a Neurodesk shell with the required modules available before running the recipe commands."],
+      "check_commands": ["bash -lc 'type module'"]
+    },
+    "environment": {"required": [], "optional": [], "export_lines": []},
+    "required_env_vars": [],
+    "env_exports": [],
+    "shell_snippet": "# Write recipe['files'] into this directory first.\nmkdir -p ./fsl_bet_neurodesk_recipe\ncd ./fsl_bet_neurodesk_recipe\nmodule load fsl/6.0.7.18\nmodule load fsl/6.0.7.18 && python run_fsl_bet.py"
+  },
+  "warnings": [],
+  "unsupported_reason": null,
+  "canonical_tool_id": "fsl_bet",
+  "neurodesk_package_name": "fsl",
+  "neurodesk_module_name": "fsl",
+  "neurodesk_recommended_version": "6.0.7.18",
+  "neurodesk_available_versions": ["6.0.7.18"],
+  "neurodesk_recommended_module": "fsl/6.0.7.18",
+  "neurodesk_available_modules": ["fsl/6.0.7.18"],
+  "stable_workflow_pack": false,
+  "backend_options": {"neurodesk_module": "fsl/6.0.7.18", "command": "bet"},
+  "artifact_contract": {"required_outputs": ["output_file"]},
+  "agent_mode": "local_recipe",
+  "supports_preview": true,
+  "preview_kind": "real",
+  "next_action": "Use the returned recipe files and run command in your local execution environment.",
+  "expected_artifacts": ["output_file"],
+  "for_agents": true
+}

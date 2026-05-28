@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sherlock OAK Workflow"
+  short_description: "Stanford Sherlock login, storage, and SLURM workflow"
+  default_prompt: "Use $sherlock-oak-workflow to set up Sherlock login, pick the right filesystem, and generate safe SLURM commands."

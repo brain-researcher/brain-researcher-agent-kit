@@ -1,0 +1,166 @@
+version: "1.0"
+language: "en"
+last_curated_date: "2026-03-04"
+
+journals:
+  nature_neuroscience:
+    good_patterns:
+      - section: "abstract"
+        pattern: "Open with an unresolved neuroscience problem, then immediately state the mechanism-level finding and its broad implication."
+      - section: "discussion"
+        pattern: "Return to system-level significance while explicitly listing boundary conditions."
+    weak_to_strong_rewrites:
+      - weak: "Our model performed better than baseline methods."
+        stronger: "Our model uncovered a reproducible representational hierarchy that baseline methods failed to resolve."
+      - weak: "These findings may be important for neuroscience."
+        stronger: "These findings update current accounts of semantic representation in association cortex under naturalistic stimulation."
+    section_openers:
+      abstract: "A central challenge in systems neuroscience is to explain how distributed cortical signals encode behaviorally relevant structure."
+      introduction: "Despite extensive decoding studies, the field lacks a mechanism-level account linking representational geometry to cortical organization."
+      methods: "We preregistered the analysis logic and defined exclusion, QC, and statistical thresholds before model fitting."
+      results: "We first tested whether the predicted hierarchy emerged in held-out participants before probing alternative explanations."
+      discussion: "Together, these results support a mechanistic account of cortical coding while delimiting the conditions under which it holds."
+
+  neuron:
+    good_patterns:
+      - section: "introduction"
+        pattern: "Frame competing mechanistic hypotheses and define a discriminative test."
+      - section: "results"
+        pattern: "Use subsection titles that encode hypothesis-to-result logic."
+    weak_to_strong_rewrites:
+      - weak: "We observed a significant signal change."
+        stronger: "The signal change selectively matched the mechanism-specific prediction and diverged from competing accounts."
+      - weak: "The method worked across datasets."
+        stronger: "The mechanism signature generalized across independent datasets and preserved effect direction under domain shift."
+    section_openers:
+      abstract: "Neural theories of this computation diverge on whether representation is stage-specific or distributed."
+      introduction: "To adjudicate these theories, we designed analyses that make distinct predictions for each model."
+      methods: "All preprocessing and model choices were fixed prior to hypothesis testing and applied identically across cohorts."
+      results: "The primary analysis favored the mechanism-predicted pattern, prompting targeted falsification tests."
+      discussion: "The convergent evidence supports a mechanistic revision while highlighting unresolved circuit-level constraints."
+
+  imaging_neuroscience:
+    good_patterns:
+      - section: "methods"
+        pattern: "Report software versions, key hyperparameters, QC thresholds, and correction strategy in the main text."
+      - section: "results"
+        pattern: "Pair performance gains with robustness and reproducibility diagnostics."
+    weak_to_strong_rewrites:
+      - weak: "Our pipeline improved accuracy."
+        stronger: "Our pipeline improved cross-site decoding accuracy while reducing sensitivity to motion-related artifacts."
+      - weak: "We provide open code."
+        stronger: "We release versioned code, configuration files, and reproducible scripts aligned to each reported result."
+    section_openers:
+      abstract: "Reliable neuroimaging analysis requires methods that preserve signal while remaining robust to acquisition heterogeneity."
+      introduction: "Current pipelines underperform when motion and site effects jointly distort representational estimates."
+      methods: "We provide a fully specified pipeline, including acquisition harmonization, QC gates, and statistical correction logic."
+      results: "We compared the proposed method to strong baselines across internal and external validation cohorts."
+      discussion: "The gains are strongest in high-variance acquisition regimes, with clear trade-offs in runtime and memory usage."
+
+  neuroimage:
+    good_patterns:
+      - section: "introduction"
+        pattern: "Balance methodological motivation with neuroimaging relevance and explicit objectives."
+      - section: "discussion"
+        pattern: "Separate technical implications from neuroscientific interpretation."
+    weak_to_strong_rewrites:
+      - weak: "Our approach is novel and robust."
+        stronger: "Our approach introduces a validated alignment strategy that remains stable under site and preprocessing variation."
+      - weak: "The findings show brain differences."
+        stronger: "The findings reveal reproducible region-level differences that persist under confound-adjusted analyses."
+    section_openers:
+      abstract: "Neuroimaging workflows often trade interpretability for performance, limiting reproducible application."
+      introduction: "This study targets a persistent methodological gap: robust inference under heterogeneous acquisition conditions."
+      methods: "We detail acquisition, preprocessing, confound regression, and statistical correction to support full reproducibility."
+      results: "Primary outcomes show consistent improvements over tuned baselines across multiple evaluation settings."
+      discussion: "These findings support practical adoption while identifying limits in cross-protocol transfer."
+
+  human_brain_mapping:
+    good_patterns:
+      - section: "results"
+        pattern: "Show map quality and reliability before interpretation claims."
+      - section: "discussion"
+        pattern: "Translate mapping findings into theory without overextending causality."
+    weak_to_strong_rewrites:
+      - weak: "We found strong functional maps."
+        stronger: "We found reproducible functional maps that remained stable after controlling for motion and demographic covariates."
+      - weak: "This explains cognition."
+        stronger: "This mapping pattern constrains competing accounts of the targeted cognitive process in the tested cohort."
+    section_openers:
+      abstract: "Understanding human functional organization requires mapping approaches that are both precise and reproducible."
+      introduction: "Prior human imaging studies disagree on this organization, partly due to inconsistent confound handling."
+      methods: "We predefined cohort filters, preprocessing choices, and inferential thresholds to ensure analysis transparency."
+      results: "The primary map replicated across splits and remained robust under alternate preprocessing configurations."
+      discussion: "The interpretation is strongest for the sampled population and task context, with clear limits for generalization."
+
+  cerebral_cortex:
+    good_patterns:
+      - section: "introduction"
+        pattern: "State cortex-specific theoretical tension and predictions."
+      - section: "results"
+        pattern: "Report region-level specificity before global summaries."
+    weak_to_strong_rewrites:
+      - weak: "Different areas behaved differently."
+        stronger: "Association cortex exhibited a distinct representational gradient not observed in matched sensory control regions."
+      - weak: "Our results support hierarchy."
+        stronger: "Our results support a constrained hierarchical account across the tested cortical sectors and tasks."
+    section_openers:
+      abstract: "Cortical computation theories predict distinct representational organization patterns across association and sensory territories."
+      introduction: "A key unresolved question is whether cortical hierarchy reflects domain-general or domain-specific organization."
+      methods: "Cortical regions were defined a priori, with matched control analyses and corrected inferential procedures."
+      results: "The main cortical contrast remained significant after controlling for alternative region definitions and thresholds."
+      discussion: "These findings sharpen cortical hierarchy models while indicating where current evidence remains incomplete."
+
+  journal_of_neuroscience:
+    good_patterns:
+      - section: "introduction"
+        pattern: "List explicit hypotheses and expected outcomes before analyses."
+      - section: "results"
+        pattern: "Label exploratory analyses explicitly and keep confirmatory claims separate."
+    weak_to_strong_rewrites:
+      - weak: "The data support our idea."
+        stronger: "The preregistered primary test supported Hypothesis 1, while exploratory analyses suggested an additional subgroup effect."
+      - weak: "There was a trend."
+        stronger: "A non-significant trend was observed and is reported as exploratory without confirmatory interpretation."
+    section_openers:
+      abstract: "We tested whether the hypothesized neural signature could be detected under a preregistered analysis plan."
+      introduction: "We formulated two testable hypotheses and defined decision criteria before model fitting."
+      methods: "All inclusion, exclusion, and statistical procedures were specified before confirmatory testing."
+      results: "The confirmatory analysis supported the primary hypothesis, followed by clearly labeled exploratory follow-up tests."
+      discussion: "Conclusions are limited to the supported hypotheses and do not extend beyond the tested design."
+
+  medical_image_analysis:
+    good_patterns:
+      - section: "methods"
+        pattern: "Describe algorithmic novelty with equations, implementation details, and complexity profile."
+      - section: "results"
+        pattern: "Show strong baselines, full ablation, external validation, and failure analysis."
+    weak_to_strong_rewrites:
+      - weak: "Our network outperformed prior methods."
+        stronger: "Our architecture improved mean Dice by 3.1 points over tuned recent baselines across three independent datasets."
+      - weak: "The module helps."
+        stronger: "Ablation confirmed the module as the primary contributor, accounting for 68% of the total gain."
+    section_openers:
+      abstract: "Medical imaging benchmarks increasingly require methods that improve both accuracy and deployment robustness."
+      introduction: "Existing architectures struggle to preserve performance under domain shift and sparse supervision."
+      methods: "We introduce a new architecture with explicit design rationale, optimization protocol, and reproducible implementation settings."
+      results: "Comprehensive experiments compare against strong baselines, include full ablations, and test cross-dataset transfer."
+      discussion: "The method is most effective under high heterogeneity but remains constrained by data imbalance in rare classes."
+
+  ieee_tmi:
+    good_patterns:
+      - section: "methods"
+        pattern: "Present engineering contribution with implementation-level precision and reproducible settings."
+      - section: "results"
+        pattern: "Couple accuracy gains with efficiency and robustness evidence."
+    weak_to_strong_rewrites:
+      - weak: "Our method is efficient."
+        stronger: "Our method reduced inference latency by 37% while maintaining statistically significant performance gains."
+      - weak: "It works well in practice."
+        stronger: "It maintained stable performance under scanner and noise variation scenarios representative of deployment conditions."
+    section_openers:
+      abstract: "High-performance medical imaging systems require methods that jointly optimize accuracy, robustness, and computational cost."
+      introduction: "Current pipelines leave a measurable engineering gap between benchmark performance and deployable reliability."
+      methods: "We detail architecture, optimization, and implementation choices to ensure exact reproducibility and fair comparison."
+      results: "The proposed method outperformed strong baselines and preserved gains under stress-test conditions."
+      discussion: "Engineering benefits are substantial, though deployment remains bounded by domain-shift and annotation quality constraints."

@@ -1,0 +1,11 @@
+{
+  "hypothesis": "Trait anxiety predicts amygdala-prefrontal functional connectivity during rest.",
+  "test": "Pearson correlation between STAI-T score and seed-based connectivity (right amygdala to mPFC) across N=80 healthy adults.",
+  "result": {
+    "r": 0.05,
+    "p": 0.66,
+    "ci95": [-0.17, 0.27],
+    "n": 80
+  },
+  "interpretation_draft": "No association between trait anxiety and amygdala-mPFC connectivity. Hypothesis not supported."
+}

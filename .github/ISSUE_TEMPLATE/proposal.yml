@@ -1,0 +1,29 @@
+name: Proposal — new skill / adapter intent / demo
+description: Propose a small, generic addition to the kit.
+title: "[proposal] "
+labels: ["proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We bias toward small, generic additions over project-specific ones. Out of scope here: BR MCP tool behavior changes (→ `brain-researcher-public`), BR agent behavior changes (→ `brain-researcher`), heavy executable Python.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind
+      options: [New skill, New adapter intent, New example / demo, Other]
+    validations: {required: true}
+  - type: textarea
+    id: shape
+    attributes:
+      label: Sketch
+      description: |
+        - New skill → SKILL.md frontmatter (name, description, when to use). See docs/how-to-write-skill.md.
+        - New adapter intent → intent name, the BR tool it routes to, one realistic prompt that should hit it.
+        - New demo → user query, expected closed-loop path, what failure mode it catches.
+    validations: {required: true}
+  - type: textarea
+    id: why_generic
+    attributes:
+      label: Why this generalizes (not project-specific)
+    validations: {required: true}

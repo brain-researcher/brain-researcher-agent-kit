@@ -1,0 +1,184 @@
+version: "1.0"
+last_updated: "2026-03-03"
+
+grand_challenges:
+  GC1:
+    title: "Cross-subject generalization and anatomical alignment"
+    intent: "Build models that transfer across individuals, sites, and scanners without fragile subject-specific tuning."
+    why_it_matters: "Without transferability, models stay benchmark-bound and fail in real-world deployment."
+    success_signals:
+      - "Robust cross-subject evaluation with held-out cohorts"
+      - "Multi-site and multi-scanner stability"
+      - "Reduced dependence on subject-specific fine-tuning"
+    anti_patterns:
+      - "Single-cohort gains with no transfer tests"
+      - "Performance collapse on site/scanner shift"
+    keywords:
+      - "cross-subject"
+      - "domain shift"
+      - "hyperalignment"
+      - "multi-site"
+      - "generalization"
+
+  GC2:
+    title: "Mechanistic explanation over correlation"
+    intent: "Move from representational correlation to mechanistic hypotheses about neural computation."
+    why_it_matters: "High predictive correlation is not equivalent to scientific explanation."
+    success_signals:
+      - "Explicit mechanistic hypotheses and falsification tests"
+      - "Layer or component interventions linked to neural effects"
+      - "Interpretability that constrains neuroscience theory"
+    anti_patterns:
+      - "Only report accuracy gains"
+      - "Unfalsifiable post-hoc interpretation"
+    keywords:
+      - "causality"
+      - "mechanism"
+      - "intervention"
+      - "interpretability"
+      - "representation"
+
+  GC3:
+    title: "Ecological validity in naturalistic settings"
+    intent: "Achieve robust encoding and decoding under naturalistic, dynamic stimuli."
+    why_it_matters: "Controlled paradigms do not fully reflect cognition in natural environments."
+    success_signals:
+      - "Naturalistic stimulus benchmarks (stories, movies, continuous behavior)"
+      - "Temporal robustness under unconstrained conditions"
+      - "Generalization from controlled to naturalistic tasks"
+    anti_patterns:
+      - "Overfitting to narrow block designs"
+      - "No evaluation on naturalistic stimuli"
+    keywords:
+      - "naturalistic"
+      - "ecological validity"
+      - "continuous stimuli"
+      - "movie"
+      - "story listening"
+
+  GC4:
+    title: "Spatiotemporal limits and multimodal integration"
+    intent: "Bridge spatial and temporal constraints by integrating fMRI with EEG/MEG/ECoG and modern models."
+    why_it_matters: "fMRI alone cannot resolve full neural dynamics."
+    success_signals:
+      - "Cross-modal alignment with principled uncertainty"
+      - "Temporal dynamics gains beyond fMRI-only baselines"
+      - "Interpretable multimodal fusion strategy"
+    anti_patterns:
+      - "Naive modality concatenation without calibration"
+      - "Unclear temporal synchronization assumptions"
+    keywords:
+      - "multimodal"
+      - "EEG"
+      - "MEG"
+      - "ECoG"
+      - "spatiotemporal"
+      - "fusion"
+
+  GC5:
+    title: "Causal intervention and perturbation-grounded neuroscience"
+    intent: "Connect observational decoding with intervention-aware evidence and perturbation-compatible models."
+    why_it_matters: "Mechanistic claims need intervention-sensitive support, not only passive correlation."
+    success_signals:
+      - "Use of perturbation datasets or intervention proxies"
+      - "Predictions that change under controlled manipulations"
+      - "Explicit causal assumptions and sensitivity analyses"
+    anti_patterns:
+      - "Causal language without causal design"
+      - "Post-hoc narratives unsupported by interventions"
+    keywords:
+      - "causal intervention"
+      - "perturbation"
+      - "counterfactual"
+      - "sensitivity analysis"
+      - "causal graph"
+
+  GC6:
+    title: "Individual differences, lifespan dynamics, and precision neuroscience"
+    intent: "Model heterogeneity across people, age, and disease trajectories instead of relying on group averages alone."
+    why_it_matters: "Precision neuroscience requires robust inferences at the individual and subgroup level."
+    success_signals:
+      - "Stratified or personalized performance analyses"
+      - "Lifespan or longitudinal validation"
+      - "Uncertainty estimates for individual predictions"
+    anti_patterns:
+      - "Only report pooled group-level metrics"
+      - "Ignore demographic or clinical heterogeneity"
+    keywords:
+      - "individual differences"
+      - "precision neuroscience"
+      - "lifespan"
+      - "longitudinal"
+      - "heterogeneity"
+
+  GC7:
+    title: "Reproducibility, uncertainty quantification, and benchmark validity"
+    intent: "Ensure claims are stable across codebases, datasets, and statistical choices with transparent uncertainty reporting."
+    why_it_matters: "Without reliability, benchmark improvements are fragile and hard to trust."
+    success_signals:
+      - "Multi-dataset replication with consistent pipelines"
+      - "Confidence intervals and calibration diagnostics"
+      - "Ablation and robustness checks against data leakage"
+    anti_patterns:
+      - "Single-run headline metrics"
+      - "No uncertainty or robustness reporting"
+    keywords:
+      - "reproducibility"
+      - "uncertainty"
+      - "calibration"
+      - "robustness"
+      - "benchmark validity"
+
+  GC8:
+    title: "Clinical translation, external validation, and deployment realism"
+    intent: "Bridge lab performance to clinically meaningful, externally validated, and workflow-compatible systems."
+    why_it_matters: "Clinical impact depends on out-of-distribution reliability and practical deployment constraints."
+    success_signals:
+      - "External-site validation and subgroup safety checks"
+      - "Clinically relevant endpoints and decision utility"
+      - "Operational reporting on failure modes"
+    anti_patterns:
+      - "In-sample gains presented as clinical readiness"
+      - "No reporting on deployment constraints"
+    keywords:
+      - "clinical translation"
+      - "external validation"
+      - "deployment"
+      - "safety"
+      - "decision utility"
+
+  GC9:
+    title: "Neuroethics, privacy, fairness, and governance"
+    intent: "Embed ethical safeguards, privacy protection, fairness auditing, and governance into model development."
+    why_it_matters: "Neural data are highly sensitive and socially consequential; governance cannot be an afterthought."
+    success_signals:
+      - "Documented privacy and consent constraints"
+      - "Bias and fairness audits across subgroups"
+      - "Transparent governance and access policies"
+    anti_patterns:
+      - "Use sensitive neural data without governance plan"
+      - "No fairness analysis in high-impact settings"
+    keywords:
+      - "neuroethics"
+      - "privacy"
+      - "fairness"
+      - "governance"
+      - "consent"
+
+  GC10:
+    title: "Open interoperable infrastructure and sustainable scaling"
+    intent: "Advance interoperable standards, reusable tooling, and compute-efficient practices for field-wide progress."
+    why_it_matters: "Sustainable and open infrastructure determines whether results can be reused and scaled by the community."
+    success_signals:
+      - "Use of shared standards and interoperable formats"
+      - "Open code, data cards, and reproducible environments"
+      - "Compute and carbon reporting for large-scale training"
+    anti_patterns:
+      - "Closed pipelines with non-portable artifacts"
+      - "Scaling claims without resource transparency"
+    keywords:
+      - "interoperability"
+      - "open infrastructure"
+      - "standards"
+      - "compute efficiency"
+      - "sustainability"

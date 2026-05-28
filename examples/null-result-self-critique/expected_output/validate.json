@@ -1,0 +1,52 @@
+{
+  "tool": "mcp__brain-researcher-local__pipeline_plan_validate",
+  "called_at": "2026-05-28T18:28:42Z",
+  "args_plan_id": "null-result-self-critique-exploratory-v2",
+  "response": {
+    "ok": true,
+    "run_id_hint": "br_20260528_182842_87d13f69dd",
+    "run_workspace": null,
+    "normalized_plan": {
+      "project_root": null,
+      "run_tag": null,
+      "run_workspace": null,
+      "steps": [
+        {
+          "step_id": "seed_connectivity",
+          "tool": "seed_based_fc",
+          "params": {
+            "img": "subgroup_high_stait_rest_bold.nii.gz",
+            "seed_roi": "right_amygdala",
+            "target_roi": "mPFC",
+            "atlas": "Harvard-Oxford",
+            "atlas_version": "0.4.0"
+          },
+          "work_dir": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/runs/br_20260528_182842_87d13f69dd/work/step-01-seed_connectivity",
+          "output_dir": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/runs/br_20260528_182842_87d13f69dd/artifacts/step-01-seed_connectivity"
+        }
+      ]
+    },
+    "issues": [],
+    "code_review": {
+      "decision": "approve",
+      "risk_level": "low",
+      "findings": [],
+      "kg_rules_consulted": [],
+      "checklist_generated": [
+        "Plan has 1 step(s)",
+        "Registration step present: False"
+      ],
+      "reviewer_rationale": "Plan review passed all checks. Decision: approve."
+    }
+  },
+  "prior_attempt_v1": {
+    "ok": false,
+    "issues": [
+      {"level": "error", "code": "unknown_tool", "message": "Unknown tool: behavior_filter"},
+      {"level": "error", "code": "params_missing_required", "message": "Missing required params for seed_based_fc: ['img']", "step_id": "seed_connectivity"},
+      {"level": "error", "code": "unknown_tool", "message": "Unknown tool: pearson_correlation"},
+      {"level": "error", "code": "unknown_tool", "message": "Unknown tool: report_tagger"}
+    ],
+    "note": "v1 used pseudo-tools; v2 reduced to the BR-registered seed_based_fc step."
+  }
+}

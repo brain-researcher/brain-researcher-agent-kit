@@ -1,0 +1,4 @@
+interface:
+  display_name: "Neuro Big Picture"
+  short_description: "Validate neuroscience ideas with expert field signals"
+  default_prompt: "Use $neuro-big-picture to stress-test my NeuroAI idea with recent expert insights and ranked sources."

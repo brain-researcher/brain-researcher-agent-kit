@@ -1,0 +1,18 @@
+{
+  "status": "not_executed",
+  "reason": "Demo captures the plan/validate stage only. The exploratory subgroup analysis was validated (see validate.json, ok=true, code_review.decision=approve) but not executed against real data — the kit ships no fMRI fixtures for this demo. Any subgroup r/p reported here would be fabricated. Per task constraints, fabrication is prohibited.",
+  "validated_plan_id": "null-result-self-critique-exploratory-v2",
+  "run_id_hint_from_validator": "br_20260528_182842_87d13f69dd",
+  "labels": {
+    "analysis_type": "exploratory_subgroup",
+    "preregistered": false,
+    "confirmatory": false,
+    "exploratory": true
+  },
+  "expected_outputs_when_run": [
+    "subgroup_n",
+    "subgroup_r",
+    "subgroup_p",
+    "subgroup_ci95"
+  ]
+}

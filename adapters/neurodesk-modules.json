@@ -1,0 +1,36 @@
+{
+  "description": "Tool-name → Neurodesk `module load` routing. Tier is informational: 'local' = preinstalled, fast; 'cvmfs' = on-demand from /cvmfs/neurodesk.ardc.edu.au, first load may be slow. Versions are the verified pins from the reference setup; downstream agents may override by passing an explicit version string.",
+  "module_path_priority": ["local", "cvmfs"],
+  "cvmfs_mount": "/cvmfs/neurodesk.ardc.edu.au",
+  "tools": [
+    {"tool": "fsl",                  "module": "fsl/6.0.3",            "tier": "local", "binaries": ["bet", "flirt", "fnirt", "feat", "fslmaths"]},
+    {"tool": "fmriprep",             "module": "fmriprep/23.2.1",      "tier": "local", "binaries": ["fmriprep"]},
+    {"tool": "freesurfer",           "module": "freesurfer/7.4.1",     "tier": "local", "binaries": ["recon-all", "mri_convert"], "requires_env": ["FS_LICENSE"]},
+    {"tool": "ants",                 "module": "ants/2.5.3",           "tier": "local", "binaries": ["antsRegistration", "N4BiasFieldCorrection"]},
+    {"tool": "dcm2niix",             "module": "dcm2niix",             "tier": "local", "binaries": ["dcm2niix"]},
+    {"tool": "mriqc",                "module": "mriqc/24.0.2",         "tier": "local", "binaries": ["mriqc"]},
+    {"tool": "connectomeworkbench",  "module": "connectomeworkbench",  "tier": "local", "binaries": ["wb_command"]},
+    {"tool": "mrtrix3",              "module": "mrtrix3/3.0.4",        "tier": "local", "binaries": ["mrconvert", "dwi2tensor", "tckgen"]},
+
+    {"tool": "afni",                 "module": "afni",                 "tier": "cvmfs", "binaries": ["3dDeconvolve", "afni"], "first_load_slow": true},
+    {"tool": "spm12",                "module": "spm12",                "tier": "cvmfs", "binaries": ["spm12"],                "first_load_slow": true},
+    {"tool": "conn",                 "module": "conn",                 "tier": "cvmfs", "binaries": ["conn"],                 "first_load_slow": true},
+    {"tool": "qsiprep",              "module": "qsiprep",              "tier": "cvmfs", "binaries": ["qsiprep"],              "first_load_slow": true}
+  ],
+  "discover": {
+    "list_all":      "module avail",
+    "list_for_tool": "module avail {tool}",
+    "describe":      "module whatis {module}",
+    "loaded":        "module list",
+    "reset":         "module purge"
+  },
+  "intent_to_load_sequence": {
+    "fmri-preprocess":   ["module purge", "module load fmriprep/23.2.1"],
+    "fmri-glm-fsl":      ["module purge", "module load fsl/6.0.3"],
+    "fmri-glm-afni":     ["module purge", "module load afni"],
+    "diffusion-pipeline":["module purge", "module load mrtrix3/3.0.4", "module load fsl/6.0.3"],
+    "structural-recon":  ["module purge", "module load freesurfer/7.4.1"],
+    "qc-report":         ["module purge", "module load mriqc/24.0.2"],
+    "dicom-convert":     ["module load dcm2niix"]
+  }
+}

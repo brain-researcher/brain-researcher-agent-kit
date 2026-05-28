@@ -1,0 +1,861 @@
+version: "1.0"
+language: "en"
+last_curated_date: "2026-03-04"
+
+journals:
+  nature_neuroscience:
+    name: "Nature Neuroscience"
+    aliases: ["Nat Neurosci"]
+    source_refs: ["nature_neuroscience"]
+    positioning: "General-interest neuroscience venue for conceptually decisive advances with field-wide relevance."
+    core_message:
+      primary_claim: "The work reveals a previously unreported neural mechanism, not only a better prediction score."
+      value_to_reader: "Readers should leave with a concrete shift in how an important neuroscience problem is understood."
+      what_not_to_overclaim: "Do not claim causality, universality, or clinical impact without direct evidence."
+    narrative_goals:
+      abstract:
+        mission: "State question, key mechanistic result, and broad significance in one arc."
+        include: ["problem importance", "core result", "field-level implication"]
+        avoid: ["implementation detail overload", "benchmark shopping", "speculative claims"]
+      introduction:
+        mission: "Open broad, define unresolved mechanism, then narrow to testable hypotheses."
+        include: ["cross-subfield context", "specific gap", "clear hypothesis"]
+        avoid: ["narrow tool-centric framing", "long method preamble"]
+      methods:
+        mission: "Provide enough detail for reproducibility while staying secondary to the conceptual story."
+        include: ["statistics subsection", "sample definition", "model/data controls"]
+        avoid: ["omitting QC decisions", "buried exclusions"]
+      results:
+        mission: "Sequence results from validation to mechanism and finish with robustness checks."
+        include: ["effect sizes", "control analyses", "uncertainty"]
+        avoid: ["claim-first without evidence", "incoherent figure order"]
+      discussion:
+        mission: "Translate findings into mechanistic meaning and domain-wide implications with calibrated limits."
+        include: ["mechanistic interpretation", "boundary conditions", "next decisive experiment"]
+        avoid: ["marketing language", "unbounded extrapolation"]
+    claim_ladder:
+      conservative: "The data are consistent with a hierarchical cortical coding pattern under the tested conditions."
+      standard: "The findings support a hierarchical cortical coding mechanism for the targeted cognitive process."
+      strong: "The study identifies a hierarchical cortical coding mechanism that reframes this class of computations."
+    figure_strategy:
+      main_figures:
+        min: 5
+        target: 7
+        max: 8
+      figure_story_arc:
+        - slot: 1
+          title: "Question and paradigm"
+          purpose: "Make the unresolved neuroscience question concrete."
+          must_include: ["task/design overview", "sample counts", "analysis roadmap"]
+        - slot: 2
+          title: "Primary phenomenon"
+          purpose: "Show the central empirical effect with uncertainty."
+          must_include: ["main contrast", "confidence interval", "effect size"]
+        - slot: 3
+          title: "Mechanistic decomposition"
+          purpose: "Dissect components that support mechanism-level interpretation."
+          must_include: ["component analysis", "control model", "regional specificity"]
+        - slot: 4
+          title: "Alternative explanations"
+          purpose: "Rule out key confounds and rival hypotheses."
+          must_include: ["negative controls", "robustness to preprocessing", "sensitivity tests"]
+        - slot: 5
+          title: "Generalization"
+          purpose: "Show consistency across cohorts, tasks, or datasets."
+          must_include: ["external split", "cross-subject behavior", "error bars"]
+        - slot: 6
+          title: "Boundary conditions"
+          purpose: "Specify where the mechanism does and does not apply."
+          must_include: ["failure regime", "uncertainty map", "interpretation note"]
+        - slot: 7
+          title: "Synthesis"
+          purpose: "Close with compact mechanism model."
+          must_include: ["summary schematic", "testable predictions", "limitation hook"]
+      must_have_figure_types: ["mechanism figure", "control figure", "generalization figure"]
+      supplement_priority: ["extended stats", "additional controls", "hyperparameter sweeps"]
+    style_rules:
+      - "Use assertive but evidence-calibrated statements."
+      - "Prefer short, claim-first paragraphs with explicit uncertainty."
+      - "Keep terminology stable across sections."
+    dos:
+      - "Lead each Results subsection with the biological question."
+      - "Quantify uncertainty in every primary claim."
+      - "End Discussion with mechanistic implications and a falsifiable next step."
+    donts:
+      - "Do not frame novelty as only metric gain."
+      - "Do not hide failed controls in supplement-only text."
+      - "Do not oversell translational value without direct validation."
+    reviewer_focus:
+      - "Whether the result changes mechanistic understanding."
+      - "Whether controls eliminate plausible alternatives."
+      - "Whether claims match statistical strength."
+    common_reject_reasons:
+      - "Incremental prediction improvement without conceptual advance."
+      - "Weak controls for alternative explanations."
+      - "Overstated implications relative to evidence."
+
+  neuron:
+    name: "Neuron"
+    aliases: []
+    source_refs: ["neuron"]
+    positioning: "High-impact neuroscience journal favoring mechanistic narratives with broad conceptual value."
+    core_message:
+      primary_claim: "The paper should connect rigorous evidence to a coherent neural mechanism."
+      value_to_reader: "Readers should gain a model of circuit or representational function that transfers across contexts."
+      what_not_to_overclaim: "Do not treat correlational mapping as mechanistic proof."
+    narrative_goals:
+      abstract:
+        mission: "Present mechanism, evidence basis, and conceptual contribution succinctly."
+        include: ["question", "major result", "mechanistic implication"]
+        avoid: ["tool-centric pitch", "unqualified novelty language"]
+      introduction:
+        mission: "Build a persuasive arc from open question to testable mechanistic predictions."
+        include: ["conceptual tension", "hypothesis", "predicted outcomes"]
+        avoid: ["excessive historical summary", "weak rationale for design choices"]
+      methods:
+        mission: "Provide transparent, reproducible procedures aligned to each key claim."
+        include: ["participant/recording details", "statistical analysis", "model diagnostics"]
+        avoid: ["opaque preprocessing", "missing exclusion rules"]
+      results:
+        mission: "Move from core effect to mechanistic probes and robustness."
+        include: ["hypothesis-anchored subheadings", "control analyses", "cross-validation"]
+        avoid: ["fragmented narrative", "conclusion without statistics"]
+      discussion:
+        mission: "Integrate findings with theory and articulate tractable open questions."
+        include: ["model update", "limitations", "future discriminative tests"]
+        avoid: ["broad unsupported generalization", "method-only recap"]
+    claim_ladder:
+      conservative: "Results are compatible with a mechanism linking the observed computations."
+      standard: "Results support a mechanism linking the observed computations."
+      strong: "Results identify a mechanism that reorganizes current interpretation of this neural computation."
+    figure_strategy:
+      main_figures:
+        min: 5
+        target: 7
+        max: 8
+      figure_story_arc:
+        - slot: 1
+          title: "Conceptual model and hypotheses"
+          purpose: "Anchor readers in the mechanistic question."
+          must_include: ["mechanistic hypothesis", "predicted outcomes", "design overview"]
+        - slot: 2
+          title: "Core empirical effect"
+          purpose: "Demonstrate the strongest central finding."
+          must_include: ["primary metric", "effect size", "confidence intervals"]
+        - slot: 3
+          title: "Mechanistic intervention/probe"
+          purpose: "Test mechanism-specific predictions."
+          must_include: ["probe logic", "comparison conditions", "statistics"]
+        - slot: 4
+          title: "Control analyses"
+          purpose: "Address confounds and alternative hypotheses."
+          must_include: ["negative controls", "sensitivity checks", "robustness"]
+        - slot: 5
+          title: "Generalization"
+          purpose: "Show transfer across cohorts/tasks/modalities."
+          must_include: ["external validation", "error analysis", "consistency"]
+        - slot: 6
+          title: "Mechanistic synthesis"
+          purpose: "Close loop with coherent explanatory model."
+          must_include: ["summary diagram", "evidence mapping", "testable prediction"]
+        - slot: 7
+          title: "Boundary and limits"
+          purpose: "Clarify scope and constraints."
+          must_include: ["failure cases", "uncertainty", "interpretation limits"]
+      must_have_figure_types: ["hypothesis figure", "control figure", "synthesis schematic"]
+      supplement_priority: ["replication analyses", "extended model diagnostics", "additional condition splits"]
+    style_rules:
+      - "Use mechanism-centered section headers."
+      - "Maintain conceptual continuity between Intro and Discussion."
+      - "Favor decisive statements only when evidence closes alternatives."
+    dos:
+      - "Explicitly map each claim to a figure panel."
+      - "Present discriminative tests against competing mechanisms."
+      - "State scope conditions of the mechanism."
+    donts:
+      - "Do not rely on single-dataset conclusions for broad theory."
+      - "Do not treat exploratory analyses as confirmatory."
+      - "Do not hide failed hypotheses."
+    reviewer_focus:
+      - "Mechanistic depth versus descriptive reporting."
+      - "Strength of tests against alternatives."
+      - "Conceptual coherence across sections."
+    common_reject_reasons:
+      - "Narrative does not resolve a meaningful mechanistic question."
+      - "Insufficient controls or replication evidence."
+      - "Claims exceed assay or model resolution."
+
+  imaging_neuroscience:
+    name: "Imaging Neuroscience"
+    aliases: ["Imag Neurosci", "imaging neurokgscience"]
+    source_refs: ["imaging_neuroscience"]
+    positioning: "Method-forward neuroimaging venue emphasizing transparency, reproducibility, and quantitative rigor."
+    core_message:
+      primary_claim: "The manuscript should deliver a reproducible imaging method or analysis advance with practical impact."
+      value_to_reader: "Readers should be able to reproduce and evaluate the method end-to-end."
+      what_not_to_overclaim: "Do not present pipeline refinements as novel neural mechanisms without dedicated evidence."
+    narrative_goals:
+      abstract:
+        mission: "State method contribution, validation setup, and reproducibility value."
+        include: ["technical novelty", "evaluation protocol", "open-science assets"]
+        avoid: ["vague performance claims", "missing dataset context"]
+      introduction:
+        mission: "Define methodological pain point and measurable success criteria."
+        include: ["current pipeline limitation", "why prior methods fall short", "target improvement"]
+        avoid: ["overly broad neuroscience framing", "marketing tone"]
+      methods:
+        mission: "Make every preprocessing and modeling decision auditable."
+        include: ["participants", "MRI acquisition", "statistical analysis", "QC thresholds"]
+        avoid: ["implicit defaults", "missing software versions"]
+      results:
+        mission: "Show performance, robustness, and reproducibility in parallel."
+        include: ["baseline comparisons", "uncertainty", "cross-site checks"]
+        avoid: ["single-metric success narrative", "no ablation"]
+      discussion:
+        mission: "Interpret technical gains, practical limits, and deployment guidance."
+        include: ["trade-offs", "failure modes", "recommended usage"]
+        avoid: ["inflated mechanistic claims", "underreported caveats"]
+    claim_ladder:
+      conservative: "The method improves reproducibility under the tested acquisition and preprocessing settings."
+      standard: "The method provides a robust and reusable improvement across evaluated neuroimaging settings."
+      strong: "The method establishes a new practical standard for this neuroimaging analysis regime."
+    figure_strategy:
+      main_figures:
+        min: 5
+        target: 6
+        max: 8
+      figure_story_arc:
+        - slot: 1
+          title: "Pipeline overview"
+          purpose: "Show full data flow and decision points."
+          must_include: ["input/output", "major modules", "config knobs"]
+        - slot: 2
+          title: "Primary benchmark"
+          purpose: "Quantify core gain versus strong baselines."
+          must_include: ["baseline table", "effect size", "uncertainty"]
+        - slot: 3
+          title: "Ablation and sensitivity"
+          purpose: "Identify which components drive improvements."
+          must_include: ["ablation matrix", "parameter sensitivity", "error bars"]
+        - slot: 4
+          title: "Quality and confounds"
+          purpose: "Demonstrate robustness to motion/noise confounds."
+          must_include: ["QC plots", "head-motion controls", "site effects"]
+        - slot: 5
+          title: "Generalization"
+          purpose: "Show cross-dataset or cross-site reliability."
+          must_include: ["external dataset", "domain shift analysis", "variance"]
+        - slot: 6
+          title: "Practical usage summary"
+          purpose: "Provide adoption guidance."
+          must_include: ["runtime profile", "resource needs", "recommended defaults"]
+      must_have_figure_types: ["pipeline diagram", "ablation figure", "reproducibility figure"]
+      supplement_priority: ["hyperparameters", "extended QC panels", "additional subgroup analyses"]
+    style_rules:
+      - "Use precise engineering language and explicit parameter reporting."
+      - "Report uncertainty and confidence intervals as first-class results."
+      - "Anchor claims to reproducibility outcomes, not only top-line metrics."
+    dos:
+      - "Provide exact software/tool versions and key flags."
+      - "Include multi-comparison control strategy clearly."
+      - "Disclose data/code availability and licensing."
+    donts:
+      - "Do not omit QC thresholds."
+      - "Do not compare only weak baselines."
+      - "Do not hide unstable results from main narrative."
+    reviewer_focus:
+      - "Methodological reproducibility and transparency."
+      - "Statistical validity and confound handling."
+      - "Generalization across sites/cohorts."
+    common_reject_reasons:
+      - "Insufficient details for replication."
+      - "Weak or outdated baseline comparisons."
+      - "No convincing robustness evidence."
+    reader_translation_rules:
+      policy: "Reader-facing terminology only in main text and figure labels."
+      forbidden_terms:
+        - "abs_voxel"
+        - "residual_voxel"
+        - "residual_lowrank32"
+        - "drop_unresolved"
+        - "keep"
+        - "B_raw_signed_plus_filteredKG"
+      preferred_terms:
+        abs_voxel: "Absolute Parcel Activation"
+        residual_voxel: "Task-Specific Residual Activation"
+        residual_lowrank32: "Residual Subspace (32-D)"
+        drop_unresolved: "Ontology-mapped-only ablation"
+        keep: "Full cohort"
+      definition_requirements:
+        - "Define combo/task-family/fold logic in a dedicated Definitions paragraph."
+        - "Define ontology-mapped and ontology-unmapped in scientific language before Results."
+    evidence_alignment_rules:
+      - "If adjusted/composition-controlled models attenuate raw effects, downgrade claim language to conditional/associational."
+      - "Treat unresolved-vs-mapped splits as diagnostics unless interventional identification is available."
+      - "Do not use causal verbs unless causal design is explicitly present."
+    gate_reporting_rules:
+      - "Describe operational gate as a practical criterion, not as significance evidence."
+      - "Report inferential statistics separately from gate pass/fail decisions."
+      - "State threshold rationale briefly and consistently across abstract/results."
+    figure_language_contract:
+      canonical_terms:
+        mapping_status:
+          positive: "ontology-mapped"
+          negative: "ontology-unmapped"
+        target_modes:
+          - "Absolute Parcel Activation"
+          - "Task-Specific Residual Activation"
+          - "Residual Subspace (32-D)"
+      disallowed_aliases:
+        - "resolved"
+        - "unresolved"
+        - "semantically resolved"
+        - "semantically unresolved"
+      legend_alignment_notes:
+        - "Use the same mapping-status terms in figure labels, captions, and Results opening sentences."
+        - "Avoid introducing code-level mode names in legends."
+    figure_drawing_workflow:
+      strategy: "Two-pass generation for high-fidelity labels and low typo risk."
+      phase_1_structure_pass:
+        - "Lock panel order, axes, thresholds, and color mapping first."
+        - "Keep panel text short; avoid long explanatory strings in-image."
+      phase_2_text_pass:
+        - "Apply canonical labels from figure_language_contract and reader_translation_rules."
+        - "Move long explanations to caption; keep legend labels compact."
+      qc_checklist:
+        - "No internal labels in figure text (e.g., abs_voxel/residual_lowrank32/resolved)."
+        - "Threshold signs and baseline references match manuscript text."
+        - "Figure labels and Results opening paragraph use the same core terms."
+      handoff:
+        - "Deliver caption with one-sentence term definitions."
+        - "Document final label dictionary used for all panels."
+
+  neuroimage:
+    name: "NeuroImage"
+    aliases: []
+    source_refs: ["neuroimage"]
+    positioning: "Broad neuroimaging journal balancing methodological depth and neuroscientific application."
+    core_message:
+      primary_claim: "The work should provide a substantial imaging method/application contribution with rigorous validation."
+      value_to_reader: "Readers should understand both the methodological innovation and why it matters for imaging studies."
+      what_not_to_overclaim: "Do not treat exploratory subgroup findings as confirmed biology."
+    narrative_goals:
+      abstract:
+        mission: "Summarize problem, imaging contribution, and key validation outcomes."
+        include: ["dataset context", "method contribution", "main quantitative findings"]
+        avoid: ["vague novelty claims", "no methodological anchor"]
+      introduction:
+        mission: "Bridge domain question and imaging-method challenge."
+        include: ["imaging relevance", "specific method gap", "study objectives"]
+        avoid: ["overly broad AI-only framing", "unclear hypotheses"]
+      methods:
+        mission: "Give reproducible acquisition, preprocessing, and analysis details."
+        include: ["acquisition", "preprocessing", "statistical tests", "confound controls"]
+        avoid: ["missing participant criteria", "missing multiple-comparison handling"]
+      results:
+        mission: "Present core effect, method validation, and robustness."
+        include: ["benchmark comparisons", "regional/task-level analyses", "sensitivity tests"]
+        avoid: ["single plot conclusions", "underreported variance"]
+      discussion:
+        mission: "Integrate method and neuroscience implications with limits."
+        include: ["practical implications", "limitation analysis", "future validation"]
+        avoid: ["overgeneralization to all modalities", "causal claims without design support"]
+    claim_ladder:
+      conservative: "The approach improves performance and reliability in the evaluated neuroimaging settings."
+      standard: "The approach offers a robust neuroimaging analysis improvement across multiple tested settings."
+      strong: "The approach meaningfully changes best practice for this class of neuroimaging analyses."
+    figure_strategy:
+      main_figures:
+        min: 5
+        target: 6
+        max: 9
+      figure_story_arc:
+        - slot: 1
+          title: "Study and data overview"
+          purpose: "Orient readers to design and datasets."
+          must_include: ["cohort table", "workflow", "evaluation setup"]
+        - slot: 2
+          title: "Primary performance results"
+          purpose: "Show core quantitative gains."
+          must_include: ["main benchmark", "uncertainty", "effect sizes"]
+        - slot: 3
+          title: "Method component analysis"
+          purpose: "Explain which components matter."
+          must_include: ["ablation", "component contribution", "error trends"]
+        - slot: 4
+          title: "Robustness and QC"
+          purpose: "Demonstrate stability under realistic confounds."
+          must_include: ["motion/site robustness", "QC metrics", "sensitivity"]
+        - slot: 5
+          title: "Neuroscience interpretation"
+          purpose: "Connect method output to interpretable imaging findings."
+          must_include: ["maps/patterns", "interpretation caveats", "comparison to prior work"]
+        - slot: 6
+          title: "Generalization summary"
+          purpose: "Provide external validation signal."
+          must_include: ["external dataset", "domain shift result", "confidence"]
+      must_have_figure_types: ["workflow figure", "ablation plot", "robustness panel"]
+      supplement_priority: ["extra cohort splits", "implementation details", "extended failure cases"]
+    style_rules:
+      - "Balance engineering specificity with neuroscientific readability."
+      - "Use section signposting to connect method and interpretation."
+      - "Report both statistical and practical significance."
+    dos:
+      - "Report preprocessing and statistical controls explicitly."
+      - "Use strong, current baselines with fair tuning."
+      - "Document limitations in data representativeness."
+    donts:
+      - "Do not bury methodological caveats in supplements only."
+      - "Do not mix confirmatory and exploratory claims without labeling."
+      - "Do not use ambiguous terminology for key outcomes."
+    reviewer_focus:
+      - "Method validity and transparency."
+      - "Interpretability and relevance to neuroimaging practice."
+      - "Robustness across cohorts or tasks."
+    common_reject_reasons:
+      - "Insufficient methodological detail."
+      - "Limited novelty versus established pipelines."
+      - "Weak external validation."
+
+  human_brain_mapping:
+    name: "Human Brain Mapping"
+    aliases: ["HBM"]
+    source_refs: ["human_brain_mapping"]
+    positioning: "Human neuroimaging venue prioritizing design quality, interpretation, and mapping validity."
+    core_message:
+      primary_claim: "The study should improve understanding of human brain organization with sound imaging analysis."
+      value_to_reader: "Readers should see a well-controlled mapping result and clear interpretation boundaries."
+      what_not_to_overclaim: "Do not overstate population-level generality from narrow cohorts."
+    narrative_goals:
+      abstract:
+        mission: "Convey mapping question, design, and main interpretation-ready result."
+        include: ["population/task context", "analysis approach", "major mapping outcome"]
+        avoid: ["dense algorithmic detail", "sweeping mechanistic claims"]
+      introduction:
+        mission: "Motivate the mapping question within human imaging literature."
+        include: ["theoretical context", "specific gap", "hypotheses"]
+        avoid: ["pure methods framing", "unclear motivation"]
+      methods:
+        mission: "Detail participant selection, imaging pipeline, and confound controls."
+        include: ["participants", "imaging preprocessing", "statistical analysis"]
+        avoid: ["missing exclusion rationale", "underdefined behavioral variables"]
+      results:
+        mission: "Deliver clear mapping findings, then stress-test them."
+        include: ["primary maps", "replication/checks", "effect uncertainty"]
+        avoid: ["map-only without quantification", "hidden multiple testing"]
+      discussion:
+        mission: "Interpret functional organization with transparent limits."
+        include: ["theoretical implications", "generalizability limits", "follow-up needs"]
+        avoid: ["causal language for correlational findings", "unbounded extrapolation"]
+    claim_ladder:
+      conservative: "The mapping pattern is robust in the studied cohort and task context."
+      standard: "The mapping pattern supports the proposed organizational interpretation under tested conditions."
+      strong: "The mapping pattern motivates a revised account of this human functional organization."
+    figure_strategy:
+      main_figures:
+        min: 4
+        target: 6
+        max: 8
+      figure_story_arc:
+        - slot: 1
+          title: "Cohort and paradigm overview"
+          purpose: "Establish validity of design and sampling."
+          must_include: ["cohort summary", "task/stimulus schema", "analysis flow"]
+        - slot: 2
+          title: "Primary mapping result"
+          purpose: "Show headline spatial/functional pattern."
+          must_include: ["brain map", "effect summary", "uncertainty"]
+        - slot: 3
+          title: "Replication or split reliability"
+          purpose: "Demonstrate robustness in independent partitions."
+          must_include: ["split-half or holdout", "consistency metrics", "confidence"]
+        - slot: 4
+          title: "Confound controls"
+          purpose: "Address motion, demographic, and acquisition confounds."
+          must_include: ["control regressions", "quality checks", "sensitivity"]
+        - slot: 5
+          title: "Interpretation support"
+          purpose: "Link maps to cognitive/theoretical interpretation."
+          must_include: ["theory alignment", "competing account contrast", "limits"]
+        - slot: 6
+          title: "Summary and boundary"
+          purpose: "Clarify applicability and next tests."
+          must_include: ["boundary conditions", "future test", "practical note"]
+      must_have_figure_types: ["brain map", "reliability panel", "confound control plot"]
+      supplement_priority: ["auxiliary subgroup analyses", "alternative thresholds", "extended QC"]
+    style_rules:
+      - "Favor interpretation clarity over stylistic novelty."
+      - "Keep map descriptions quantitative and reproducible."
+      - "Use conservative causal language."
+    dos:
+      - "Show reliability and confound checks in main figures."
+      - "Provide explicit participant inclusion/exclusion logic."
+      - "Frame interpretation around tested conditions."
+    donts:
+      - "Do not treat cluster maps as self-evident conclusions."
+      - "Do not omit multiple-comparison details."
+      - "Do not overstate clinical relevance without dedicated analysis."
+    reviewer_focus:
+      - "Human cohort validity and confound handling."
+      - "Mapping reproducibility and interpretability."
+      - "Statistical transparency."
+    common_reject_reasons:
+      - "Weak control for motion or demographic confounds."
+      - "Insufficient reproducibility evidence."
+      - "Interpretation not supported by analysis depth."
+
+  cerebral_cortex:
+    name: "Cerebral Cortex"
+    aliases: []
+    source_refs: ["cerebral_cortex"]
+    positioning: "Cortex-focused journal emphasizing cortical mechanisms, organization, and representational specificity."
+    core_message:
+      primary_claim: "The paper should provide cortex-specific insight rather than generic whole-brain claims."
+      value_to_reader: "Readers should gain a sharper model of cortical architecture or computation."
+      what_not_to_overclaim: "Do not infer cortical hierarchy or causality beyond measurement support."
+    narrative_goals:
+      abstract:
+        mission: "State cortical question, method, and cortex-specific result."
+        include: ["cortical target", "analysis strategy", "specific cortical implication"]
+        avoid: ["generic network claims", "model-detail overload"]
+      introduction:
+        mission: "Tie unresolved cortical theory to concrete hypotheses."
+        include: ["cortical background", "knowledge gap", "predicted cortical patterns"]
+        avoid: ["broad non-cortical framing", "weak theory linkage"]
+      methods:
+        mission: "Document cortical parcellation, preprocessing, and statistics clearly."
+        include: ["cortical definitions", "preprocessing", "statistical analysis"]
+        avoid: ["opaque ROI definitions", "missing correction strategy"]
+      results:
+        mission: "Show cortex-specific effects before broader summaries."
+        include: ["region-wise results", "specificity tests", "robustness"]
+        avoid: ["global metrics without cortical detail", "incomplete controls"]
+      discussion:
+        mission: "Interpret cortical computations and hierarchical implications cautiously."
+        include: ["cortex-specific mechanism", "comparison to prior cortical models", "limitations"]
+        avoid: ["brain-wide overgeneralization", "causal overreach"]
+    claim_ladder:
+      conservative: "Results indicate cortex-specific representational differences under tested conditions."
+      standard: "Results support a cortex-specific computational account for the tested process."
+      strong: "Results motivate a revised cortical computational framework for this process."
+    figure_strategy:
+      main_figures:
+        min: 4
+        target: 6
+        max: 8
+      figure_story_arc:
+        - slot: 1
+          title: "Cortical model and hypothesis"
+          purpose: "Define cortex-specific predictions."
+          must_include: ["cortical map schema", "hypotheses", "analysis plan"]
+        - slot: 2
+          title: "Primary cortical effect"
+          purpose: "Show strongest cortex-targeted result."
+          must_include: ["regional contrasts", "effect sizes", "confidence"]
+        - slot: 3
+          title: "Cortical specificity checks"
+          purpose: "Disambiguate effect from non-cortical explanations."
+          must_include: ["specificity tests", "alternative ROI checks", "controls"]
+        - slot: 4
+          title: "Robustness"
+          purpose: "Confirm stability across analyses."
+          must_include: ["sensitivity analyses", "threshold robustness", "replication split"]
+        - slot: 5
+          title: "Mechanistic interpretation"
+          purpose: "Link findings to cortical computation models."
+          must_include: ["model alignment", "discordant findings", "limitations"]
+        - slot: 6
+          title: "Synthesis"
+          purpose: "Summarize cortex-specific contribution."
+          must_include: ["summary diagram", "scope", "future test"]
+      must_have_figure_types: ["cortical map", "specificity control", "mechanism schematic"]
+      supplement_priority: ["alternative parcellations", "expanded control sets", "parameter sweeps"]
+    style_rules:
+      - "Keep cortical terminology explicit and consistent."
+      - "Prioritize region-level interpretability."
+      - "Use cautious language for hierarchy claims."
+    dos:
+      - "Report cortical definition and mapping choices transparently."
+      - "Include specificity controls in main text."
+      - "Compare with established cortical accounts."
+    donts:
+      - "Do not collapse cortical heterogeneity into one aggregate claim."
+      - "Do not hide inconsistent cortical regions."
+      - "Do not overstate translational impact without dedicated evidence."
+    reviewer_focus:
+      - "Cortical specificity and mechanistic interpretation."
+      - "Statistical rigor for region-wise inference."
+      - "Robustness across analysis choices."
+    common_reject_reasons:
+      - "Insufficient cortex-specific evidence."
+      - "Ambiguous ROI/parcellation methodology."
+      - "Overinterpretation of correlational maps."
+
+  journal_of_neuroscience:
+    name: "Journal of Neuroscience"
+    aliases: ["JNeurosci"]
+    source_refs: ["journal_of_neuroscience"]
+    positioning: "General neuroscience journal emphasizing clear hypotheses, rigorous analyses, and calibrated claims."
+    core_message:
+      primary_claim: "The manuscript should test explicit hypotheses with transparent evidence and statistics."
+      value_to_reader: "Readers should be able to trace each claim to clearly reported analyses."
+      what_not_to_overclaim: "Do not use strong mechanistic language when evidence is primarily correlational."
+    narrative_goals:
+      abstract:
+        mission: "Summarize hypothesis, design, and key evidence-driven conclusion."
+        include: ["explicit hypothesis", "main evidence", "bounded conclusion"]
+        avoid: ["speculative impact claims", "result inflation"]
+      introduction:
+        mission: "Define hypotheses and predictions clearly before method details."
+        include: ["theoretical rationale", "specific predictions", "decision criteria"]
+        avoid: ["vague goals", "implicit hypotheses"]
+      methods:
+        mission: "Document analysis decisions for reproducibility and statistical integrity."
+        include: ["statistical analysis", "data availability", "inclusion/exclusion rules"]
+        avoid: ["hidden preprocessing choices", "insufficient model diagnostics"]
+      results:
+        mission: "Report confirmatory results first, then exploratory findings clearly labeled."
+        include: ["hypothesis-linked analyses", "effect sizes", "multiple-test controls"]
+        avoid: ["mixing confirmatory and exploratory claims", "p-value-only reporting"]
+      discussion:
+        mission: "Interpret findings conservatively and situate them in broader neuroscience evidence."
+        include: ["supported conclusions", "limitations", "future tests"]
+        avoid: ["overclaiming mechanism", "ignoring null findings"]
+    claim_ladder:
+      conservative: "Findings support the tested hypothesis in this experimental setting."
+      standard: "Findings provide robust support for the tested hypothesis across analyses."
+      strong: "Findings substantially revise current interpretation of this hypothesis class."
+    figure_strategy:
+      main_figures:
+        min: 4
+        target: 6
+        max: 8
+      figure_story_arc:
+        - slot: 1
+          title: "Hypothesis and design"
+          purpose: "Set confirmatory framework and criteria."
+          must_include: ["hypotheses", "design summary", "analysis path"]
+        - slot: 2
+          title: "Primary confirmatory result"
+          purpose: "Present strongest confirmatory evidence."
+          must_include: ["main test", "effect size", "confidence"]
+        - slot: 3
+          title: "Secondary confirmatory checks"
+          purpose: "Validate robustness of primary finding."
+          must_include: ["sensitivity tests", "model variants", "control checks"]
+        - slot: 4
+          title: "Exploratory extension"
+          purpose: "Label and report exploratory analyses transparently."
+          must_include: ["exploratory label", "uncertainty", "non-confirmatory framing"]
+        - slot: 5
+          title: "Method/statistics integrity"
+          purpose: "Demonstrate analysis validity."
+          must_include: ["assumption checks", "multiple-comparison control", "diagnostics"]
+        - slot: 6
+          title: "Synthesis"
+          purpose: "Tie conclusions to evidence hierarchy."
+          must_include: ["evidence map", "limitations", "future tests"]
+      must_have_figure_types: ["hypothesis figure", "statistical robustness figure", "evidence synthesis"]
+      supplement_priority: ["full model diagnostics", "extended exploratory analyses", "raw summary tables"]
+    style_rules:
+      - "Use evidence-first and conservative phrasing."
+      - "Separate confirmatory and exploratory findings explicitly."
+      - "Prefer precise statistical language over rhetorical emphasis."
+    dos:
+      - "State hypotheses and decision criteria up front."
+      - "Report effect sizes and uncertainty alongside p-values."
+      - "Document data/code availability clearly."
+    donts:
+      - "Do not blur exploratory and confirmatory claims."
+      - "Do not suppress null or contradictory findings."
+      - "Do not claim mechanism without direct tests."
+    reviewer_focus:
+      - "Hypothesis clarity and test validity."
+      - "Statistical transparency and robustness."
+      - "Claim calibration to evidence strength."
+    common_reject_reasons:
+      - "Hypotheses are vague or post hoc."
+      - "Insufficient statistical reporting detail."
+      - "Overstatement of conclusions."
+
+  medical_image_analysis:
+    name: "Medical Image Analysis"
+    aliases: ["MedIA"]
+    source_refs: ["medical_image_analysis"]
+    positioning: "Top-tier medical imaging AI journal prioritizing algorithmic novelty, ablation depth, and generalization."
+    core_message:
+      primary_claim: "The manuscript should contribute a genuine algorithmic advance with strong experimental proof."
+      value_to_reader: "Readers should be able to understand why the method is new and when it is better."
+      what_not_to_overclaim: "Do not claim state-of-the-art from narrow comparisons or non-comparable settings."
+    narrative_goals:
+      abstract:
+        mission: "Present algorithmic novelty, benchmark setting, and strongest quantitative gains."
+        include: ["core method novelty", "evaluation scale", "key metrics"]
+        avoid: ["biological interpretation detour", "qualitative-only improvement"]
+      introduction:
+        mission: "Define computational bottleneck and why existing methods fail."
+        include: ["technical gap", "design principle", "expected advantage"]
+        avoid: ["generic clinical motivation only", "unclear novelty claim"]
+      methods:
+        mission: "Provide architecture, optimization, and implementation details for exact reproduction."
+        include: ["equations", "training protocol", "implementation details", "complexity analysis"]
+        avoid: ["missing hyperparameters", "opaque preprocessing"]
+      results:
+        mission: "Demonstrate superiority, robustness, and ablation-backed causality of components."
+        include: ["strong baselines", "ablation", "cross-dataset validation", "error analysis"]
+        avoid: ["single-dataset SOTA claim", "no significance testing"]
+      discussion:
+        mission: "Interpret algorithmic trade-offs and deployment constraints."
+        include: ["failure modes", "runtime/memory trade-off", "scope limitations"]
+        avoid: ["unsupported clinical claims", "ignoring computation cost"]
+    claim_ladder:
+      conservative: "The method improves performance under the evaluated datasets and protocols."
+      standard: "The method delivers a robust algorithmic improvement across diverse benchmarks."
+      strong: "The method sets a new algorithmic direction for this medical imaging task family."
+    figure_strategy:
+      main_figures:
+        min: 5
+        target: 7
+        max: 9
+      figure_story_arc:
+        - slot: 1
+          title: "Architecture overview"
+          purpose: "Make novelty and design rationale explicit."
+          must_include: ["model blocks", "information flow", "novel components"]
+        - slot: 2
+          title: "Benchmark headline"
+          purpose: "Show top-line comparison against strongest baselines."
+          must_include: ["leaderboard table/plot", "confidence intervals", "dataset protocols"]
+        - slot: 3
+          title: "Ablation core"
+          purpose: "Prove contribution of each novel component."
+          must_include: ["component ablations", "interaction effects", "variance"]
+        - slot: 4
+          title: "Generalization"
+          purpose: "Demonstrate cross-dataset/scanner robustness."
+          must_include: ["external datasets", "domain shift", "performance drop analysis"]
+        - slot: 5
+          title: "Efficiency and scaling"
+          purpose: "Quantify computational trade-offs."
+          must_include: ["runtime", "memory", "scaling trend"]
+        - slot: 6
+          title: "Qualitative and failure cases"
+          purpose: "Show where method works and fails."
+          must_include: ["success/failure visuals", "error taxonomy", "interpretation"]
+        - slot: 7
+          title: "Deployment summary"
+          purpose: "Give practical adoption guidance."
+          must_include: ["recommended settings", "limitations", "risk notes"]
+      must_have_figure_types: ["architecture diagram", "ablation matrix", "generalization figure"]
+      supplement_priority: ["extended ablations", "hyperparameter sweeps", "additional baseline variants"]
+    style_rules:
+      - "Write in CS/AI style with explicit technical claims."
+      - "Quantify every major claim with robust baseline context."
+      - "Keep reproducibility details precise and complete."
+    dos:
+      - "Include detailed Related Work and positioning against SOTA."
+      - "Report full ablation and external validation."
+      - "Provide computational complexity and resource profile."
+    donts:
+      - "Do not claim novelty if architecture is standard with minor tuning."
+      - "Do not omit baseline tuning fairness details."
+      - "Do not ignore failure regimes."
+    reviewer_focus:
+      - "Algorithmic originality and significance."
+      - "Benchmark rigor and fairness."
+      - "Generalization and deployment practicality."
+    common_reject_reasons:
+      - "Insufficient novelty over existing architectures."
+      - "Weak or selective baseline comparisons."
+      - "Inadequate ablation and robustness analysis."
+
+  ieee_tmi:
+    name: "IEEE Transactions on Medical Imaging"
+    aliases: ["TMI", "IEEE TMI"]
+    source_refs: ["ieee_tmi"]
+    positioning: "Engineering-focused medical imaging journal emphasizing methodological rigor, validation quality, and practical significance."
+    core_message:
+      primary_claim: "The manuscript should present a technically solid imaging method with convincing quantitative validation."
+      value_to_reader: "Readers should understand the engineering contribution and reproducible performance implications."
+      what_not_to_overclaim: "Do not assert clinical readiness without realistic validation and error analysis."
+    narrative_goals:
+      abstract:
+        mission: "State method, imaging task, and strongest quantitative outcome in engineering terms."
+        include: ["technical novelty", "dataset/evaluation scope", "main quantitative gain"]
+        avoid: ["broad biological framing", "qualitative-only claims"]
+      introduction:
+        mission: "Define imaging-engineering gap and technical objectives."
+        include: ["current engineering limits", "design goals", "expected performance dimensions"]
+        avoid: ["unclear novelty anchor", "insufficient related-work contrast"]
+      methods:
+        mission: "Detail algorithm design, implementation, and validation protocol."
+        include: ["implementation details", "training/inference settings", "comparison with recent methods"]
+        avoid: ["missing reproducibility detail", "ambiguous parameter settings"]
+      results:
+        mission: "Demonstrate improvements across robust baselines and practical constraints."
+        include: ["state-of-art baselines", "significance tests", "runtime/complexity", "error analysis"]
+        avoid: ["single benchmark emphasis", "incomplete robustness analysis"]
+      discussion:
+        mission: "Discuss engineering implications, constraints, and translational pathway carefully."
+        include: ["trade-offs", "deployment risks", "scalability"]
+        avoid: ["overstated clinical claims", "missing failure case discussion"]
+    claim_ladder:
+      conservative: "The method yields measurable gains in the evaluated imaging setup."
+      standard: "The method provides robust engineering improvements across tested imaging scenarios."
+      strong: "The method defines a new high-performance engineering baseline for this imaging task."
+    figure_strategy:
+      main_figures:
+        min: 5
+        target: 7
+        max: 9
+      figure_story_arc:
+        - slot: 1
+          title: "Method architecture and pipeline"
+          purpose: "Explain technical contribution with implementation clarity."
+          must_include: ["pipeline diagram", "component detail", "data flow"]
+        - slot: 2
+          title: "Primary benchmark outcomes"
+          purpose: "Show overall performance against modern baselines."
+          must_include: ["quantitative table", "confidence intervals", "protocol parity"]
+        - slot: 3
+          title: "Component analysis"
+          purpose: "Isolate contribution of key method modules."
+          must_include: ["ablation", "module interaction", "variance"]
+        - slot: 4
+          title: "Robustness"
+          purpose: "Demonstrate stability under noise/domain variation."
+          must_include: ["noise robustness", "cross-domain tests", "sensitivity"]
+        - slot: 5
+          title: "Efficiency"
+          purpose: "Quantify computational feasibility."
+          must_include: ["runtime", "memory", "throughput"]
+        - slot: 6
+          title: "Failure analysis"
+          purpose: "Characterize and bound failure behavior."
+          must_include: ["failure examples", "error taxonomy", "mitigation ideas"]
+        - slot: 7
+          title: "Engineering summary"
+          purpose: "Provide practical deployment recommendations."
+          must_include: ["recommended settings", "limitations", "integration note"]
+      must_have_figure_types: ["pipeline figure", "ablation plot", "efficiency plot"]
+      supplement_priority: ["extended baseline tables", "additional robustness checks", "implementation snippets"]
+    style_rules:
+      - "Use formal engineering style and precise terminology."
+      - "Prioritize reproducibility and fair comparison details."
+      - "Keep practical constraints visible in discussion."
+    dos:
+      - "Benchmark against current strong methods with fair protocols."
+      - "Report computation and resource costs."
+      - "Include explicit implementation details needed for replication."
+    donts:
+      - "Do not skip significance and uncertainty reporting."
+      - "Do not rely on cherry-picked qualitative examples."
+      - "Do not present undeclared protocol changes versus baselines."
+    reviewer_focus:
+      - "Methodological rigor and novelty."
+      - "Fairness and completeness of evaluation."
+      - "Engineering practicality and reproducibility."
+    common_reject_reasons:
+      - "Insufficient novelty beyond existing methods."
+      - "Evaluation protocol not convincing or not fair."
+      - "Missing details for replication."

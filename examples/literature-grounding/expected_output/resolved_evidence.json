@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-05-28T18:28:00Z",
+  "tool": "mcp__brain-researcher-local__grounding_resolve",
+  "input_question": "What is the current evidence that the cerebellum contributes to non-motor cognitive tasks beyond timing?",
+  "resolutions": [
+    {
+      "candidate_id": "doc-1",
+      "title": "Schmahmann 2019 Cerebellar Cognitive Affective Syndrome",
+      "ref": "document:doc-1",
+      "reference_kind": "retrieved_document",
+      "resolved": false,
+      "error": "document_anchor_unresolved"
+    },
+    {
+      "candidate_id": "doc-2",
+      "title": "Buckner 2013 The Cerebellum and Cognitive Function",
+      "ref": "document:doc-2",
+      "reference_kind": "retrieved_document",
+      "resolved": false,
+      "error": "document_anchor_unresolved"
+    },
+    {
+      "candidate_id": "kg-cerebellum-prefrontal",
+      "ref": "kg:cerebellum_prefrontal_connectivity",
+      "reference_kind": "kg_fact",
+      "resolved": false,
+      "error": "kg_anchor_unresolved"
+    }
+  ],
+  "summary": {
+    "resolved_count": 0,
+    "unresolved_count": 3,
+    "note": "Local BR MCP server has no document store or KG record matching the candidate anchors; all three returned resolved=false. Per rubric, all downstream claims must be hedged or downgraded."
+  }
+}

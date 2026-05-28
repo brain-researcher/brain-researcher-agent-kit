@@ -1,0 +1,49 @@
+version: "0.1"
+last_updated_date: "2026-03-04"
+default_output_dir: "skills/journal-writing-guidelines/assets/templates"
+
+journals:
+  imaging_neuroscience:
+    display_name: "Imaging Neuroscience"
+    aliases:
+      - "imaging neuroscience"
+      - "imaging_neuroscience"
+      - "imaging neuro science"
+      - "imaging neurokgscience"
+    templates:
+      - id: "imag_latex_submission_entry"
+        format: "latex"
+        access: "manual"
+        url: "https://direct.mit.edu/imag/pages/submission-guidelines"
+        filename: "imaging_neuroscience_submission_guidelines.html"
+        last_verified_date: "2026-03-04"
+        notes: "Guidelines state LaTeX submissions should use the journal style file. The style file link is not reliably accessible via non-browser requests."
+      - id: "imag_word_submission_entry"
+        format: "word"
+        access: "manual"
+        url: "https://direct.mit.edu/imag/pages/submission-guidelines"
+        filename: "imaging_neuroscience_submission_guidelines.html"
+        last_verified_date: "2026-03-04"
+        notes: "Word template distribution is routed through journal submission guidance and may require browser-based access."
+
+  ieee_tmi:
+    display_name: "IEEE Transactions on Medical Imaging"
+    aliases:
+      - "ieee tmi"
+      - "tmi"
+      - "ieee_transactions_on_medical_imaging"
+    templates:
+      - id: "ieee_tmi_latex_ieeetran"
+        format: "latex"
+        access: "direct"
+        url: "https://mirrors.ctan.org/macros/latex/contrib/IEEEtran.zip"
+        filename: "IEEEtran.zip"
+        last_verified_date: "2026-03-04"
+        notes: "IEEE TMI LaTeX submissions are typically prepared with IEEEtran."
+      - id: "ieee_tmi_word_selector"
+        format: "word"
+        access: "manual"
+        url: "https://template-selector.ieee.org/"
+        filename: "ieee_template_selector.html"
+        last_verified_date: "2026-03-04"
+        notes: "Use the IEEE template selector for Word templates by publication type."

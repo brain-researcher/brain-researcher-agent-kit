@@ -1,0 +1,4 @@
+interface:
+  display_name: "GCP GPU Request"
+  short_description: "Estimate GPU memory and runtime, then request on-demand GCP"
+  default_prompt: "Use $gcp-gpu-request to estimate GPU GB and runtime for my workload, then generate a safe on-demand gcloud request."

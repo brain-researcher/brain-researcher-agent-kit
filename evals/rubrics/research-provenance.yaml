@@ -1,0 +1,29 @@
+name: research-provenance
+dimension: provenance
+description: |
+  Every major claim in the demo's final output must have a traceable
+  evidence record — anchor reference, artifact sha256, run_id, or
+  scorecard entry. Confirmatory and exploratory findings must be
+  explicitly labeled.
+checks:
+  - id: every_major_claim_has_evidence_link
+    description: |
+      Scan the final report for claim-like sentences; each must be
+      accompanied by an anchor id from grounding output OR an artifact
+      sha256 from the run bundle.
+    severity: error
+  - id: confirmatory_vs_exploratory_labeled
+    description: |
+      The final report must contain both `confirmatory:` and
+      `exploratory:` section markers when exploratory findings exist.
+      Reports with no exploratory findings only need the `confirmatory:`
+      marker.
+    severity: error
+  - id: br_provenance_record_present
+    description: |
+      For runs that produced artifacts, a `br.provenance.write_provenance`
+      record must exist alongside outputs (sha256, git commit,
+      contract_version).
+    severity: warning
+score:
+  pass_if: "no_error_checks_failed"

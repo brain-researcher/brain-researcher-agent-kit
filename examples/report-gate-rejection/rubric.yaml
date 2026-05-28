@@ -1,0 +1,8 @@
+apply:
+  - rejection
+  - validity
+demo_specific:
+  - expected_output/gate_result.json `unresolved` MUST contain claim_id c2 and c3
+  - expected_output/gate_result.json `resolved` (or `kept`) MUST contain c1 and c4
+  - expected_output/report_attempt.log MUST contain status `review_blocked`
+  - expected_output/agent_handoff.md MUST start with `degraded:` line listing the affected intents

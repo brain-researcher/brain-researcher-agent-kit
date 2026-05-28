@@ -1,0 +1,901 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "journal-writing-guidelines-output-schemas",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "evaluate_idea_fit_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analysis",
+        "journal_matches",
+        "top_journal",
+        "recommendation_summary",
+        "gap_to_next_tier"
+      ],
+      "properties": {
+        "analysis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "biological_insight_level",
+            "methodological_innovation_level",
+            "clinical_translation_level",
+            "open_science_readiness_level",
+            "target_audience_fit_level"
+          ],
+          "properties": {
+            "biological_insight_level": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            },
+            "methodological_innovation_level": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            },
+            "clinical_translation_level": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            },
+            "open_science_readiness_level": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            },
+            "target_audience_fit_level": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            }
+          }
+        },
+        "journal_matches": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "journal_id",
+              "journal",
+              "match_score",
+              "fit_rationale",
+              "pros",
+              "cons",
+              "gating_risks",
+              "priority_actions"
+            ],
+            "properties": {
+              "journal_id": {
+                "type": "string"
+              },
+              "journal": {
+                "type": "string"
+              },
+              "match_score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "fit_rationale": {
+                "type": "string"
+              },
+              "pros": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "cons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "gating_risks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "priority_actions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "top_journal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["journal_id", "journal", "confidence"],
+          "properties": {
+            "journal_id": {
+              "type": "string"
+            },
+            "journal": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "string",
+              "enum": ["high", "medium", "low"]
+            }
+          }
+        },
+        "gap_to_next_tier": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recommendation_summary": {
+          "type": "string"
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "enforce_journal_schema_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal_id",
+        "article_type",
+        "pass_fail",
+        "violations",
+        "auto_fix_suggestions",
+        "manual_required"
+      ],
+      "properties": {
+        "journal_id": {
+          "type": "string"
+        },
+        "article_type": {
+          "type": "string"
+        },
+        "pass_fail": {
+          "type": "string",
+          "enum": ["pass", "fail"]
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "violations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "severity", "field", "message"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["error", "warning"]
+              },
+              "field": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "found": {},
+              "expected": {},
+              "suggestion": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check", "status"],
+            "properties": {
+              "check": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pass", "warning", "fail"]
+              },
+              "found": {},
+              "expected": {}
+            }
+          }
+        },
+        "auto_fix_suggestions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "manual_required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rewrite_for_journal_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_journal_id",
+        "rewritten_sections",
+        "style_changes",
+        "claim_strength_adjustments",
+        "risk_flags",
+        "notes_for_author"
+      ],
+      "properties": {
+        "target_journal_id": {
+          "type": "string"
+        },
+        "rewritten_sections": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "abstract": {
+              "type": "string"
+            },
+            "introduction": {
+              "type": "string"
+            },
+            "discussion": {
+              "type": "string"
+            },
+            "methods": {
+              "type": "string"
+            },
+            "results": {
+              "type": "string"
+            }
+          }
+        },
+        "style_changes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "claim_strength_adjustments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risk_flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "overclaim_risk",
+              "methods_underreporting_risk",
+              "insufficient_baseline_risk",
+              "statistical_reporting_risk",
+              "claim_evidence_mismatch_risk",
+              "jargon_leak_risk",
+              "gate_inference_conflation_risk",
+              "figure_label_drift_risk",
+              "confounding_underreported_risk"
+            ]
+          }
+        },
+        "notes_for_author": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "get_journal_writing_guide_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal_id",
+        "journal",
+        "positioning",
+        "core_message",
+        "narrative_goals",
+        "claim_ladder",
+        "figure_strategy",
+        "style_rules",
+        "dos",
+        "donts",
+        "reviewer_focus",
+        "common_reject_reasons",
+        "examples",
+        "sources"
+      ],
+      "properties": {
+        "journal_id": {
+          "type": "string"
+        },
+        "journal": {
+          "type": "string"
+        },
+        "positioning": {
+          "type": "string"
+        },
+        "core_message": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary_claim", "value_to_reader", "what_not_to_overclaim"],
+          "properties": {
+            "primary_claim": {
+              "type": "string"
+            },
+            "value_to_reader": {
+              "type": "string"
+            },
+            "what_not_to_overclaim": {
+              "type": "string"
+            }
+          }
+        },
+        "narrative_goals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["abstract", "introduction", "methods", "results", "discussion"],
+          "properties": {
+            "abstract": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["mission", "include", "avoid"],
+              "properties": {
+                "mission": {
+                  "type": "string"
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "avoid": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "introduction": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "methods": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "results": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "discussion": {
+              "$ref": "#/$defs/narrativeSection"
+            }
+          }
+        },
+        "claim_ladder": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["conservative", "standard", "strong"],
+          "properties": {
+            "conservative": {
+              "type": "string"
+            },
+            "standard": {
+              "type": "string"
+            },
+            "strong": {
+              "type": "string"
+            }
+          }
+        },
+        "figure_strategy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "main_figures",
+            "figure_story_arc",
+            "must_have_figure_types",
+            "supplement_priority"
+          ],
+          "properties": {
+            "main_figures": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["min", "target", "max"],
+              "properties": {
+                "min": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "target": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "max": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "figure_story_arc": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/figureSlot"
+              }
+            },
+            "must_have_figure_types": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "supplement_priority": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "style_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "donts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer_focus": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "common_reject_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "examples": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["good_patterns", "weak_to_strong_rewrites", "section_openers"],
+          "properties": {
+            "good_patterns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["section", "pattern"],
+                "properties": {
+                  "section": {
+                    "type": "string"
+                  },
+                  "pattern": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "weak_to_strong_rewrites": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["weak", "stronger"],
+                "properties": {
+                  "weak": {
+                    "type": "string"
+                  },
+                  "stronger": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "section_openers": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "section_focus": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["section", "guidance", "example_opener"],
+          "properties": {
+            "section": {
+              "type": "string"
+            },
+            "guidance": {
+              "$ref": "#/$defs/narrativeSection"
+            },
+            "example_opener": {
+              "type": "string"
+            }
+          }
+        },
+        "reader_translation_rules": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "evidence_alignment_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gate_reporting_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "figure_language_contract": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "figure_drawing_workflow": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "plan_figure_strategy_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal_id",
+        "article_type",
+        "recommended_main_figures",
+        "recommended_figure_slots",
+        "supplement_suggestions",
+        "compliance_check"
+      ],
+      "properties": {
+        "journal_id": {
+          "type": "string"
+        },
+        "article_type": {
+          "type": "string"
+        },
+        "recommended_main_figures": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min", "target", "max"],
+          "properties": {
+            "min": {
+              "type": "integer"
+            },
+            "target": {
+              "type": "integer"
+            },
+            "max": {
+              "type": "integer"
+            }
+          }
+        },
+        "recommended_figure_slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/figureSlot"
+          }
+        },
+        "supplement_suggestions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "panel_label_dictionary": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "forbidden_terms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "legend_alignment_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "main_text_anchor_sentence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "figure_drawing_workflow": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "compliance_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "journal_limit"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["no_limit", "within_limit", "exceeds_limit", "unknown"]
+            },
+            "journal_limit": {
+              "type": ["integer", "null"]
+            },
+            "detected_count": {
+              "type": ["integer", "null"]
+            },
+            "suggestion": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "story_coherence_audit_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal_id",
+        "pass_fail",
+        "claim_evidence_alignment",
+        "terminology_consistency",
+        "gate_inference_separation",
+        "figure_caption_text_consistency",
+        "main_vs_supp_placement",
+        "risk_flags",
+        "violations",
+        "warnings",
+        "checks"
+      ],
+      "properties": {
+        "journal_id": {
+          "type": "string"
+        },
+        "pass_fail": {
+          "type": "string",
+          "enum": ["pass", "fail"]
+        },
+        "claim_evidence_alignment": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "terminology_consistency": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "gate_inference_separation": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "figure_caption_text_consistency": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "main_vs_supp_placement": {
+          "type": "string",
+          "enum": ["pass", "warning", "fail"]
+        },
+        "risk_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "violations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "severity", "message"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["error", "warning"]
+              },
+              "message": {
+                "type": "string"
+              },
+              "details": {
+                "type": ["object", "null"],
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check", "status"],
+            "properties": {
+              "check": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pass", "warning", "fail"]
+              },
+              "details": {
+                "type": ["object", "null"],
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "route_and_guide_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "top_journal_id",
+        "top_journal",
+        "fit_summary",
+        "writing_guide_snapshot",
+        "first_actions",
+        "idea_fit_result",
+        "writing_guide_result",
+        "figure_plan_result"
+      ],
+      "properties": {
+        "top_journal_id": {
+          "type": "string"
+        },
+        "top_journal": {
+          "type": "string"
+        },
+        "fit_summary": {
+          "type": "string"
+        },
+        "writing_guide_snapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["core_message", "narrative_goals", "figure_strategy"],
+          "properties": {
+            "core_message": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "narrative_goals": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "figure_strategy": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "first_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "idea_fit_result": {
+          "$ref": "#/properties/evaluate_idea_fit_result"
+        },
+        "writing_guide_result": {
+          "$ref": "#/properties/get_journal_writing_guide_result"
+        },
+        "figure_plan_result": {
+          "$ref": "#/properties/plan_figure_strategy_result"
+        }
+      }
+    }
+  },
+  "required": [
+    "evaluate_idea_fit_result",
+    "enforce_journal_schema_result",
+    "rewrite_for_journal_result",
+    "get_journal_writing_guide_result",
+    "plan_figure_strategy_result",
+    "story_coherence_audit_result",
+    "route_and_guide_result"
+  ],
+  "$defs": {
+    "narrativeSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mission", "include", "avoid"],
+      "properties": {
+        "mission": {
+          "type": "string"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "figureSlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot", "title", "purpose", "must_include"],
+      "properties": {
+        "slot": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "must_include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

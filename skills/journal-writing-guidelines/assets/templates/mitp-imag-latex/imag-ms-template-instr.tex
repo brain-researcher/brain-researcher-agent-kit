@@ -1,0 +1,527 @@
+\documentclass[]{imag-ms-template}
+
+\title{Author Usage Template for MIT Journals} 
+
+\author{Author 1,$^{1\ast}$ Author 2,$^{1}$ Author 3$^{2}$\\
+{\small $^{1}$Department of Chemistry, University of Wherever,}\\
+{\small An Unknown Address, Wherever, ST 00000, USA}\\
+{\small $^{2}$Another Unknown Address, Palookaville, ST 99999, USA}\\
+{\small $^\ast$Correspondence:  jsmith@wherever.edu}
+}
+
+\addbibresource{sample.bib}
+
+\begin{document} 
+
+\maketitle 
+
+
+\keywords{keywords1, keywords2 and keywords3}
+
+\begin{abstract}
+  This document presents a number of hints about how to set up your
+  paper in \LaTeX.  We provide a template file,
+  \texttt{imag-ms-template-instr.tex}, that you can use to set up the
+  \LaTeX\ source for your article.  An example of the style is the
+  special \texttt{\{abstract\}} environment used to set up the
+  abstract you see here.
+\end{abstract}
+
+\section{Introduction}
+
+In this file, we present some tips and sample mark-up to ensure that your
+\LaTeX\ file has the smoothest possible journey from review manuscript
+to published paper.  We focus here particularly on
+issues related to headings, citations, math, tables, and
+figures, as those tend to be the biggest sticking points.  Please use
+the source file for this document, \texttt{imag-ms-template-instr.tex}, as a template
+for your manuscript, cutting and pasting your content into the file at
+the appropriate places.
+
+% now two fake paragraphs to illustrate how paragraph
+% spacing/indentation looks
+
+%Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+%eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+%minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+%aliquip ex ea commodo consequat. Duis aute irure dolor in
+%reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+%pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+%culpa qui officia deserunt mollit anim id est laborum.
+
+%Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+%eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+%minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+%aliquip ex ea commodo consequat. Duis aute irure dolor in
+%reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+%pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+%culpa qui officia deserunt mollit anim id est laborum.
+
+\newpage
+
+\subsection{Front Matter}
+
+Please use the below tags for the article front matter:
+
+\begin{verbatim}
+\title{Article Title} 
+
+\author{Author 1,$^{1\ast}$ Author 2,$^{1}$ Author 3$^{2}$\\
+{\small $^{1}$Department of Chemistry, University of Wherever,}\\
+{\small An Unknown Address, Wherever, ST 00000, USA}\\
+{\small $^{2}$Another Unknown Address, Palookaville, ST 99999, USA}\\
+{\small $^\ast$Correspondence:  jsmith@wherever.edu}
+}
+
+\maketitle
+\end{verbatim}
+
+\subsection{Abstract}
+
+Use the tag:
+
+\begin{verbatim}
+\begin{abstract}
+  This document presents a number of hints about how to set up your
+  paper in \LaTeX.  We provide a template file,
+  \texttt{imag-ms-template-instr.tex}, that you can use to set up the
+  \LaTeX\ source for your article.  An example of the style is the special
+  \texttt{\{abstract\}} environment used to set up the abstract you
+  see here.
+\end{abstract}
+\end{verbatim}
+
+\subsection{Headings}
+
+Use the standard tags \verb!\section, \subsection, \subsubsection, \paragraph!, and \verb!\subparagraph! for the Headings \verb!H1, H2, H3, H4!, and \verb!H5!, respectively.
+
+\subsection{Handling Math, Tables, and Figures}
+
+We suggest using the \verb!mathtools.sty! file to get various 
+display math styles. A few of the codes are given below for easy
+reference:
+
+\bigskip
+
+\noindent\begin{tabular}{@{}ll}
+\toprule
+\verb!equation!\\
+\verb!align!\\
+\verb!\[...\]! or \verb!equation*!\\
+\verb!gather!\\
+Various types of matrices, e.g., \verb!pmatrix!, \verb!bmatrix!,
+\verb!vmatrix!, \verb!smallmatrix!,\\
+\verb!alignat!, etc.\\
+\bottomrule
+\end{tabular}
+
+
+\subsection{Tables}  
+
+We suggest using the \verb!threeparttable.sty! file to format the tables
+and their notes properly. Examples are given below:
+
+\begin{verbatim}
+\begin{table}
+\begin{threeparttable}
+\caption{Time of the Transition Between Phase 1 and Phase 2\tnote{$a$}
+\label{tab:label}}
+\begin{tabular}{@{}ll}
+\toprule
+ Run  & Time (min)  \\
+\midrule
+  \textit{l}1  & 260   \\
+  \textit{l}2  & 300   \\
+  \textit{l}3  & 340   \\
+  \textit{h}1  & 270   \\
+  \textit{h}2  & 250   \\
+  \textit{h}3  & 380   \\
+  \textit{r}1  & 370   \\
+  \textit{r}2  & 390   \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item[${a}$]Table note text here.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{verbatim}
+
+\subsubsection*{Output}
+
+\begin{table}[h!]
+\begin{threeparttable}
+\caption{Time of the Transition Between Phase 1 and Phase 2\tnote{$a$}
+\label{tab:label}}
+\setlength{\tabcolsep}{45pt}%
+\begin{tabular}{@{}ll}
+\toprule
+ Run  & Time (min)  \\
+\midrule
+  \textit{l}1  & 260   \\
+  \textit{l}2  & 300   \\
+  \textit{l}3  & 340   \\
+  \textit{h}1  & 270   \\
+  \textit{h}2  & 250   \\
+  \textit{h}3  & 380   \\
+  \textit{r}1  & 370   \\
+  \textit{r}2  & 390   \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item[${a}$]Table note text here.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection*{Spanning rules}
+
+Use \verb!\cmidrule! to obtain spanning of rules from column to
+column. Usage is
+
+\begin{verbatim}
+\cmidrule{fromcolumn-tocolumn}, e.g., \cmidrule{2-3}.
+\end{verbatim}
+
+\subsection{Figures}
+
+Figure callouts within the text should be
+in the form of \LaTeX\ references; for example, \verb+\ref{fig1}+.
+
+%% For the
+%% figures themselves, treatment can differ depending on whether the
+%% manuscript is an initial submission or a final revision for acceptance
+%% and publication.  For an initial submission and review copy, you can
+%% use the \LaTeX\ \verb+{figure}+ environment and the
+%% \verb+\includegraphics+ command to include your PostScript figures at
+%% the end of the compiled file.  For the final revision,
+%% however, the \verb+{figure}+ environment should \textit{not} be used;
+%% instead, the figure captions themselves should be typed in as regular
+%% text at the end of the source file (an example is included here), and
+%% the figures should be uploaded separately according to the Art
+%% Department's instructions.
+
+For inclusion of figures (e.g., Fig~\ref{example_figure}), please use code such as:
+
+\begin{verbatim}
+\begin{figure}[htbp]\begin{center}\includegraphics[width=0.2\textwidth]{figure}
+\caption{Example caption text.}
+\label{example_figure}\end{center}\end{figure}
+\end{verbatim}
+
+\begin{figure}[htbp]\begin{center}\includegraphics[width=0.2\textwidth]{figure}
+\caption{Example caption text.}
+\label{example_figure}\end{center}\end{figure}
+
+
+Please use \verb!\begin{sidewaystable}...\end{sidewaystable}! and\\
+\verb!\begin{sidwaysfigure}...\end{sidewaysfigure}! to get rotating figures/tables.
+
+
+\section{Algorithms}
+
+For \verb@Algorithms@, please use the standard \LaTeX\ supporting file
+\verb!algorithm2e.sty!; the format and the output are given below:
+
+\begin{verbatim}
+\begin{algorithm}[h!]
+\SetAlgoLined
+\SetKwFunction{IL}{InitializeDistance}
+\SetKwFunction{PL}{PropagateInsertion}
+\SetKwFunction{MIN}{Min}
+\SetKwFunction{MX}{Max}
+\SetKwFunction{TOP}{Top}
+\SetKwFunction{Push}{Push}
+\SetKwFunction{Pop}{Pop}
+\SetKwFunction{Append}{Append}
+\SetKwData{Queue}{Queue}
+\KwResult{The length of shortest path from $s$ to $t$}
+ $PreviousLayer=[s]$\;
+ $s.distance = 0$\;
+ \For(\tcc*[f]{Do the computation layer by layer}){i = 1 \KwTo m}{
+   $CurrentLayer = [(i,v_1),(i,v_{2}),\ldots, (i,v_{n}), (i,k)]$\;
+   $x.distance = \infty \ \forall  x \in CurrentLayer$\;
+   \IL{PreviousLayer,CurrentLayer}\;
+   \PL{CurrentLayer}\;
+   $PreviousLayer = CurrentLayer$\;
+ }
+ \KwRet{\MIN{PreviousLayer.distance}}\;
+ \caption{Algorithm for sequence to graph alignment}
+ \label{algo:linear}
+\end{algorithm}
+\end{verbatim}
+
+\subsection*{Output}
+
+\begin{algorithm}[h!]
+\SetAlgoLined
+\SetKwFunction{IL}{InitializeDistance}
+\SetKwFunction{PL}{PropagateInsertion}
+\SetKwFunction{MIN}{Min}
+\SetKwFunction{MX}{Max}
+\SetKwFunction{TOP}{Top}
+\SetKwFunction{Push}{Push}
+\SetKwFunction{Pop}{Pop}
+\SetKwFunction{Append}{Append}
+\SetKwData{Queue}{Queue}
+\KwResult{The length of shortest path from $s$ to $t$}
+ $PreviousLayer=[s]$\;
+ $s.distance = 0$\;
+ \For(\tcc*[f]{Do the computation layer by layer}){i = 1 \KwTo m}{
+   $CurrentLayer = [(i,v_1),(i,v_{2}),\ldots, (i,v_{n}), (i,k)]$\;
+   $x.distance = \infty \ \forall  x \in CurrentLayer$\;
+   \IL{PreviousLayer,CurrentLayer}\;
+   \PL{CurrentLayer}\;
+   $PreviousLayer = CurrentLayer$\;
+ }
+ \KwRet{\MIN{PreviousLayer.distance}}\;
+ \caption{Algorithm for sequence to graph alignment}
+ \label{algo:linear}
+\end{algorithm}
+
+\section{Lists}
+
+Please use the standard tags for Numbered lists and Bulleted lists; for example,
+
+\subsection*{Numbered lists}
+
+\begin{verbatim}
+\begin{enumerate}
+\item Text for first-level numbered lists text text text text
+Text for first-level numbered lists text text text text: 
+\begin{enumerate}
+\item Text for second level numbered lists text text text text
+Text for second level numbered lists text text text text 
+\item Text text text text Text for second level numbered lists
+text text text text 
+\end{enumerate}
+\item Text text text text Text for first-level numbered lists
+text text text text 
+\end{enumerate}
+\end{verbatim}
+
+\subsection*{Output}
+
+\begin{enumerate}
+\item Text for first-level numbered lists text text text text Text for first-level numbered lists text text text text: 
+\begin{enumerate}
+\item Text for second level numbered lists text text text text Text for second level numbered lists text text text text 
+\item Text text text text Text for second level numbered lists text text text text 
+\end{enumerate}
+\item Text text text text Text for first-level numbered lists text text text text 
+\end{enumerate}
+
+\subsection*{Bulleted lists}
+
+\begin{verbatim}
+\begin{itemize}
+\item Text for first-level bulleted lists text text text text
+Text for first-level bulleted lists text text text text 
+\begin{itemize}
+\item text for second level bulleted lists text text text text
+Text for second level bulleted lists text text text text 
+\item text text text text Text for second level bulleted lists
+text text text text 
+\end{itemize}
+\item Text text text text Text for first-level bulleted lists
+text text text text 
+\end{itemize}
+\end{verbatim}
+
+\subsection*{Output}
+
+\begin{itemize}
+\item Text for first-level bulleted lists text text text text Text for first-level bulleted lists text text text text 
+\begin{itemize}
+\item text for second level bulleted lists text text text text Text for second level bulleted lists text text text text 
+\item text text text text Text for second level bulleted lists text text text text 
+\end{itemize}
+\item Text text text text Text for first-level bulleted lists text text text text 
+\end{itemize}
+
+\subsection*{Extract/Quote}
+
+Use the standard tag \verb!\begin{quote}...\end{quote}! for quoted text; for example,
+
+\begin{verbatim}
+\begin{quote}
+Text for quoted text text text text text text text text text text text
+text text text text text text text text text text text text text text 
+\end{quote}
+\end{verbatim}
+
+\subsection*{Output}
+
+\begin{quote}
+Text for quoted text text text text text text text text text text text
+text text text text text text text text text text text text text text 
+\end{quote}
+
+\section{Footnote}
+
+Use the standard \LaTeX\ tag \verb!\footnote! to get footnotes at the
+bottom of the page.
+
+\section{Special Fonts}
+
+Use the standard \LaTeX\ tags \verb!\mathcal!, \verb!\mathscr!, and
+\verb!\mathbb! to get characters in special fonts such as
+$\mathcal{A}, \mathscr{A}$, and $\mathbb{A}$, respectively.
+
+\section{Enunciation or Math Heads}
+
+Generally \verb!theorem!, \verb!lemma!, etc., are called
+Enunciation or Math heads. In this template, we define some standard
+enunciations (\verb!theorem!, \verb!lemma!, \verb!corollary!).
+
+\subsection*{Sample Input/Output}
+
+\subsection{Input}
+
+\begin{verbatim}
+\begin{theorem}
+This is test for math head ``Theorem'' text text text text.
+\end{theorem}
+\end{verbatim}
+
+\subsection{Output}
+
+\begin{theorem}
+This is test for math head ``Theorem'' text text text text.
+\end{theorem}
+
+\subsection{Define Own Math Heads/Enunciation}
+
+You are allowed to define your own enunciations; the format is given
+below:
+
+\begin{verbatim}
+\newtheorem{short name of the head}{Head to Display}
+\end{verbatim}
+
+\subsection*{Example}
+
+If you need to define a group of text under the head ``Proposition,''
+then you have to define it as 
+
+\begin{verbatim}
+\newtheorem{proposition}{Proposition}
+\end{verbatim}
+
+\newtheorem{proposition}{Proposition}
+\begin{proposition}
+This is a test for math head ``Proposition'' text text text text
+\end{proposition}
+
+\subsection{Unnumbered Math Heads/Enunciation}
+
+Just introduce \verb!*!, which makes the numbered math head text
+into an unnumbered math head; for example,
+
+\begin{verbatim}
+\begin{theorem*}
+This is a test for unnumbered math head ``Theorem'' text text text text
+\end{theorem*}
+\end{verbatim}
+
+\begin{theorem*}
+This is a test for unnumbered math head ``Theorem'' text text text text
+\end{theorem*}
+
+\section{Bibliography/References with APA Style}
+
+As per MIT standards, we fixed the Reference style \verb!APA! in
+the template with the combination of the supporting file
+\verb!biblatex! and \verb!natbib! options, which
+help to achieve various types of bibliography cross links. Those details are given below:
+
+\subsection{Formatting Citations}
+
+\noindent\begin{tabular}{@{}ll}
+\bf Type&\bf Results\\
+\midrule
+\verb+\citet{ref2}+&Goossens et al. (1993)\\
+\verb+\citet[chap. 2]{ref2}+&Goossens et al. (1993, chap. 2)\\
+    \verb+\citep{ref2}+	    &   	(Goossens et al., 1993)\\
+    \verb+\citep[chap. 2]{ref2}+ 	&    	(Goossens et al., 1993, chap. 2)\\
+    \verb+\citep[see][]{ref2}+ 	 &    	(see Goossens et al., 1993)\\
+    \verb+\citep[see][chap. 2]{ref2}+ 	&    	(see Goossens et al., 1993, chap. 2)\\
+    \verb+\citet*{ref2}+ 	    &    	Goossens, Mittelbach, and Samarian (1993)\\
+    \verb+\citep*{ref2}+	    &    	(Goossens, Mittelbach, \& Samarian
+    1993) \\
+\end{tabular}
+
+\bigskip
+
+\noindent {\bf Note:} Please use {\bf biber} (biber.exe in Windows) to get
+better output for References.
+
+\nocite{*}
+
+\subsection{Example Citations}
+
+See \cite{Einstein1905} and \cite{Goossens1993,Knuth1986}. Also see \cite{Chen2023}.
+
+
+\section{Note to User}
+
+We have already included almost all the required \texttt{.sty} files in the
+\LaTeX\ template \verb!imag-ms-template.cls!; hence, there is no need to call those in
+your \texttt{.tex} application files.
+
+%%%% commented out as it doesn't work, but isn't really needed anyway
+%\section{To add any instruction to Comp}
+%
+%Please use the tag \verb!\notetocomp! to display any important
+%note/info to typesetter/comp/publisher, this will produce the output
+%in margin, example shown below:
+%
+%\begin{verbatim}
+%\notetocomp{Note to comp/publisher}
+%\end{verbatim}
+%
+%\subsection*{Output}
+%
+%This is for test \notetocomp{Note to comp/publisher} this is for test
+
+\subsection*{General Notes}
+
+\noindent This template will work in most recent \TeX\ distributions
+(e.g., MiKTeX, TeXLive) with any type of \TeX\ engines, such as
+\LaTeX, PDF\LaTeX, Xe\LaTeX, and Lua\LaTeX, as well as in all types of OS, such
+as MS-Windows, Mac OS X, and Linux. It will also work well in Overleaf.
+
+\section*{Data and Code Availability}
+
+Data and Code Availability text (mandatory unless there is no data or code used).
+
+\section*{Author Contributions}
+
+Author Contributions text (mandatory).
+
+\section*{Funding}
+
+Funding text (optional).
+
+\section*{Declaration of Competing Interests}
+
+Declaration of Competing Interests text (mandatory).
+
+\section*{Acknowledgements}
+
+Acknowledgements text (optional).
+
+\section*{Supplementary Material}
+
+Supplementary Material (created during production as a web link to online material).
+
+\printbibliography
+
+\appendix
+
+\section{Appendix}
+
+Appendices (optional).
+
+
+\end{document}

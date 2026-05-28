@@ -1,0 +1,53 @@
+version: "1.0"
+last_updated: "2026-03-04"
+purpose: "Reusable text templates for papers where effects are conditional, attenuated, or composition-sensitive."
+
+templates:
+  intro_positioning:
+    name: "Conditional contribution framing"
+    when_to_use:
+      - "Raw split effects are present but adjusted models attenuate estimates."
+      - "Main contribution is diagnostic/failure localization rather than universal performance lift."
+    structure:
+      - "State structural bottleneck and why naive headline claims are risky."
+      - "Define what the framework does localize (success/failure regimes) in measurable terms."
+      - "Preview bounded claim language (associational, conditional, non-causal)."
+    sentence_starters:
+      - "Rather than claiming a universal gain, we evaluate where transfer succeeds or fails under a frozen contract."
+      - "We treat coverage status as a diagnostic lens for failure localization, not as a causal intervention."
+
+  results_opening:
+    name: "Raw-vs-adjusted alignment"
+    when_to_use:
+      - "Strong stratified contrast exists (e.g., mapped vs unmapped), but confounding is plausible."
+    structure:
+      - "Report raw effect with uncertainty."
+      - "Report adjusted/composition-controlled estimate and attenuation direction."
+      - "Bound interpretation in one sentence."
+    sentence_starters:
+      - "The raw mapped-minus-unmapped contrast was positive, but composition-adjusted models attenuated this estimate."
+      - "Accordingly, we interpret the split as a robust diagnostic pattern rather than standalone evidence of mechanism."
+
+  discussion_opening:
+    name: "Honest mechanism boundary"
+    when_to_use:
+      - "Ablations show practical utility is uneven or modest."
+    structure:
+      - "Re-state principal empirical pattern."
+      - "State what the evidence does not establish."
+      - "Translate into practical guidance for users/agents."
+    sentence_starters:
+      - "Our evidence supports a bounded, operational conclusion: transfer quality depends on representation quality and coverage status."
+      - "The present analyses do not establish a causal effect of ontology coverage on brain-map prediction."
+
+  figure_caption_bridge:
+    name: "Figure-to-text bridge"
+    when_to_use:
+      - "Figure terms are compact and may be ambiguous without text bridge."
+    structure:
+      - "Define all group labels in one sentence."
+      - "State comparator and metric sign convention."
+      - "State inferential caveat if gate criteria are shown."
+    sentence_starters:
+      - "Ontology-mapped denotes task-contrast pairs with deterministic node linkage under the frozen lookup contract; ontology-unmapped denotes pairs without such linkage."
+      - "Operational gate lines indicate practical screening criteria and are not inferential significance thresholds."

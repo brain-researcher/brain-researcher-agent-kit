@@ -1,0 +1,22 @@
+name: research-validity
+dimension: validity
+description: |
+  A demo's output is "valid" when every claim it makes can be traced to evidence
+  that BR (or a fallback) actually produced — not invented, not paraphrased
+  beyond what the source supports.
+checks:
+  - id: every_claim_has_evidence
+    description: Each claim in the report references at least one resolved anchor or run-artifact sha256.
+    severity: error
+  - id: tools_applied_to_correct_artifacts
+    description: |
+      When the demo claims a step used tool X on artifact Y, the captured
+      output_artifact_sha256 must match what tool X actually emitted.
+    severity: error
+  - id: no_unwarranted_strong_claims
+    description: |
+      A weak/null effect must not be reported with strong-claim verbs
+      ("shows", "demonstrates", "establishes"); see also research-rejection.
+    severity: warning
+score:
+  pass_if: "no_error_checks_failed"

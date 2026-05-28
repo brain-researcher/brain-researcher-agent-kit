@@ -1,0 +1,62 @@
+version: "1.0"
+last_registry_update: "PLACEHOLDER"
+default_recency_days: 120
+fallback_recency_days: 365
+policy:
+  mode: "broad"
+  min_cross_source_evidence: 1
+  high_risk_min_cross_source_evidence: 2
+  default_language: "en"
+  social_noise_penalty_band:
+    min: 5
+    max: 15
+
+# This file is shipped as a SCHEMA-ONLY placeholder. Add the discourse sources
+# you trust under `sources:` following the entry shape below.
+#
+# Conventions:
+#   tier            A | B | C   (authoritative → noisy)
+#   channel         newsletter | journal_editorial | blog | podcast | community | social
+#   language        ISO-639-1 (en, zh, …)
+#   capture_method  web | rss | api | manual
+#   authority_score 0.0 – 1.0
+#   noise_risk      0.0 – 1.0
+#   recency_priority  low | medium | high
+
+sources:
+  source_tier_a:
+    name: "<Source name>"
+    tier: "A"
+    channel: "journal_editorial"
+    language: "en"
+    capture_method: "web"
+    urls:
+      homepage: "<URL>"
+    authority_score: 0.9
+    noise_risk: 0.1
+    recency_priority: "medium"
+
+  source_tier_b:
+    name: "<Source name>"
+    tier: "B"
+    channel: "blog"
+    language: "en"
+    capture_method: "rss"
+    urls:
+      homepage: "<URL>"
+      feed: "<RSS URL>"
+    authority_score: 0.8
+    noise_risk: 0.2
+    recency_priority: "high"
+
+  source_tier_c:
+    name: "<Source name>"
+    tier: "C"
+    channel: "social"
+    language: "en"
+    capture_method: "manual"
+    urls:
+      homepage: "<URL>"
+    authority_score: 0.6
+    noise_risk: 0.6
+    recency_priority: "high"

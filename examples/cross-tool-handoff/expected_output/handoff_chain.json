@@ -1,0 +1,122 @@
+{
+  "demo": "cross-tool-handoff",
+  "captured_at": "2026-05-28T18:30:00Z",
+  "mcp_server": "brain-researcher-local",
+  "request": {
+    "summary": "Run a 2-step BR pipeline (validate a small fMRI motion-correction plan, then score the resulting run), then generate a short report citing both steps' artifacts.",
+    "input_file": "input/cross_tool_request.json"
+  },
+  "provenance": {
+    "scored_run_id": "br_20260524_062015_e4b0197511",
+    "report_run_id": "br_20260528_182911_a0164bbc60",
+    "scorecard_profile_id": "external_coding_v1"
+  },
+  "chain": [
+    {
+      "step": 1,
+      "tool": "plan_preflight",
+      "args": {
+        "query": "Validate and run a small fMRI motion-correction plan, then score the resulting run and generate a short report.",
+        "modality": ["fmri"]
+      },
+      "key_outputs": {
+        "candidate_tool_count": 12,
+        "candidate_tools_top": [
+          "run_fitlins_recipe",
+          "workflow_preprocessing_qc",
+          "workflow_task_glm_group"
+        ],
+        "recommended_next_calls": 8,
+        "kg_nodes_hit": ["concept:7t_fmri"]
+      },
+      "output_artifact_sha256": "80b9cb226a4be7a1a826d3aea2ebe0082872e3daa5cf1801c69e58b1db36fa63",
+      "consumed_by_step": 2
+    },
+    {
+      "step": 2,
+      "tool": "pipeline_plan_validate",
+      "args": {
+        "plan": {
+          "name": "fmri_motion_quantification_minimal",
+          "steps": [
+            {
+              "id": "motion_qc",
+              "tool": "motion_quantification",
+              "params": {
+                "fmri_file": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/inputs/sub-01_task-rest_bold.nii.gz",
+                "output_dir": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/outputs/motion_qc"
+              }
+            }
+          ]
+        }
+      },
+      "key_outputs": {
+        "run_id_hint": "br_20260528_182818_bdb69a3be6",
+        "code_review_decision": "approve",
+        "code_review_risk_level": "low",
+        "validation_blocker": "input_not_found (sample BOLD path; structural validation passed)"
+      },
+      "output_artifact_sha256": "40fbb6ac9d09e5172df8a6c275f87e2486892d14bf466b1aaabb7e488b28355a",
+      "consumed_by_step": 3
+    },
+    {
+      "step": 3,
+      "tool": "(caller execution)",
+      "note": "Caller would execute the validated plan locally. In this captured demo we substitute a previously-persisted reviewable BR run as the execution proxy so the downstream stable-tier tools (run_scorecard, scientific_report_generate) have a real run_id to bind to.",
+      "key_outputs": {
+        "executed_run_id": "br_20260524_062015_e4b0197511",
+        "selection_source": "run_find_latest_reviewable",
+        "review_contract_mode": "native_review_bundle"
+      },
+      "consumed_by_step": 4
+    },
+    {
+      "step": 4,
+      "tool": "run_scorecard",
+      "args": {
+        "run_id": "br_20260524_062015_e4b0197511",
+        "profile_id": "external_coding_v1"
+      },
+      "key_outputs": {
+        "status": "succeeded",
+        "reviewability": "fully_evaluable",
+        "artifact_completeness_ratio": 1.0,
+        "required_files_present": [
+          "trace.jsonl",
+          "provenance.json",
+          "trajectory.json",
+          "observation.json",
+          "analysis_bundle.json"
+        ],
+        "duration_s": 621
+      },
+      "output_artifact_sha256": "8f2d0eb3f283c0a25d75f1eb5959580418d2a83154094a202da961772f6c31a6",
+      "consumed_by_step": 5
+    },
+    {
+      "step": 5,
+      "tool": "scientific_report_generate",
+      "args": {
+        "run_id": "br_20260524_062015_e4b0197511",
+        "title": "Cross-Tool Handoff Demo Report",
+        "compile_pdf": false
+      },
+      "key_outputs": {
+        "report_run_id": "br_20260528_182911_a0164bbc60",
+        "rendered_artifacts": {
+          "tex": "artifacts/report/report.tex",
+          "markdown": "artifacts/report/draft_report.md",
+          "metadata": "artifacts/report/report_metadata.json",
+          "handoff": "artifacts/report/report_revision_handoff.json"
+        },
+        "review_overall_decision": "diagnose",
+        "review_correctness": "pass",
+        "review_judgment": "unsound",
+        "review_completeness": "complete",
+        "report_action": "revise_report"
+      },
+      "output_artifact_sha256": "29f6f69e326357708079f58861ec9754ab3217d0067538e7f1806d003fda31de",
+      "consumed_by_step": null
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "neuro-big-picture-output-schemas",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "consult_neuro_insights_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query_profile",
+        "sources",
+        "insight_items",
+        "expert_lens",
+        "recommendation"
+      ],
+      "properties": {
+        "query_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["idea_text", "mode", "recency_days"],
+          "properties": {
+            "idea_text": { "type": "string" },
+            "mode": { "type": "string", "enum": ["broad", "strict"] },
+            "recency_days": { "type": "integer", "minimum": 1 },
+            "perspectives": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "neuroai_alignment",
+                  "method_rigor",
+                  "causal_interpretation",
+                  "clinical_translation",
+                  "open_science"
+                ]
+              }
+            }
+          }
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "type": "string", "enum": ["broad", "strict"] },
+            "weights": { "type": "object", "additionalProperties": { "type": "number" } },
+            "insight_count": { "type": "integer", "minimum": 0 },
+            "source_count": { "type": "integer", "minimum": 0 },
+            "top_item_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "mean_item_score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "grand_challenge_catalog_loaded": { "type": "boolean" },
+            "recognized_grand_challenge_ids": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^GC[0-9]+$" }
+            },
+            "unknown_grand_challenge_ids": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^GC[0-9]+$" }
+            },
+            "invalid_grand_challenge_ids": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_id",
+              "name",
+              "tier",
+              "channel",
+              "capture_method",
+              "source_score",
+              "noise_risk"
+            ],
+            "properties": {
+              "source_id": { "type": "string" },
+              "name": { "type": "string" },
+              "tier": { "type": "string", "enum": ["A", "B", "C"] },
+              "channel": {
+                "type": "string",
+                "enum": [
+                  "blog",
+                  "newsletter",
+                  "podcast",
+                  "community",
+                  "social",
+                  "journal_editorial"
+                ]
+              },
+              "capture_method": {
+                "type": "string",
+                "enum": ["rss", "api", "web", "mirror", "manual"]
+              },
+              "source_score": { "type": "number", "minimum": 0, "maximum": 100 },
+              "noise_risk": { "type": "number", "minimum": 0, "maximum": 1 },
+              "score_breakdown": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["mean_item_score", "item_count"],
+                "properties": {
+                  "mean_item_score": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "item_count": { "type": "integer", "minimum": 0 }
+                }
+              }
+            }
+          }
+        },
+        "insight_items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "item_id",
+              "source_id",
+              "title",
+              "url",
+              "date",
+              "summary",
+              "stance",
+              "mapped_topics",
+              "mapped_grand_challenges",
+              "item_score"
+            ],
+            "properties": {
+              "item_id": { "type": "string" },
+              "source_id": { "type": "string" },
+              "title": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "date": { "type": "string", "format": "date" },
+              "summary": { "type": "string" },
+              "stance": { "type": "string", "enum": ["supports", "questions", "mixed"] },
+              "mapped_topics": { "type": "array", "items": { "type": "string" } },
+              "mapped_grand_challenges": {
+                "type": "array",
+                "items": { "type": "string", "pattern": "^GC[0-9]+$" }
+              },
+              "item_score": { "type": "number", "minimum": 0, "maximum": 100 },
+              "score_breakdown": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "relevance",
+                  "authority",
+                  "freshness",
+                  "signal_to_noise",
+                  "capturability",
+                  "novelty",
+                  "exploration_bonus",
+                  "noise_penalty"
+                ],
+                "properties": {
+                  "relevance": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "authority": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "freshness": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "signal_to_noise": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "capturability": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "novelty": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "exploration_bonus": { "type": "number", "minimum": 0, "maximum": 5 },
+                  "noise_penalty": { "type": "number", "minimum": 0, "maximum": 25 }
+                }
+              }
+            }
+          }
+        },
+        "expert_lens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["lens", "key_points"],
+            "properties": {
+              "lens": {
+                "type": "string",
+                "enum": [
+                  "neuroai_alignment",
+                  "method_rigor",
+                  "causal_interpretation",
+                  "clinical_translation",
+                  "open_science"
+                ]
+              },
+              "key_points": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "recommendation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["why_it_matters", "missing_link", "next_actions"],
+          "properties": {
+            "why_it_matters": { "type": "string" },
+            "missing_link": { "type": "string" },
+            "next_actions": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "required": ["consult_neuro_insights_result"]
+}

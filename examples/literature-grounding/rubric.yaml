@@ -1,0 +1,6 @@
+apply:
+  - validity
+  - provenance
+demo_specific:
+  - every cited claim in expected_output/answer.md MUST appear in gate result's `resolved[]` array
+  - any claim that landed in `unresolved[]` MUST be either dropped from the answer or hedged with "evidence not resolved" prefix

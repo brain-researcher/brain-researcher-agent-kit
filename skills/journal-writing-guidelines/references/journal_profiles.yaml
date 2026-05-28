@@ -1,0 +1,148 @@
+version: "1.0"
+profile_language: "en"
+default_scoring_dimensions:
+  - biological_insight
+  - methodological_novelty
+  - clinical_translation
+  - open_science_reproducibility
+  - audience_fit
+
+journals:
+  nature_neuroscience:
+    name: "Nature Neuroscience"
+    source_ref: "nature_neuroscience"
+    scope_summary: "Major conceptual advance in neuroscience with broad significance."
+    core_audience: "Broad systems/cognitive/cellular neuroscience readership."
+    high_match_signals:
+      - "New mechanistic insight into brain function, not only model accuracy gain."
+      - "Cross-domain importance beyond a narrow benchmark."
+    red_flags:
+      - "Incremental method gain without biological interpretation."
+    style_tone:
+      - "Assertive and concise claim framing."
+      - "Broad-context intro and high-level discussion close."
+    confidence:
+      scope: "high"
+      style: "medium"
+
+  neuron:
+    name: "Neuron"
+    source_ref: "neuron"
+    scope_summary: "High-impact mechanistic neuroscience with strong conceptual narrative."
+    core_audience: "Neuroscientists across systems, cognition, and computation."
+    high_match_signals:
+      - "Clear neural mechanism and strong theoretical implication."
+    red_flags:
+      - "Methods-heavy manuscript without biological conclusion."
+    style_tone:
+      - "Narrative-driven and mechanism-centered."
+    confidence:
+      scope: "high"
+      style: "medium"
+
+  imaging_neuroscience:
+    name: "Imaging Neuroscience"
+    source_ref: "imaging_neuroscience"
+    scope_summary: "Neuroimaging methods, analysis rigor, and neuroscience applications."
+    core_audience: "MRI and M/EEG method developers and applied neuroimagers."
+    high_match_signals:
+      - "Methodological rigor in QC and statistical control."
+      - "Transparent reporting and reproducibility assets."
+    red_flags:
+      - "No clear multiple-comparison strategy."
+    style_tone:
+      - "Technical and reproducibility-focused."
+    confidence:
+      scope: "high"
+      style: "high"
+
+  neuroimage:
+    name: "NeuroImage"
+    source_ref: "neuroimage"
+    scope_summary: "Neuroimaging methods and applications across cognition and clinical domains."
+    core_audience: "Broad neuroimaging community."
+    high_match_signals:
+      - "Validated imaging method or analysis contribution."
+    red_flags:
+      - "Poor reporting of acquisition/preprocessing choices."
+    style_tone:
+      - "Balanced technical depth and application context."
+    confidence:
+      scope: "high"
+      style: "medium"
+
+  human_brain_mapping:
+    name: "Human Brain Mapping"
+    source_ref: "human_brain_mapping"
+    scope_summary: "Human neuroimaging studies on brain organization and function."
+    core_audience: "Human neuroimaging and cognitive neuroscience researchers."
+    high_match_signals:
+      - "Strong human imaging design and interpretation."
+    red_flags:
+      - "Weak cohort/confound reporting."
+    style_tone:
+      - "Interpretation-first with moderate technical depth."
+    confidence:
+      scope: "high"
+      style: "medium"
+
+  cerebral_cortex:
+    name: "Cerebral Cortex"
+    source_ref: "cerebral_cortex"
+    scope_summary: "Cortical structure, function, and computational principles."
+    core_audience: "Cortical systems and cognitive neuroscience community."
+    high_match_signals:
+      - "Cortex-specific mechanistic or representational insight."
+    red_flags:
+      - "Limited cortical specificity."
+    style_tone:
+      - "Mechanism and cortical interpretation centered."
+    confidence:
+      scope: "high"
+      style: "medium"
+
+  journal_of_neuroscience:
+    name: "Journal of Neuroscience"
+    source_ref: "journal_of_neuroscience"
+    scope_summary: "Rigorous neuroscience studies with clear hypotheses and evidence."
+    core_audience: "General neuroscience readership with domain specialists."
+    high_match_signals:
+      - "Hypothesis testing and transparent statistics."
+    red_flags:
+      - "Overstatement with weak controls."
+    style_tone:
+      - "Evidence-first and conservative claim strength."
+    confidence:
+      scope: "high"
+      style: "high"
+
+  medical_image_analysis:
+    name: "Medical Image Analysis"
+    source_ref: "medical_image_analysis"
+    scope_summary: "Foundational medical-image computing and algorithmic innovation."
+    core_audience: "Medical imaging AI and computational imaging experts."
+    high_match_signals:
+      - "Substantive algorithmic novelty with ablations and strong baselines."
+      - "Generalizable framework and robust quantitative evaluation."
+    red_flags:
+      - "Off-the-shelf model use without architectural contribution."
+    style_tone:
+      - "CS/AI style with architectural precision."
+    confidence:
+      scope: "high"
+      style: "high"
+
+  ieee_tmi:
+    name: "IEEE Transactions on Medical Imaging"
+    source_ref: "ieee_tmi"
+    scope_summary: "Advanced imaging methods, reconstruction, analysis, and clinical imaging AI."
+    core_audience: "Medical imaging method and engineering community."
+    high_match_signals:
+      - "Strong methodological novelty and technical validation."
+    red_flags:
+      - "Insufficient comparison to recent methods."
+    style_tone:
+      - "Formal engineering style with technical specificity."
+    confidence:
+      scope: "high"
+      style: "high"

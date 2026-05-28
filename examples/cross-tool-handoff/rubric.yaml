@@ -1,0 +1,7 @@
+apply:
+  - provenance
+  - validity
+demo_specific:
+  - expected_output/handoff_chain.json MUST contain ≥4 rows with `output_artifact_sha256`
+  - every claim in expected_output/report.md MUST trace to one of those sha256 values
+  - the report's `provenance` block MUST list run_id + scorecard profile_id

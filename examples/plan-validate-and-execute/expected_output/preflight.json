@@ -1,0 +1,80 @@
+{
+  "ok": true,
+  "query": "3-step fMRI preprocessing plan: skull-strip, motion correction, linear registration",
+  "domain": "neuroimaging",
+  "modality": ["T1w", "bold"],
+  "facts": {
+    "query_understanding": {
+      "original_query": "3-step fMRI preprocessing plan: skull-strip, motion correction, linear registration",
+      "entities": [
+        {"text": "motion correction", "entity_type": "preprocessing_step", "confidence": 0.8, "normalized_form": "motion correction", "aliases": [], "coordinates": null, "metadata": {}},
+        {"text": "registration", "entity_type": "preprocessing_step", "confidence": 0.8, "normalized_form": "registration", "aliases": [], "coordinates": null, "metadata": {}},
+        {"text": "fMRI", "entity_type": "modality", "confidence": 0.8, "normalized_form": "fmri", "aliases": [], "coordinates": null, "metadata": {}}
+      ],
+      "resolved_datasets": [],
+      "candidate_datasets": [],
+      "kg_nodes": [
+        {"id": "trm_58a5d31f5c72d", "label": "Biological Motion Perception (Passive Viewing) Paradigm", "type": "Concept", "score": 1, "metadata": {}},
+        {"id": "trm_55ef273a77a86", "label": "auditory tone perception", "type": "Concept", "score": 1, "metadata": {}},
+        {"id": "concept:7t_fmri", "label": "7T fMRI", "type": "Concept", "score": 11, "metadata": {}}
+      ],
+      "ambiguities": [],
+      "existing_derivatives": [],
+      "knowledge_evidence": []
+    },
+    "dataset_refs": [],
+    "derivatives": [],
+    "blockers": [],
+    "data_quality_concerns": [],
+    "resolution_state": {
+      "step_statuses": {"query_understanding": {"status": "confirmed", "source": "fresh"}},
+      "pending_decisions": [],
+      "generic_clarifications": {"answered_keys": [], "answers": []}
+    }
+  },
+  "tool_candidates_count": 11,
+  "tool_candidates_preview": [
+    {"name": "workflow_behavior_to_fmri_retrieval", "kind": "analysis"},
+    {"name": "workflow_fmriprep_preprocessing", "kind": "analysis", "primary_target": "neurodesk"},
+    {"name": "workflow_seed_based_connectivity", "kind": "analysis"},
+    {"name": "workflow_brain_simulation", "kind": "analysis"},
+    {"name": "workflow_rsa_model_brain", "kind": "analysis"},
+    {"name": "workflow_brain_age_prediction", "kind": "analysis"},
+    {"name": "workflow_asl_perfusion", "kind": "analysis"},
+    {"name": "pipeline.search", "kind": "analysis"},
+    {"name": "coordinate_to_concept", "kind": "kg"},
+    {"name": "graph_query", "kind": "kg"},
+    {"name": "hypothesis_hot_load_research", "kind": "kg"}
+  ],
+  "recommended_next_calls": [
+    {
+      "purpose": "fmri_preprocessing",
+      "tool_name": "get_execution_recipe",
+      "arguments": {"tool_id": "fmriprep", "params": {"task": "3-step fMRI preprocessing plan: skull-strip, motion correction, linear registration", "mode": "routing_only", "no_download": true, "no_heavy_execution": true}, "target_runtime": "neurodesk"},
+      "rationale": "Use BR's query-derived route shortlist to commit to a concrete scientific tool.",
+      "counts_as_routing_path": true
+    },
+    {
+      "purpose": "fmri_preprocessing",
+      "tool_name": "get_execution_recipe",
+      "arguments": {"tool_id": "workflow_fmriprep_preprocessing", "params": {"task": "3-step fMRI preprocessing plan: skull-strip, motion correction, linear registration", "mode": "routing_only", "no_download": true, "no_heavy_execution": true}, "target_runtime": "neurodesk"},
+      "rationale": "Commit to this candidate by requesting its stateless execution recipe.",
+      "counts_as_routing_path": true
+    }
+  ],
+  "selection_mode": false,
+  "selection_contract": {
+    "scoreable_action_rule": "Use recommended_next_calls or concrete tool/API invocations. Do not count repo searches, package probes, version checks, or name mentions as route selection.",
+    "do_not_probe_environment": false,
+    "preferred_next_step": "Call one recommended_next_calls entry next."
+  },
+  "routing_diagnostics": {
+    "surface": "plan_preflight",
+    "candidate_count": 0,
+    "candidate_source_counts": {},
+    "retrieval_path": "surface_default_disabled",
+    "cache_hit": false,
+    "candidate_source": null
+  },
+  "allowlist_mode": null
+}

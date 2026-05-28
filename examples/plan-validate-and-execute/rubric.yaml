@@ -1,0 +1,7 @@
+apply:
+  - validity
+  - reliability
+demo_specific:
+  - expected_output/validate.json `normalized_plan.steps` length MUST equal 3
+  - rerunning run.sh against same inputs MUST yield identical `normalized_plan.steps` order
+  - expected_output/recipe.json MUST contain `commands.create` or `python_script` field

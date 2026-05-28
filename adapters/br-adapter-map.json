@@ -1,0 +1,96 @@
+{
+  "$schema": "./adapter-map.schema.json",
+  "contract_version_required": "2026-05-27",
+  "description": "Generic-intent → Brain Researcher stable-tier tool routing. Each intent declares a preferred call sequence, a fallback chain, and notes that constrain how the result should be described to the user.",
+  "intents": [
+    {
+      "intent": "inspect-tools",
+      "purpose": "Discover what the BR MCP server exposes before invoking anything.",
+      "prefer": ["server_info", "tool_search"],
+      "fallback": ["local_capability_assumption"],
+      "notes": [
+        "Always call server_info first; verify contract_version matches your minimum.",
+        "Read stable_tools and deprecated_tools from the server_info payload before using a name."
+      ]
+    },
+    {
+      "intent": "preflight-plan",
+      "purpose": "Check dataset facts, missing inputs, blockers, and candidate tools before committing to a plan.",
+      "prefer": ["plan_preflight"],
+      "fallback": ["manual_preflight_checklist"],
+      "notes": [
+        "Read-only; does not execute anything.",
+        "Feeds the candidate-tool list into validate-plan."
+      ]
+    },
+    {
+      "intent": "validate-plan",
+      "purpose": "Normalize schema, check path/policy constraints, catch validation issues.",
+      "prefer": ["pipeline_plan_validate"],
+      "fallback": ["local_plan_linter"],
+      "notes": [
+        "Validation is not execution — do not describe a passed validation as a finished analysis.",
+        "Use after preflight, before review-plan."
+      ]
+    },
+    {
+      "intent": "review-plan",
+      "purpose": "Domain critique of tool ordering, parameter ranges, modality/space compatibility, plan completeness.",
+      "prefer": ["pipeline_plan_review"],
+      "fallback": ["manual_domain_review"],
+      "notes": [
+        "Uses BR-KG by default (use_kg=True). Pass use_kg=False to skip KG-grounded checks in degraded environments.",
+        "QSM plans also get qsm_implementation_review hazards merged in."
+      ]
+    },
+    {
+      "intent": "get-execution-recipe",
+      "purpose": "Produce a stateless, runnable recipe (local/container/cluster) for a resolved tool + params.",
+      "prefer": ["get_execution_recipe"],
+      "fallback": ["manual_command_construction"],
+      "notes": [
+        "The recipe is for the caller to execute; it does not execute anything itself.",
+        "target_runtime defaults to the tool's intrinsic preference; override only when the deployment context requires it."
+      ]
+    },
+    {
+      "intent": "ground-evidence",
+      "purpose": "Resolve evidence reference anchors and downgrade weak/unresolved claims before reporting.",
+      "prefer": ["grounding_resolve", "grounding_gate_evidence_basis"],
+      "fallback": ["manual_citation_audit"],
+      "notes": [
+        "Use grounding_resolve to verify individual anchors first.",
+        "Then run grounding_gate_evidence_basis on the full evidence_basis array before sending it into a report.",
+        "partial_action='downgrade' is the safe default; 'reject' fails closed for high-stakes claims."
+      ]
+    },
+    {
+      "intent": "score-run",
+      "purpose": "Read a normalized scorecard for a persisted run.",
+      "prefer": ["run_scorecard"],
+      "fallback": ["run_metrics", "run_bundle_get"],
+      "notes": [
+        "Profile id defaults to the server's DEFAULT_LOOP_PROFILE_ID; pass explicitly when comparing across profiles.",
+        "Use run_compare for run-to-run deltas on the same profile."
+      ]
+    },
+    {
+      "intent": "generate-report",
+      "purpose": "Draft a scientific report by reviewing a run/autoresearch workspace and rendering LaTeX.",
+      "prefer": ["scientific_report_generate"],
+      "fallback": ["latex_report_render"],
+      "notes": [
+        "Provide exactly one of run_id or autoresearch_dir, not both.",
+        "use_judgment_critic=True is the default; switch off only for very small or scripted renders.",
+        "scientific_report_generate already calls grounding_gate_evidence_basis internally; do not double-gate."
+      ]
+    }
+  ],
+  "domain_specific_intents": {
+    "description": "Long-tail intents like glm_first_level_fmri / motion_correction_fmri / connectivity_analysis are NOT in the v0.1.0 stable tier. Resolve them dynamically by calling tool_search with the intent name or its aliases. The canonical intent taxonomy lives in brain-researcher-public's configs/intent_priority.yaml.",
+    "resolver": {
+      "prefer": ["tool_search", "tool_resolve"],
+      "fallback": ["manual_tool_pick"]
+    }
+  }
+}

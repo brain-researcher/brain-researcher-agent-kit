@@ -1,0 +1,9 @@
+{
+  "question": "What is the current evidence that the cerebellum contributes to non-motor cognitive tasks beyond timing?",
+  "candidate_anchors": [
+    {"id": "doc-1", "type": "document", "title": "Schmahmann 2019 Cerebellar Cognitive Affective Syndrome"},
+    {"id": "doc-2", "type": "document", "title": "Buckner 2013 The Cerebellum and Cognitive Function"},
+    {"id": "kg-cerebellum-prefrontal", "type": "kg", "ref": "cerebellum_prefrontal_connectivity"}
+  ],
+  "max_claims": 4
+}

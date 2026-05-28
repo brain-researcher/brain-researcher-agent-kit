@@ -1,0 +1,359 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{Chen2023}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d159463fa92a9d2ff0db6d8da1a909b8}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Chiu-Yueh},
+           giveni={C\bibinithyphendelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=608c5eaa376c3b67da9348badb41655f}{%
+           family={Leys},
+           familyi={L\bibinitperiod},
+           given={Gaëlle},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=602053a682edf62aeb92f58b66c47248}{%
+           family={Bracci},
+           familyi={B\bibinitperiod},
+           given={Stefania},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3c806741b8ff9306b8f22bb616588270}{%
+           family={Op\bibnamedelima de\bibnamedelima Beeck},
+           familyi={O\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Hans},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{f7ed313bda82b69d36809cf10625cd2c}
+      \strng{fullhash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{fullhashraw}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{bibnamehash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{authorbibnamehash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{authornamehash}{f7ed313bda82b69d36809cf10625cd2c}
+      \strng{authorfullhash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{authorfullhashraw}{f39e5d4d03d89716ef6abb4e39543396}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Imaging Neuroscience}
+      \field{title}{The representational dynamics of the animal appearance bias in human visual cortex are indicative of fast feedforward processing}
+      \field{volume}{1}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://doi.org/10.1162/imag_a_00006
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1162/imag_a_00006
+      \endverb
+    \endentry
+    \entry{Einstein1905}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=3ebf53e52a3ce84f0ffb8553200a6a63}{%
+           family={Einstein},
+           familyi={E\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{fullhash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{fullhashraw}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{bibnamehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authorbibnamehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authornamehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authorfullhash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authorfullhashraw}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annalen der Physik}
+      \field{number}{10}
+      \field{title}{{Zur Elektrodynamik bewegter Körper}. ({German}) [{On} the electrodynamics of moving bodies]}
+      \field{volume}{322}
+      \field{year}{1905}
+      \field{pages}{891\bibrangedash 921}
+      \range{pages}{31}
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1002/andp.19053221004
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1002/andp.19053221004
+      \endverb
+    \endentry
+    \entry{Goossens1993}{book}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=0743efb276e9219ee664a9b3dbd60619}{%
+           family={Goossens},
+           familyi={G\bibinitperiod},
+           given={Michel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9355edd511e3f6fdd880ee98722a53fb}{%
+           family={Mittelbach},
+           familyi={M\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e341c89f7bb5be4f5a050618c0b63942}{%
+           family={Samarin},
+           familyi={S\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Reading, Massachusetts}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley}%
+      }
+      \strng{namehash}{c9360c9dfd6325e6130c89834e8874a7}
+      \strng{fullhash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{fullhashraw}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{bibnamehash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{authorbibnamehash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{authornamehash}{c9360c9dfd6325e6130c89834e8874a7}
+      \strng{authorfullhash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{authorfullhashraw}{369a4e878eb8157d94588ee72e0b486b}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The \LaTeX{} Companion}
+      \field{year}{1993}
+    \endentry
+    \entry{Knuth1986}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=1dd533466eb3313074d496394d319407}{%
+           family={Knuth},
+           familyi={K\bibinitperiod},
+           given={Donald},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1dd533466eb3313074d496394d319407}
+      \strng{fullhash}{1dd533466eb3313074d496394d319407}
+      \strng{fullhashraw}{1dd533466eb3313074d496394d319407}
+      \strng{bibnamehash}{1dd533466eb3313074d496394d319407}
+      \strng{authorbibnamehash}{1dd533466eb3313074d496394d319407}
+      \strng{authornamehash}{1dd533466eb3313074d496394d319407}
+      \strng{authorfullhash}{1dd533466eb3313074d496394d319407}
+      \strng{authorfullhashraw}{1dd533466eb3313074d496394d319407}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Knuth: Computers and Typesetting}
+      \field{year}{1986}
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{Chen2023}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d159463fa92a9d2ff0db6d8da1a909b8}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Chiu-Yueh},
+           giveni={C\bibinithyphendelim Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=608c5eaa376c3b67da9348badb41655f}{%
+           family={Leys},
+           familyi={L\bibinitperiod},
+           given={Gaëlle},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=602053a682edf62aeb92f58b66c47248}{%
+           family={Bracci},
+           familyi={B\bibinitperiod},
+           given={Stefania},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3c806741b8ff9306b8f22bb616588270}{%
+           family={Op\bibnamedelima de\bibnamedelima Beeck},
+           familyi={O\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Hans},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{f7ed313bda82b69d36809cf10625cd2c}
+      \strng{fullhash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{fullhashraw}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{bibnamehash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{authorbibnamehash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{authornamehash}{f7ed313bda82b69d36809cf10625cd2c}
+      \strng{authorfullhash}{f39e5d4d03d89716ef6abb4e39543396}
+      \strng{authorfullhashraw}{f39e5d4d03d89716ef6abb4e39543396}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Imaging Neuroscience}
+      \field{title}{The representational dynamics of the animal appearance bias in human visual cortex are indicative of fast feedforward processing}
+      \field{volume}{1}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://doi.org/10.1162/imag_a_00006
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1162/imag_a_00006
+      \endverb
+    \endentry
+    \entry{Einstein1905}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=3ebf53e52a3ce84f0ffb8553200a6a63}{%
+           family={Einstein},
+           familyi={E\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{fullhash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{fullhashraw}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{bibnamehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authorbibnamehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authornamehash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authorfullhash}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \strng{authorfullhashraw}{3ebf53e52a3ce84f0ffb8553200a6a63}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annalen der Physik}
+      \field{number}{10}
+      \field{title}{{Zur Elektrodynamik bewegter Körper}. ({German}) [{On} the electrodynamics of moving bodies]}
+      \field{volume}{322}
+      \field{year}{1905}
+      \field{pages}{891\bibrangedash 921}
+      \range{pages}{31}
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1002/andp.19053221004
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1002/andp.19053221004
+      \endverb
+    \endentry
+    \entry{Goossens1993}{book}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=0743efb276e9219ee664a9b3dbd60619}{%
+           family={Goossens},
+           familyi={G\bibinitperiod},
+           given={Michel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9355edd511e3f6fdd880ee98722a53fb}{%
+           family={Mittelbach},
+           familyi={M\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e341c89f7bb5be4f5a050618c0b63942}{%
+           family={Samarin},
+           familyi={S\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Reading, Massachusetts}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley}%
+      }
+      \strng{namehash}{c9360c9dfd6325e6130c89834e8874a7}
+      \strng{fullhash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{fullhashraw}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{bibnamehash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{authorbibnamehash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{authornamehash}{c9360c9dfd6325e6130c89834e8874a7}
+      \strng{authorfullhash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{authorfullhashraw}{369a4e878eb8157d94588ee72e0b486b}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The \LaTeX{} Companion}
+      \field{year}{1993}
+    \endentry
+    \entry{Knuth1986}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=1dd533466eb3313074d496394d319407}{%
+           family={Knuth},
+           familyi={K\bibinitperiod},
+           given={Donald},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1dd533466eb3313074d496394d319407}
+      \strng{fullhash}{1dd533466eb3313074d496394d319407}
+      \strng{fullhashraw}{1dd533466eb3313074d496394d319407}
+      \strng{bibnamehash}{1dd533466eb3313074d496394d319407}
+      \strng{authorbibnamehash}{1dd533466eb3313074d496394d319407}
+      \strng{authornamehash}{1dd533466eb3313074d496394d319407}
+      \strng{authorfullhash}{1dd533466eb3313074d496394d319407}
+      \strng{authorfullhashraw}{1dd533466eb3313074d496394d319407}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Knuth: Computers and Typesetting}
+      \field{year}{1986}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

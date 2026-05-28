@@ -1,0 +1,27 @@
+{
+  "evidence_basis": [
+    {
+      "claim_id": "c1",
+      "text": "Amygdala-mPFC connectivity decreases with age in healthy adults.",
+      "anchors": [{"type": "document", "ref": "doc-resolvable-1"}]
+    },
+    {
+      "claim_id": "c2",
+      "text": "This decrease is mediated by dopaminergic tone.",
+      "anchors": [{"type": "kg", "ref": "kg-DOES-NOT-EXIST"}]
+    },
+    {
+      "claim_id": "c3",
+      "text": "The effect generalizes across all anxiety subtypes.",
+      "anchors": [{"type": "document", "ref": "doc-MISSING"}]
+    },
+    {
+      "claim_id": "c4",
+      "text": "Connectivity is measured via partial correlation in this study.",
+      "anchors": [{"type": "session", "ref": "sess-resolvable-1"}]
+    }
+  ],
+  "alignment_mode": "judge_parity",
+  "partial_action": "downgrade",
+  "min_claim_chars": 12
+}

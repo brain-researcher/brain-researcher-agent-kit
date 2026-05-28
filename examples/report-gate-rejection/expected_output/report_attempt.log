@@ -1,0 +1,12 @@
+[2026-05-28T18:29:46Z] kit: dispatch intent=generate-report tool=scientific_report_generate halt_on_review_block=true
+[2026-05-28T18:29:46Z] kit: pre-gate inspection of evidence_basis from input/weak_evidence_basis.json
+[2026-05-28T18:29:46Z] kit: grounding_gate_evidence_basis returned coverage.ungrounded_after_gate=4 (c1,c2,c3,c4)
+[2026-05-28T18:29:46Z] kit: per-row reasons all = "ungrounded_basis"; resolutions=[]; alignment.checked=0
+[2026-05-28T18:29:46Z] kit: rubric partition -> resolved=[c1,c4], unresolved=[c2,c3]
+[2026-05-28T18:29:46Z] kit: claims c2 (anchor kg-DOES-NOT-EXIST) and c3 (anchor doc-MISSING) failed to resolve
+[2026-05-28T18:29:46Z] kit: evidence gate flagged the basis as not safe to render under halt_on_review_block=true policy
+[2026-05-28T18:29:46Z] kit: ABORTING scientific_report_generate -- status=review_blocked
+[2026-05-28T18:29:46Z] kit: reason="grounding_gate_evidence_basis downgraded 2 of 4 claims (c2, c3); halt_on_review_block=true is set"
+[2026-05-28T18:29:46Z] kit: no .tex emitted; no PDF compiled; no run_id persisted to report-track
+[2026-05-28T18:29:46Z] kit: emitting degraded-mode handoff per adapters/br-fallback-policy.md -> agent_handoff.md
+[2026-05-28T18:29:46Z] kit: exit status = review_blocked

@@ -1,0 +1,13 @@
+{
+  "tool": "mcp__brain-researcher-local__run_scientific_review",
+  "called_at": "2026-05-28T18:28:00Z",
+  "args": {
+    "run_id": "demo_null_result_self_critique_initial_findings",
+    "use_judgment_critic": false
+  },
+  "response": {
+    "ok": false,
+    "error": "run not found: demo_null_result_self_critique_initial_findings"
+  },
+  "interpretation": "run_scientific_review requires a persisted BR run_id under RUN_ROOT; this demo's input is inline JSON. The self-critique step in report.md is therefore grounded in the tool's documented checklist (correctness + completeness) applied manually to initial_findings.json. No LLM-judge verdict was synthesized."
+}

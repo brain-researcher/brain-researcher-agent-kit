@@ -1,0 +1,58 @@
+{
+  "captured_at": "2026-05-28T18:28:10Z",
+  "tool": "mcp__brain-researcher-local__grounding_gate_evidence_basis",
+  "alignment_mode": "judge_parity",
+  "partial_action": "downgrade",
+  "resolved": [],
+  "downgraded": [
+    {
+      "index": 0,
+      "claim": "The cerebellum contributes to executive function and language via crossed cerebro-cerebellar loops, beyond timing.",
+      "anchors": [{"ref": "document:doc-1", "type": "document", "title": "Schmahmann 2019 Cerebellar Cognitive Affective Syndrome"}],
+      "basis_type": "uncertain",
+      "reason": "ungrounded_basis"
+    },
+    {
+      "index": 1,
+      "claim": "Resting-state fMRI shows the cerebellum is functionally connected with prefrontal and parietal association cortices supporting cognition.",
+      "anchors": [{"ref": "document:doc-2", "type": "document", "title": "Buckner 2013 The Cerebellum and Cognitive Function"}],
+      "basis_type": "uncertain",
+      "reason": "ungrounded_basis"
+    },
+    {
+      "index": 2,
+      "claim": "Cerebellar lesions produce Cerebellar Cognitive Affective Syndrome (CCAS) characterized by deficits in executive function, visuospatial cognition, language, and affect regulation.",
+      "anchors": [{"ref": "document:doc-1", "type": "document", "title": "Schmahmann 2019 Cerebellar Cognitive Affective Syndrome"}],
+      "basis_type": "uncertain",
+      "reason": "ungrounded_basis"
+    },
+    {
+      "index": 3,
+      "claim": "The cerebellum participates in distributed cognitive networks through reciprocal connectivity with prefrontal cortex.",
+      "anchors": [{"ref": "kg:cerebellum_prefrontal_connectivity", "type": "kg"}],
+      "basis_type": "uncertain",
+      "reason": "ungrounded_basis"
+    }
+  ],
+  "unresolved": [
+    "document:doc-1",
+    "document:doc-2",
+    "kg:cerebellum_prefrontal_connectivity"
+  ],
+  "coverage": {
+    "grounded_in": 0,
+    "grounded_out": 0,
+    "ungrounded_after_gate": 4
+  },
+  "alignment": {
+    "mode": "judge_parity",
+    "checked": 0,
+    "yes": 0,
+    "partial": 0,
+    "no_unrelated": 0,
+    "skipped": 4,
+    "downgraded_by_alignment": 0
+  },
+  "errors": [],
+  "degraded_count": 0
+}

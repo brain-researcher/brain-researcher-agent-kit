@@ -1,0 +1,26 @@
+name: research-reliability
+dimension: reliability
+description: |
+  Two demo runs against the same input fixture should produce equivalent
+  outputs (up to expected nondeterminism like timestamps and run_ids).
+  Graceful degradation: when a fallback path triggers, the demo must
+  still exit with a structured, labeled output — not a crash.
+checks:
+  - id: rerun_stability_on_same_fixture
+    description: |
+      Running run.sh twice in a row against the same input/ must produce
+      byte-identical content under expected_output/ once timestamps,
+      run_ids, and absolute paths are masked.
+    severity: error
+    masks:
+      - regex: "run_id_[0-9a-f]+"
+      - regex: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z?"
+      - regex: "/tmp/[^/\\s]+"
+  - id: graceful_degradation_when_tool_unavailable
+    description: |
+      If a stable-tier tool is unreachable, the demo must follow the
+      fallback chain declared in adapters/br-adapter-map.json
+      and emit a `degraded:` line in the final summary.
+    severity: error
+score:
+  pass_if: "no_error_checks_failed"

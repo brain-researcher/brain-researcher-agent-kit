@@ -1,0 +1,7 @@
+{
+  "domain": "neuroimaging",
+  "modality": ["T1w", "bold"],
+  "subject_count": 1,
+  "has_events": false,
+  "bids_compliant": true
+}

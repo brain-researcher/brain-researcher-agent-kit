@@ -1,0 +1,30 @@
+name: research-rejection
+dimension: rejection_quality
+description: |
+  Weak or null directions must be diagnosed and downgraded — not silently
+  reported as final results, and not silently dropped. The kit's value
+  signal is "we know when we don't know."
+checks:
+  - id: weak_directions_get_followup_or_downgrade
+    description: |
+      For demos where the initial finding is weak/null, the final output
+      must EITHER (a) propose at least one exploratory follow-up, OR
+      (b) explicitly report a downgrade with a reason from the
+      null-result diagnosis catalog (granularity, confounders, weak
+      labels, broad outcome, ...).
+    severity: error
+  - id: gate_blocks_unresolved_claims
+    description: |
+      When grounding_gate_evidence_basis reports anchors in `unresolved[]`,
+      the final report must NOT cite those claims as established results.
+      Hedged language ("not resolved", "tentative") is acceptable;
+      strong-claim verbs are not.
+    severity: error
+  - id: no_silent_skipped_steps
+    description: |
+      If any pipeline step was skipped, the final output must announce it
+      under a `degraded:` or `skipped:` block. Silent skipping fails this
+      rubric.
+    severity: error
+score:
+  pass_if: "no_error_checks_failed"

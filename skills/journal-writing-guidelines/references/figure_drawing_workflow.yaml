@@ -1,0 +1,56 @@
+version: "1.0"
+last_updated: "2026-03-04"
+purpose: "Reader-first figure production workflow for journal manuscripts."
+
+workflow:
+  name: "Two-pass figure production"
+  objective: "Maximize readability and scientific alignment while minimizing label errors and internal jargon leakage."
+
+  phase_1_structure_pass:
+    goal: "Lock visual structure before dense text rendering."
+    required_outputs:
+      - "Panel order and panel letters (A/B/C/...)"
+      - "Axis titles and units"
+      - "Color/marker mapping"
+      - "Threshold lines and reference baselines"
+    rules:
+      - "Prefer short placeholders during first pass."
+      - "Keep one message per panel."
+
+  phase_2_text_pass:
+    goal: "Replace placeholders with reader-facing scientific labels."
+    required_outputs:
+      - "Final panel titles"
+      - "Legend labels"
+      - "Caption-aligned terminology"
+    rules:
+      - "Do not use code-level labels in figure text."
+      - "Use one canonical term per concept across all figures."
+
+  phase_3_qc_pass:
+    goal: "Prevent submission-risk errors."
+    checklist:
+      - "No internal terms (e.g., abs_voxel, residual_lowrank32, resolved/unresolved)."
+      - "Threshold values/sign conventions are correct."
+      - "Dataset naming is consistent across figure and text."
+      - "Legend wording matches Results opening paragraph wording."
+      - "Caption defines group names and comparator baseline."
+
+prompt_pack_rules:
+  global_style:
+    - "Use one shared typography and color system for all figures."
+    - "Keep axes and legends concise; move long explanations to caption."
+    - "Use high-contrast, colorblind-safe palette."
+  text_risk_reduction:
+    - "First generate without dense numeric annotations."
+    - "Add numbers in final pass only after layout is fixed."
+
+handoff_contract:
+  required_metadata:
+    - "Figure ID and panel IDs"
+    - "Source metrics table"
+    - "Canonical label dictionary used"
+    - "Final caption text"
+  acceptance_criteria:
+    - "Panel message can be understood without internal project context."
+    - "Main claim and caveat are both visible in figure+caption pair."

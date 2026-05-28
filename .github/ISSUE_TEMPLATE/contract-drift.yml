@@ -1,0 +1,32 @@
+name: Contract drift
+description: An adapter / AGENTS template / skill references a BR MCP tool the live server no longer exposes.
+title: "[contract-drift] "
+labels: ["contract-drift"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when something in the kit names a tool that does not appear in `server_info.stable_tools` or `deprecated_tools` for your live BR MCP server.
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name the kit references
+      placeholder: e.g. kg_find_structural_leverage
+    validations: {required: true}
+  - type: input
+    id: kit_file
+    attributes:
+      label: File in the kit that references it
+      placeholder: e.g. agents/AGENTS.brain-researcher.md L37
+    validations: {required: true}
+  - type: input
+    id: contract_version
+    attributes:
+      label: contract_version from your server_info
+      placeholder: e.g. 2026-05-27
+    validations: {required: true}
+  - type: textarea
+    id: server_info_excerpt
+    attributes:
+      label: Relevant excerpt from server_info (stable_tools / deprecated_tools)
+      description: Paste the part that shows the tool is missing or renamed.
