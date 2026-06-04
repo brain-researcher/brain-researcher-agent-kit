@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e ".[runner]"
+
+      - name: Check issue template YAML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          for path in sorted(Path(".github/ISSUE_TEMPLATE").glob("*.yml")):
+              with path.open() as fh:
+                  yaml.safe_load(fh)
+              print(f"OK {path}")
+          PY
+
+      - name: Check JSON fixtures
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          for path in sorted(Path(".").rglob("*.json")):
+              if ".git" in path.parts:
+                  continue
+              with path.open() as fh:
+                  json.load(fh)
+              print(f"OK {path}")
+          PY
+
+      - name: Run demo evals
+        run: python -m evals.runner --all
+
+      - name: Redaction guard
+        run: python scripts/redaction_guard.py
+
+      - name: Whitespace check
+        run: git diff --check

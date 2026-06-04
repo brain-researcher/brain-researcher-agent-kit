@@ -48,7 +48,7 @@ A wrapper skill's `SKILL.md` should:
 
 ## Sanitization checklist (before committing)
 
-- Run the grep from `REDACTION_POLICY.md`. Must print nothing.
+- Run `python scripts/redaction_guard.py`. It must end with `Redaction guard passed`.
 - Confirm `agents/*.md` and `agents/*.yaml` don't reference internal repo paths or private codenames.
 - If the skill ships any `references/*.yaml` with named individuals, see the consent rules in `SKILL_LICENSES.md`.
 
@@ -58,4 +58,4 @@ Add a unit test under `tests/skills/<your-skill>/`. Reuse the contract-test infr
 
 ## Get reviewed
 
-Open a PR. The reviewer checks: clarity of `description`, presence of anti-patterns, redaction grep clean, and that any BR tool reference is at or above the kit's `contract_version_required`.
+Open a PR. The reviewer checks: clarity of `description`, presence of anti-patterns, redaction gate clean, and that any BR tool reference is at or above the kit's `contract_version_required`.

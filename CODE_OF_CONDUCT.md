@@ -59,7 +59,8 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the project maintainer at <https://github.com/zjc062>.
+reported to the maintainers through the private security contact in
+[`SECURITY.md`](SECURITY.md).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
@@ -121,4 +122,3 @@ Community Impact Guidelines were inspired by
 [Mozilla's code of conduct enforcement ladder](https://github.com/mozilla/diversity).
 
 [homepage]: https://www.contributor-covenant.org
-

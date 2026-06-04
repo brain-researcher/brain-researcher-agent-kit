@@ -32,8 +32,8 @@ dependencies = [
 runner = ["pyyaml>=6.0"]
 
 [project.urls]
-Repository = "https://github.com/zjc062/brain-researcher-agent-kit"
-Related = "https://github.com/zjc062/brain-researcher-public"
+Repository = "https://github.com/brain-researcher/brain-researcher-agent-kit"
+Related = "https://github.com/brain-researcher/brain-researcher-public"
 
 [tool.setuptools.packages.find]
 where = ["."]

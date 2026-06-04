@@ -13,12 +13,12 @@ The kit does NOT silently scrub paths from inputs; it only redacts in the outbou
 
 ## Source — what this repo must never contain
 
-The pre-commit gitleaks hook + a simple grep catch most leaks:
+Run the repo-local redaction gate before publishing docs, fixtures, captured
+outputs, or helper scripts:
 
 ```bash
-grep -rln "/home/$USER\|@stanford.edu\|hai-gcp-dialogue-brain\|liu_component_v1\|sk-br-local\|russ_poldrack" \
-  . --exclude-dir=.git
-# Should print nothing.
+python scripts/redaction_guard.py
+# Should end with: Redaction guard passed
 ```
 
 | Pattern | Replace with |
@@ -36,9 +36,9 @@ grep -rln "/home/$USER\|@stanford.edu\|hai-gcp-dialogue-brain\|liu_component_v1\
 | Asset | Sanitization | Status |
 |---|---|---|
 | `skills/brain-researcher-session-handoff/` | None needed — uses only public-tier MCP tool names. | ✓ verified 2026-05-27 |
-| Other first-party skills (when added) | Each must pass the source grep above. | Pending per-skill audit |
+| Other first-party skills (when added) | Each must pass the redaction gate above. | Pending per-skill audit |
 | `examples/*/input/` fixtures | Synthetic; no real subject IDs. | ✓ verified at scaffold time |
-| `examples/*/expected_output/` | Will be captured from a live BR MCP run; capture script must apply the redaction rules before commit. | Pending capture |
+| `examples/*/expected_output/` | Captured from live BR MCP runs, then scrubbed for local paths, local MCP names, and client-specific prefixes. | ✓ verified 2026-06-04 |
 | `agents/AGENTS.*.md` templates | Carved from internal `AGENTS.md`; private repo paths and codenames dropped during W3. | ✓ verified at carve time |
 
 ## Preserve list

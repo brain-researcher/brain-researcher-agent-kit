@@ -1,8 +1,62 @@
 # brain-researcher-agent-kit
 
-Open-source agent layer for Brain Researcher: skills, AGENTS templates, MCP adapters, sanitized demos, and eval rubrics. Sits on top of the [`brain-researcher-public`](https://github.com/zjc062/brain-researcher-public) core MCP server.
+Open-source agent layer for Brain Researcher: skills, AGENTS templates, MCP adapters, sanitized demos, and eval rubrics. Sits on top of the [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public) core MCP server.
 
 **Status: v0.1.0 in progress.**
+
+## Quickstart
+
+1. Clone the kit and install the lightweight eval dependency:
+
+   ```bash
+   git clone https://github.com/brain-researcher/brain-researcher-agent-kit.git
+   cd brain-researcher-agent-kit
+   python -m pip install -e ".[runner]"
+   ```
+
+2. Set up Brain Researcher MCP for your agent client.
+
+   Use [`MCP_SETUP.md`](MCP_SETUP.md) for Cursor, Claude Code, Codex CLI, and
+   generic MCP JSON setup. The hosted endpoint is
+   `https://brain-researcher.com/mcp`, and the canonical setup page is
+   <https://brain-researcher.com/mcp/setup>.
+
+3. Add the agent template you need to your project:
+
+   - Brain Researcher MCP work: [`agents/AGENTS.brain-researcher.md`](agents/AGENTS.brain-researcher.md)
+   - General research work: [`agents/AGENTS.research.md`](agents/AGENTS.research.md)
+   - PR/code-review work: [`agents/AGENTS.code-review.md`](agents/AGENTS.code-review.md)
+
+4. Smoke-test the captured demos:
+
+   ```bash
+   python -m evals.runner --all
+   ```
+
+5. Run the public-surface checks before opening a PR:
+
+   ```bash
+   python scripts/redaction_guard.py
+   git diff --check
+   ```
+
+6. Try one example:
+
+   ```bash
+   bash examples/plan-validate-and-execute/run.sh
+   ```
+
+## Report Or Contribute
+
+- Unreasonable KG node, edge, retrieval result, evidence link, or generated
+  claim: open **KG / result correction**.
+- Existing skill or workflow bundle that should be consolidated here: open
+  **Skill consolidation**.
+- Agent picked the wrong tool, hallucinated args, skipped self-critique, or
+  over-claimed execution: open **BR agent behavior bug**.
+- Demo, rubric, adapter, or docs bug: open **Kit bug**.
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full routing table.
 
 ## Scope
 

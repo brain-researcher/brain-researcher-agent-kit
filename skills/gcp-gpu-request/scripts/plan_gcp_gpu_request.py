@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -333,8 +334,12 @@ def main() -> int:
     parser.add_argument("--dataset-size-gb", type=float, default=0.0)
     parser.add_argument("--checkpoint-count", type=int, default=2)
 
-    parser.add_argument("--project", default="hai-gcp-dialogue-brain")
-    parser.add_argument("--zone", default="us-west1-b")
+    parser.add_argument(
+        "--project",
+        default=os.environ.get("GCP_PROJECT_ID"),
+        help="GCP project id. Defaults to GCP_PROJECT_ID.",
+    )
+    parser.add_argument("--zone", default=os.environ.get("GCP_ZONE", "us-west1-b"))
     parser.add_argument("--instance-name", default="br-gpu-job")
     parser.add_argument("--spot", action="store_true")
     parser.add_argument(
@@ -350,6 +355,8 @@ def main() -> int:
     parser.add_argument("--output", choices=["json", "markdown"], default="json")
 
     args = parser.parse_args()
+    if not args.project:
+        parser.error("--project is required unless GCP_PROJECT_ID is set")
 
     warnings: list[str] = []
 

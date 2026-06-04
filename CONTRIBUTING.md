@@ -39,16 +39,17 @@ If you can't tell which surface owns a problem, file it here and we'll move it.
    python -m evals.runner --all
    ```
 
-3. If you changed public fixtures or captured outputs, run the redaction check:
+3. If you changed public fixtures, captured outputs, docs, or helper scripts,
+   run the redaction check:
 
    ```bash
-   grep -rln "/home/$USER\|@stanford.edu\|hai-gcp-dialogue-brain\|liu_component_v1\|sk-br-local\|russ_poldrack" \
-     . --exclude-dir=.git
+   python scripts/redaction_guard.py
    ```
 
-   This should print nothing. Public fixtures must not contain local paths,
-   local MCP server names, client-specific MCP prefixes, tokens, private
-   dataset identifiers, or personal emails.
+   This should end with `Redaction guard passed`. Public fixtures and helper
+   scripts must not contain local paths, local MCP server names,
+   client-specific MCP prefixes, tokens, private dataset identifiers, or
+   personal emails.
 
 4. Keep kit changes small. A new skill should usually be a thin workflow wrapper
    over existing MCP tools. Heavy executable tool logic belongs in
