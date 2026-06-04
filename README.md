@@ -4,47 +4,71 @@ Open-source agent layer for Brain Researcher: skills, AGENTS templates, MCP adap
 
 **Status: v0.1.0 released.**
 
-## Quickstart
+## Use It Directly
 
-1. Clone the kit and install the lightweight eval dependency:
+Most users do not need to install this repo. The fastest path is to use the
+agent instruction file directly.
 
-   ```bash
-   git clone https://github.com/brain-researcher/brain-researcher-agent-kit.git
-   cd brain-researcher-agent-kit
-   python -m pip install -e ".[runner]"
-   ```
-
-2. Set up Brain Researcher MCP for your agent client.
+1. Set up Brain Researcher MCP if your agent client is not connected yet.
 
    Use [`MCP_SETUP.md`](MCP_SETUP.md) for Cursor, Claude Code, Codex CLI, and
    generic MCP JSON setup. The hosted endpoint is
-   `https://brain-researcher.com/mcp`, and the canonical setup page is
-   <https://brain-researcher.com/mcp/setup>.
+   `https://brain-researcher.com/mcp`.
 
-3. Add the agent template you need to your project:
+2. Give your agent the Brain Researcher instructions.
 
-   - Brain Researcher MCP work: [`agents/AGENTS.brain-researcher.md`](agents/AGENTS.brain-researcher.md)
-   - General research work: [`agents/AGENTS.research.md`](agents/AGENTS.research.md)
-   - PR/code-review work: [`agents/AGENTS.code-review.md`](agents/AGENTS.code-review.md)
+   Use [`agents/AGENTS.brain-researcher.md`](agents/AGENTS.brain-researcher.md)
+   as your project `AGENTS.md`, `CLAUDE.md`, Cursor project rule, or equivalent
+   system-instruction file.
 
-4. Smoke-test the captured demos:
+3. Ask the agent plainly:
 
-   ```bash
-   python -m evals.runner --all
+   ```text
+   Read agents/AGENTS.brain-researcher.md, check Brain Researcher MCP with
+   server_info and system_self_test, then help me plan this analysis.
    ```
 
-5. Run the public-surface checks before opening a PR:
+   Or, if you only need setup help:
 
-   ```bash
-   python scripts/redaction_guard.py
-   git diff --check
+   ```text
+   Read MCP_SETUP.md and tell me the exact Brain Researcher MCP setup for
+   Cursor / Claude Code / Codex CLI.
    ```
 
-6. Try one example:
+Other useful instruction files:
 
-   ```bash
-   bash examples/plan-validate-and-execute/run.sh
-   ```
+- General research work: [`agents/AGENTS.research.md`](agents/AGENTS.research.md)
+- PR/code-review work: [`agents/AGENTS.code-review.md`](agents/AGENTS.code-review.md)
+
+## Clone For Examples Or PRs
+
+Clone the repo only if you want the captured demos, eval runner, or contribution
+checks:
+
+```bash
+git clone https://github.com/brain-researcher/brain-researcher-agent-kit.git
+cd brain-researcher-agent-kit
+python -m pip install -e ".[runner]"
+```
+
+Smoke-test the captured demos:
+
+```bash
+python -m evals.runner --all
+```
+
+Run the public-surface checks before opening a PR:
+
+```bash
+python scripts/redaction_guard.py
+git diff --check
+```
+
+Try one example:
+
+```bash
+bash examples/plan-validate-and-execute/run.sh
+```
 
 ## Report Or Contribute
 
@@ -66,9 +90,11 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full routing table.
 - `examples/` — sanitized end-to-end demos with `input/`, `expected_output/`, `rubric.yaml`, `run.sh`.
 - `evals/` — AutoResearch-dimension rubrics + a small runner that scores demo outputs.
 
-## Prerequisites
+## MCP Setup Details
 
-Before any of this kit is useful, the Brain Researcher MCP server has to be reachable from your agent client. See [`MCP_SETUP.md`](MCP_SETUP.md) for the 2-minute terminal flow (token in `~/.zshrc`, live check from Codex and Claude Code) — or the canonical page at <https://brain-researcher.com/mcp/setup>.
+If your agent cannot call `server_info` or `system_self_test`, connect the MCP
+client with [`MCP_SETUP.md`](MCP_SETUP.md) or the canonical setup page:
+<https://brain-researcher.com/mcp/setup>.
 
 ## Companion repo
 
