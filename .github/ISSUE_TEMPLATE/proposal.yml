@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        We bias toward small, generic additions over project-specific ones. Out of scope here: BR MCP tool behavior changes (→ `brain-researcher-public`), BR agent behavior changes (→ `brain-researcher`), heavy executable Python.
+        We bias toward small, generic additions over project-specific ones. Use **Skill consolidation** if you are proposing an existing skill/prompt/workflow bundle rather than a new idea from scratch. Out of scope here: BR MCP tool behavior changes (→ `brain-researcher-public`), BR agent behavior bugs (→ agent-behavior issue), heavy executable Python.
   - type: dropdown
     id: kind
     attributes:

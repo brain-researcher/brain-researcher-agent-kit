@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        These almost always belong in the [`brain-researcher`](https://github.com/zjc062/brain-researcher/issues/new) repo, but filing here is fine — we'll route. The most useful single field is `session_id`.
+        Use this when an agent using this kit's templates picked the wrong tool, hallucinated args, skipped self-critique, skipped a session snapshot, or over-claimed execution. If the root cause is an MCP server implementation bug, maintainers will route it to brain-researcher-public. The most useful single field is `session_id`.
   - type: dropdown
     id: failure_mode
     attributes:

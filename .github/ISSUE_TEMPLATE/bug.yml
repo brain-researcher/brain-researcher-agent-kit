@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        For BR agent behavior bugs (wrong tool, hallucinated args, no session snapshot), use the **Agent behavior** template instead — those belong in the `brain-researcher` repo.
+        For BR agent behavior bugs (wrong tool, hallucinated args, no session snapshot), use the **Agent behavior** template instead. For unreasonable KG nodes, edges, search results, or claims, use **KG / result correction**.
   - type: input
     id: where
     attributes:
@@ -37,5 +37,5 @@ body:
   - type: dropdown
     id: mcp_check
     attributes:
-      label: Did MCP_SETUP.md's 2-line live check pass?
+      label: Did MCP_SETUP.md's server_info + system_self_test check pass?
       options: [Yes — server_info ok and self_test pass, No — see actual section, Did not run]

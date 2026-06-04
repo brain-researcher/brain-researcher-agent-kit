@@ -1,0 +1,70 @@
+name: KG / result correction
+description: Report an unreasonable KG node, edge, search result, evidence link, or generated claim.
+title: "[kg-result] "
+labels: ["kg-result", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when Brain Researcher shows a KG node, edge, retrieval result, evidence link, or generated claim that looks scientifically wrong, misleading, stale, or poorly grounded.
+
+        You do not need to know Cypher, Neo4j, YAML, or the wiki contribution format. A clear description plus a URL, query, node id, or screenshot is enough.
+
+        Do not include private data, PHI, credentials, or unpublished sensitive material. If the issue involves private or sensitive data, follow SECURITY.md instead of filing a public issue.
+  - type: dropdown
+    id: problem_type
+    attributes:
+      label: What looked wrong?
+      options:
+        - KG node label, alias, or type
+        - KG edge / relation
+        - Search or retrieval result
+        - Evidence link or citation
+        - Generated answer or report claim
+        - Missing or stale information
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: where_seen
+    attributes:
+      label: Where did you see it?
+      description: Paste the URL, MCP tool name, query, node id, run/session id, or a screenshot description.
+      placeholder: "Example: KG search for \"working memory dlPFC\" returned node region:dlpfc_placeholder, or report claim c3 in session_id=..."
+    validations:
+      required: true
+  - type: textarea
+    id: what_wrong
+    attributes:
+      label: What seems wrong?
+      description: Explain the mismatch in plain language.
+      placeholder: "Example: this node is labeled as a brain region, but it appears to be a cognitive task; the relation ACTIVATES is too strong for the cited evidence."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should it say instead?
+      description: If you know the correction, describe it. If not, say what needs reviewer attention.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or source
+      description: Add DOI, PMID, dataset id, ontology link, paper title, or a short rationale. Leave blank if you only want maintainers to investigate.
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Minor wording or naming issue
+        - Misleading but not high risk
+        - Scientifically wrong or unsupported
+        - Blocks use of the tool/result
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Add anything else that helps reproduce or triage the issue.

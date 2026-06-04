@@ -4,11 +4,11 @@ Thanks for caring about `brain-researcher-agent-kit`! The kit is the agent-facin
 
 - **This kit** — a broken demo, a wrong rubric, a stale adapter route, a missing skill.
 - **NeuroKG (BR-KG)** — a wrong/missing entity, mapping, or evidence link in the compiled knowledge graph.
-- **BR agent behavior** — the agent in [`brain-researcher`](https://github.com/zjc062/brain-researcher) (Claude Code / Codex / web client) picked the wrong tool, hallucinated args, or skipped a checkpoint.
+- **BR agent behavior** — an agent using this kit's templates (Claude Code / Codex / Cursor / web client) picked the wrong tool, hallucinated args, or skipped a checkpoint.
 
 The rest of this page tells you where to file each kind, and what to put in the report.
 
-For shared dev conventions (style, tests, release flow), see [`brain-researcher-public/CONTRIBUTING.md`](https://github.com/zjc062/brain-researcher-public/blob/main/CONTRIBUTING.md). By participating, you agree to our [Code of Conduct](CODE_OF_CONDUCT.md).
+For MCP server implementation changes, see [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public). By participating, you agree to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
@@ -16,15 +16,43 @@ For shared dev conventions (style, tests, release flow), see [`brain-researcher-
 
 | You want to… | Go here |
 |---|---|
-| Report a kit bug (demo fails, rubric wrong, adapter routes badly, doc lies) | [Open an issue here](https://github.com/zjc062/brain-researcher-agent-kit/issues/new) with **bug** |
-| Suggest a new skill, adapter intent, or example | [Open an issue here](https://github.com/zjc062/brain-researcher-agent-kit/issues/new) with **proposal** |
-| Fix or add a NeuroKG entity / mapping / evidence link | Wiki PR against `brain-researcher-public` — see the [BR-KG contribution protocol](#contributing-to-neurokg-br-kg) below |
-| Report a BR agent bug (wrong tool, hallucinated args, skipped self-critique, no session snapshot) | Issue in [`brain-researcher`](https://github.com/zjc062/brain-researcher/issues/new) with **agent-behavior** — see [Reporting BR agent issues](#reporting-br-agent-issues) below |
+| Report a kit bug (demo fails, rubric wrong, adapter routes badly, doc lies) | [Open an issue here](https://github.com/brain-researcher/brain-researcher-agent-kit/issues/new/choose) with **bug** |
+| Suggest a new skill, adapter intent, or example | [Open an issue here](https://github.com/brain-researcher/brain-researcher-agent-kit/issues/new/choose) with **proposal** |
+| Report an unreasonable KG node, edge, search result, evidence link, or generated claim | Open an issue here with **KG / result correction** — see [Good KG/result correction report](#good-kgresult-correction-report) below |
+| Submit a structured NeuroKG entity / mapping / evidence-link contribution | Wiki PR against [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public) — see the [BR-KG contribution protocol](#contributing-to-neurokg-br-kg) below |
+| Consolidate an existing skill, prompt bundle, or workflow note into this kit | Open an issue here with **Skill consolidation** — see [Good skill consolidation request](#good-skill-consolidation-request) below |
+| Report a BR agent bug (wrong tool, hallucinated args, skipped self-critique, no session snapshot) | Open an issue here with **agent-behavior** — see [Reporting BR agent issues](#reporting-br-agent-issues) below |
 | Stale reference to a Brain Researcher MCP tool that no longer exists | Issue here with **contract-drift**; include the `contract_version` your server reports from `server_info` |
-| Ask "is this the right way to use the kit?" | [GitHub Discussions](https://github.com/zjc062/brain-researcher-agent-kit/discussions) |
+| Ask "is this the right way to use the kit?" | [GitHub Discussions](https://github.com/brain-researcher/brain-researcher-agent-kit/discussions) |
 | Report a security or data-leak issue (token in a demo, PHI in an example) | **Do not** open a public issue. Follow [`SECURITY.md`](SECURITY.md) + [`REDACTION_POLICY.md`](REDACTION_POLICY.md) |
 
 If you can't tell which surface owns a problem, file it here and we'll move it.
+
+---
+
+## Before a PR
+
+1. If the change depends on live Brain Researcher MCP behavior, follow [`MCP_SETUP.md`](MCP_SETUP.md) and verify `server_info` plus `system_self_test`.
+2. If you changed demos, rubrics, or expected outputs, run:
+
+   ```bash
+   python -m evals.runner --all
+   ```
+
+3. If you changed public fixtures or captured outputs, run the redaction check:
+
+   ```bash
+   grep -rln "/home/$USER\|@stanford.edu\|hai-gcp-dialogue-brain\|liu_component_v1\|sk-br-local\|russ_poldrack" \
+     . --exclude-dir=.git
+   ```
+
+   This should print nothing. Public fixtures must not contain local paths,
+   local MCP server names, client-specific MCP prefixes, tokens, private
+   dataset identifiers, or personal emails.
+
+4. Keep kit changes small. A new skill should usually be a thin workflow wrapper
+   over existing MCP tools. Heavy executable tool logic belongs in
+   [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public).
 
 ---
 
@@ -35,7 +63,27 @@ You don't need a PR. A few sentences is usually enough:
 1. **What you tried** — which file, which demo, which adapter intent.
 2. **What you expected** — one sentence.
 3. **What happened instead** — error / wrong tool / surprising rubric verdict.
-4. **Your context** — the `contract_version` from `server_info`, which client (Claude Code / Codex / Cursor / Continue / custom), and whether [`MCP_SETUP.md`](MCP_SETUP.md)'s 2-line live check passed.
+4. **Your context** — the `contract_version` from `server_info`, which client (Claude Code / Codex / Cursor / Continue / custom), and whether [`MCP_SETUP.md`](MCP_SETUP.md)'s `server_info` plus `system_self_test` check passed.
+
+## Good KG/result correction report
+
+You do not need to write a wiki PR or know the graph schema. Use the
+**KG / result correction** issue template and include as much of this as you
+can:
+
+1. **Where you saw it** — URL, MCP tool name, query text, node id, run id,
+   session id, or screenshot description.
+2. **What looked wrong** — node label/type, edge/relation, retrieval ranking,
+   citation, generated claim, or missing/stale result.
+3. **What you expected instead** — the corrected label, weaker relation,
+   missing source, or "needs review" if you are not sure.
+4. **Evidence** — DOI, PMID, dataset id, ontology link, paper title, or a short
+   rationale.
+5. **Impact** — minor wording, misleading, scientifically unsupported, or
+   blocking.
+
+Do not include private data, PHI, credentials, or unpublished sensitive
+material in a public issue. Use [`SECURITY.md`](SECURITY.md) for those cases.
 
 ## Good kit proposal
 
@@ -46,9 +94,44 @@ We bias toward small, generic additions over project-specific ones:
 - **New example / demo** — describe the user query, the closed-loop path, and what failure mode it catches. A rubric in `evals/rubrics/` should be able to score it.
 
 Out of scope here:
-- BR MCP tool behavior changes → `brain-researcher-public`.
-- Agent behavior changes → `brain-researcher`.
+- BR MCP tool behavior changes → [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public).
+- Runtime/server bugs in MCP tools → [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public).
 - Heavy executable Python — if you're writing a tool, it probably belongs upstream as a real MCP tool, not as a skill.
+
+---
+
+## Good skill consolidation request
+
+Use **Skill consolidation** when you want to bring an existing skill, prompt
+bundle, workflow note, small helper script, or reference pack into this kit.
+The first step can be an issue; you do not need to open a PR immediately.
+
+Include:
+
+1. **Proposed skill name** — the directory name under `skills/`.
+2. **Trigger** — two or three user prompts or situations where an agent should
+   load it.
+3. **Source / provenance** — upstream repo, paper, internal note, or "newly
+   authored." Do not paste private material into the issue.
+4. **License status** — MIT-compatible, third-party with included license, or
+   unclear.
+5. **Proposed files** — `SKILL.md`, `agents/openai.yaml`, optional
+   `references/`, optional `scripts/`, optional `templates/`.
+6. **Sanitization notes** — local paths, emails, names, private dataset ids,
+   tokens, screenshots, or third-party assets that must be removed or licensed.
+7. **Validation** — a command, example fixture, or manual review step that shows
+   the skill behaves as intended.
+
+Acceptance bar:
+
+- Portable beyond one private project.
+- Clear `SKILL.md` frontmatter with a specific trigger description.
+- No secrets, private paths, PHI, unpublished sensitive data, or unlicensed
+  third-party content.
+- Thin workflow wrapper by default. Heavy executable tool logic belongs in
+  [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public).
+- If scripts are included, they must be deterministic, documented, and safe to
+  run locally.
 
 ---
 
@@ -165,7 +248,7 @@ Suggested fixes:
 
 ## Reporting BR agent issues
 
-If the BR agent (Claude Code / Codex / web client, or any agent running with this kit's templates) misbehaves, that's almost always a `brain-researcher` issue, not a kit issue — but knowing what to capture is the same regardless of where you file.
+If the BR agent (Claude Code / Codex / Cursor / web client, or any agent running with this kit's templates) misbehaves, open an **agent-behavior** issue here. If the root cause is an MCP server implementation bug, maintainers will route it to `brain-researcher-public`.
 
 ### Failure modes worth a report
 

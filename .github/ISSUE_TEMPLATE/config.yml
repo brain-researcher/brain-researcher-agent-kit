@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question or usage discussion
-    url: https://github.com/zjc062/brain-researcher-agent-kit/discussions
+    url: https://github.com/brain-researcher/brain-researcher-agent-kit/discussions
     about: For "is this the right way?" questions and open-ended discussion.
   - name: Security or data-leak report
-    url: https://github.com/zjc062/brain-researcher-agent-kit/blob/main/SECURITY.md
+    url: https://github.com/brain-researcher/brain-researcher-agent-kit/blob/main/SECURITY.md
     about: Do NOT open a public issue. Follow SECURITY.md.
-  - name: BR-KG wiki contribution
-    url: https://github.com/zjc062/brain-researcher-agent-kit/blob/main/CONTRIBUTING.md#contributing-to-neurokg-br-kg
-    about: NeuroKG corrections / new findings / evidence links go through a PR against brain-researcher-public.
+  - name: BR-KG wiki contribution protocol
+    url: https://github.com/brain-researcher/brain-researcher-agent-kit/blob/main/CONTRIBUTING.md#contributing-to-neurokg-br-kg
+    about: Use this only if you want to prepare a structured wiki-style KG contribution.

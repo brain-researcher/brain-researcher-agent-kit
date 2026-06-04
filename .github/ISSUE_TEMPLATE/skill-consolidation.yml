@@ -1,0 +1,77 @@
+name: Skill consolidation
+description: Propose bringing an existing skill or workflow bundle into this kit.
+title: "[skill] "
+labels: ["skill", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when you have an existing skill, prompt bundle, workflow note, or small deterministic helper that should become part of `brain-researcher-agent-kit`.
+
+        A good skill is portable, sanitized, license-clear, and useful beyond one private project. If the work is heavy executable tool logic, it probably belongs in brain-researcher-public instead.
+  - type: input
+    id: skill_name
+    attributes:
+      label: Proposed skill name
+      placeholder: "e.g. evidence-grounding, plan-validation, lab-dataset-handoff"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: What problem does it solve?
+      description: Describe the workflow and who would use it.
+    validations:
+      required: true
+  - type: textarea
+    id: trigger
+    attributes:
+      label: When should an agent load it?
+      description: Provide 2-3 user prompts or situations that should trigger this skill.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source / provenance
+      description: Link the upstream repo, paper, internal note, or say "newly authored." Do not paste private material.
+    validations:
+      required: true
+  - type: dropdown
+    id: license_status
+    attributes:
+      label: License status
+      options:
+        - MIT-compatible / authored for this kit
+        - Third-party license included and compatible
+        - License unclear
+        - Contains private/internal material that needs sanitization
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Proposed files
+      description: List expected files such as SKILL.md, agents/openai.yaml, references/*.yaml, scripts/*.py, templates/*.
+      placeholder: |
+        skills/my-skill/SKILL.md
+        skills/my-skill/agents/openai.yaml
+        skills/my-skill/references/source_registry.yaml
+  - type: textarea
+    id: sanitization
+    attributes:
+      label: Sanitization / redaction notes
+      description: Say whether it contains local paths, emails, names, private dataset ids, tokens, screenshots, or third-party assets.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: How can we validate it?
+      description: Commands, fixture checks, examples, or manual review steps.
+      placeholder: "python skills/my-skill/scripts/check_sources.py --skip-network"
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Open questions
+      description: Anything maintainers should decide before accepting the skill.
