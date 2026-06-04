@@ -5,7 +5,7 @@
 - run_id (scored): `br_20260524_062015_e4b0197511`
 - run_id (report): `br_20260528_182911_a0164bbc60`
 - scorecard profile_id: `external_coding_v1`
-- mcp_server: `brain-researcher-local`
+- mcp_server: `brain-researcher-mcp`
 
 ## Claims (each traces to an output_artifact_sha256 in handoff_chain.json)
 

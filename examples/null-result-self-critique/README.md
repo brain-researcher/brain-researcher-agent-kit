@@ -25,7 +25,8 @@ This is the demo that proves the kit's central discipline: **a null result is no
 - `expected_output/followup_findings.json` — the second-pass result on the proposed subgroup.
 - `expected_output/report.md` — final report explicitly labeling `confirmatory:` vs `exploratory:` claims.
 
-**TODO**: capture from live BR MCP run.
+The committed `expected_output/` fixture is captured, sanitized, and scoreable
+offline with the demo runner.
 
 ## Run
 

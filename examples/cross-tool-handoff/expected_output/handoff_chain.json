@@ -1,7 +1,7 @@
 {
   "demo": "cross-tool-handoff",
   "captured_at": "2026-05-28T18:30:00Z",
-  "mcp_server": "brain-researcher-local",
+  "mcp_server": "brain-researcher-mcp",
   "request": {
     "summary": "Run a 2-step BR pipeline (validate a small fMRI motion-correction plan, then score the resulting run), then generate a short report citing both steps' artifacts.",
     "input_file": "input/cross_tool_request.json"
@@ -43,8 +43,8 @@
               "id": "motion_qc",
               "tool": "motion_quantification",
               "params": {
-                "fmri_file": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/inputs/sub-01_task-rest_bold.nii.gz",
-                "output_dir": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/outputs/motion_qc"
+                "fmri_file": "${WORKSPACE}/data/runs/mcp_runs/inputs/sub-01_task-rest_bold.nii.gz",
+                "output_dir": "${WORKSPACE}/data/runs/mcp_runs/outputs/motion_qc"
               }
             }
           ]

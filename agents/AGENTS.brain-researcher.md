@@ -13,6 +13,30 @@ When the user asks whether Brain Researcher MCP is working / healthy / reachable
 - Inspect the actual exposed tool names before invoking them. Do not invent SDK-style function names unless the current MCP client actually exposes them.
 - If the MCP server is inactive or unavailable, state that `brain_researcher_mcp` is unavailable and continue with the closest reasonable fallback.
 
+## Closed-loop skill routing
+
+Use this routing table as agent policy. If the named skill is installed in the
+client, load it for the detailed workflow. If it is not installed, apply the
+direct MCP sequence and hard rule here instead of skipping the checkpoint.
+
+| User intent | Route to skill when available | Direct MCP sequence | Hard rule |
+|---|---|---|---|
+| Evidence-backed answer or claim grounding | `evidence-grounding` | `grounding_resolve` -> `grounding_gate_evidence_basis` | Do not emit final scientific claims when anchors are unresolved. Downgrade or reject instead. |
+| Plan, validate, review, or recipe handoff | `plan-validation` | `server_info` / `tool_search` -> `plan_preflight` -> `pipeline_plan_validate` -> `pipeline_plan_review` -> `get_execution_recipe` | Validation and recipes are not execution. Say exactly what was checked and what remains caller-run. |
+| Weak, null, or surprising scientific result | `scientific-self-critique` | `run_scientific_review`, `request_scientific_review`, or a manual critique fallback | Do not report a weak/null result as final until granularity, confounders, labels, filters, and outcome definition were checked. Label follow-ups as exploratory. |
+| Final research report generation | `final-report-gate` | `grounding_gate_evidence_basis` -> `scientific_report_generate` | If the evidence basis is weak or unresolved, block polished report emission and return a degraded handoff. |
+| Cross-tool artifact handoff | `cross-tool-provenance-handoff` | `run_bundle_get` / `run_scorecard` -> downstream report or review tool | Preserve `run_id`, artifact checksum, profile id, and consumed-by relationships across steps. |
+| Tool or contract mismatch | `mcp-contract-drift-debugging` | `server_info` -> inspect `contract_version`, `stable_tools`, and `deprecated_tools`; then `tool_search` / `tool_get` | Do not call tools from memory when the live server surface disagrees with the template. |
+| Demo fixture capture for this kit | `demo-fixture-capture-redaction` | live capture -> redact -> JSON check -> `python -m evals.runner --all` | Public fixtures must not preserve local paths, local MCP server names, or client-specific MCP prefixes. |
+
+Always enforce these hard rules, even outside explicit skill use:
+
+- Do not describe `plan_preflight`, `plan_create`, `pipeline_plan_validate`, `pipeline_plan_review`, or `get_execution_recipe` as having executed an analysis.
+- Do not generate a final report from unresolved evidence; return a degraded handoff instead.
+- Do not turn a weak/null result into a final scientific conclusion before self-critique and at least one reasonable exploratory follow-up.
+- Do not invent or preserve client-specific MCP tool names. Confirm tool names from `server_info`, `tool_search`, or the current client surface.
+- Do not commit public fixtures containing `/home/<user>/...`, `/data/...`, `/oak/...`, local server names, or `mcp__<local-server>__...` prefixes. Use the redaction rules in `REDACTION_POLICY.md`.
+
 ## Brain Researcher MCP functions
 
 Treat this as an inventory of Brain Researcher MCP functions to look for. The active client may expose only a subset, so inspect the current MCP tool list first and then choose from the functions that are actually available.

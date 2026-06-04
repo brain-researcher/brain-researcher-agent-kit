@@ -4,7 +4,7 @@
 
 ## Grounding status
 
-A live call to `grounding_resolve` against the BR MCP server (`mcp__brain-researcher-local`) was issued for each candidate anchor supplied in `input/question.json`. **None of the three anchors resolved** against the locally indexed document store or knowledge graph:
+A live call to `grounding_resolve` against the BR MCP server was issued for each candidate anchor supplied in `input/question.json`. **None of the three anchors resolved** against the locally indexed document store or knowledge graph:
 
 | Candidate | Ref | Reference kind | Resolved | Error |
 |---|---|---|---|---|
@@ -29,6 +29,6 @@ No citations are asserted. All four candidate claims were downgraded by `groundi
 
 ## Provenance
 
-- Tool 1: `mcp__brain-researcher-local__grounding_resolve` (3 invocations, one per candidate anchor) — see `resolved_evidence.json`.
-- Tool 2: `mcp__brain-researcher-local__grounding_gate_evidence_basis` (1 invocation over the 4-row candidate basis) — see `scorecard.json`.
-- Captured: 2026-05-28 (live BR MCP local server).
+- Tool 1: `grounding_resolve` (3 invocations, one per candidate anchor) — see `resolved_evidence.json`.
+- Tool 2: `grounding_gate_evidence_basis` (1 invocation over the 4-row candidate basis) — see `scorecard.json`.
+- Captured: 2026-05-28 (live Brain Researcher MCP server).

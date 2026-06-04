@@ -1,6 +1,6 @@
 {
   "captured_at": "2026-05-28T18:28:10Z",
-  "tool": "mcp__brain-researcher-local__grounding_gate_evidence_basis",
+  "tool": "grounding_gate_evidence_basis",
   "alignment_mode": "judge_parity",
   "partial_action": "downgrade",
   "resolved": [],

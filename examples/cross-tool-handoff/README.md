@@ -23,7 +23,8 @@ The handoff chain: `plan_preflight.candidate_tools[*].name` → input to validat
 - `expected_output/handoff_chain.json` — `{step, tool, output_artifact_sha256, consumed_by_step}` rows.
 - `expected_output/report.md` — final report that cites each step's provenance.
 
-**TODO**: capture from live BR MCP run.
+The committed `expected_output/` fixture is captured, sanitized, and scoreable
+offline with the demo runner.
 
 ## Run
 

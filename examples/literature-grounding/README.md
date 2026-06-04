@@ -19,7 +19,8 @@
 - `expected_output/answer.md` — a grounded answer that cites only resolved anchors and explicitly downgrades any unresolved claim.
 - `expected_output/scorecard.json` — captured `grounding_gate_evidence_basis` result showing `downgraded[]` and `unresolved[]` arrays.
 
-**TODO**: capture `expected_output/` from a live BR MCP server run. Until then, the run.sh exits with code 2 (`fixture not captured`).
+The committed `expected_output/` fixture is captured, sanitized, and scoreable
+offline with the demo runner.
 
 ## Run
 

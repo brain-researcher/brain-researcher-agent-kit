@@ -1,6 +1,7 @@
 # Capture notes — literature-grounding
 
-Captured 2026-05-28 against `mcp__brain-researcher-local` (live).
+Captured 2026-05-28 against a live Brain Researcher MCP server; client-specific
+server names were normalized for the public fixture.
 
 ## Tool calls
 

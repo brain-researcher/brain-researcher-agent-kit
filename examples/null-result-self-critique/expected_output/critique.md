@@ -5,7 +5,7 @@ Source finding: `input/initial_findings.json`
 - Whole-cohort result: r = 0.05, p = 0.66, 95% CI [-0.17, 0.27], N = 80.
 - Draft interpretation: "Hypothesis not supported."
 
-`run_scientific_review` (mcp__brain-researcher-local__run_scientific_review) was attempted
+`run_scientific_review` was attempted
 and returned `{"ok": false, "error": "run not found: demo_null_result_self_critique_initial_findings"}`
 because the tool is bound to persisted BR runs in `RUN_ROOT` and the demo's input is inline
 JSON (see `review.json`, `_capture_notes.md`). The diagnoses below are therefore derived

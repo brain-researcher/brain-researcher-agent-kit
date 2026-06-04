@@ -1,6 +1,6 @@
 {
   "captured_at": "2026-05-28T18:28:00Z",
-  "tool": "mcp__brain-researcher-local__grounding_resolve",
+  "tool": "grounding_resolve",
   "input_question": "What is the current evidence that the cerebellum contributes to non-motor cognitive tasks beyond timing?",
   "resolutions": [
     {

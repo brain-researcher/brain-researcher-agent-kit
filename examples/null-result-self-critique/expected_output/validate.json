@@ -1,5 +1,5 @@
 {
-  "tool": "mcp__brain-researcher-local__pipeline_plan_validate",
+  "tool": "pipeline_plan_validate",
   "called_at": "2026-05-28T18:28:42Z",
   "args_plan_id": "null-result-self-critique-exploratory-v2",
   "response": {
@@ -21,8 +21,8 @@
             "atlas": "Harvard-Oxford",
             "atlas_version": "0.4.0"
           },
-          "work_dir": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/runs/br_20260528_182842_87d13f69dd/work/step-01-seed_connectivity",
-          "output_dir": "/home/zijiaochen/projects/brain_researcher/data/runs/mcp_runs/runs/br_20260528_182842_87d13f69dd/artifacts/step-01-seed_connectivity"
+          "work_dir": "${WORKSPACE}/data/runs/mcp_runs/runs/br_20260528_182842_87d13f69dd/work/step-01-seed_connectivity",
+          "output_dir": "${WORKSPACE}/data/runs/mcp_runs/runs/br_20260528_182842_87d13f69dd/artifacts/step-01-seed_connectivity"
         }
       ]
     },

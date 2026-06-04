@@ -1,5 +1,5 @@
 {
-  "tool": "mcp__brain-researcher-local__run_scientific_review",
+  "tool": "run_scientific_review",
   "called_at": "2026-05-28T18:28:00Z",
   "args": {
     "run_id": "demo_null_result_self_critique_initial_findings",

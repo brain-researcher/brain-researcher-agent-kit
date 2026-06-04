@@ -7,6 +7,21 @@ the work should be recoverable through BR session logging.
 Use the Brain Researcher MCP tools if they are exposed in this Claude Code
 session. Inspect the actual tool list first; do not invent tool names.
 
+Apply the Brain Researcher closed-loop hard rules even if a matching skill is
+not installed:
+
+- Evidence-backed answers and reports must pass grounding_resolve plus
+  grounding_gate_evidence_basis, or be downgraded/blocked.
+- plan_preflight, plan_create, pipeline_plan_validate, pipeline_plan_review,
+  and get_execution_recipe are planning/validation/handoff surfaces, not
+  executed analyses.
+- Weak or null scientific results require self-critique before final reporting;
+  label any follow-up as exploratory.
+- Public demo fixtures must redact local paths, local MCP server names, and
+  client-specific MCP prefixes before commit.
+- If the live server surface differs from the template, inspect server_info,
+  stable_tools, deprecated_tools, tool_search, and tool_get before calling.
+
 For real Brain Researcher repo work:
 
 1. Start once with log_research_event(kind="start", source="agent",

@@ -20,7 +20,7 @@
 
 **What the draft interpretation overstated.** `interpretation_draft` in the input read "Hypothesis not supported." We retain that as a confirmatory null but explicitly do NOT conclude that the hypothesis is false in general — the self-critique below identifies specific reasons a real effect could be masked at the whole-cohort level.
 
-**Self-critique tool invocation.** `mcp__brain-researcher-local__run_scientific_review` was called with `run_id="demo_null_result_self_critique_initial_findings"` and returned `{"ok": false, "error": "run not found: ..."}` — it requires a persisted BR run, which this inline-JSON demo does not have. The critique that follows applies the tool's documented deterministic checklist (correctness + completeness: seed pinned, atlas versioned, ordering declared) manually to the input. See `review.json` and `_capture_notes.md` for the verbatim response.
+**Self-critique tool invocation.** `run_scientific_review` was called with `run_id="demo_null_result_self_critique_initial_findings"` and returned `{"ok": false, "error": "run not found: ..."}` — it requires a persisted BR run, which this inline-JSON demo does not have. The critique that follows applies the tool's documented deterministic checklist (correctness + completeness: seed pinned, atlas versioned, ordering declared) manually to the input. See `review.json` and `_capture_notes.md` for the verbatim response.
 
 **Diagnoses recorded (see `critique.md`).** Granularity / aggregation masking; missing preprocessing provenance; uncontrolled confounders (age, sex, motion, medication); weak labels / restricted STAI-T range in a healthy cohort.
 
@@ -34,7 +34,7 @@
 
 **Plan.** One step, `seed_based_fc` on the high-STAI-T subset (seed = right_amygdala, target = mPFC, atlas = Harvard-Oxford v0.4.0). Full plan in `exploratory_plan.json`.
 
-**Plan validation (`mcp__brain-researcher-local__pipeline_plan_validate`).**
+**Plan validation (`pipeline_plan_validate`).**
 - v1 of the plan was rejected: `ok=false`, four issues — `Unknown tool: behavior_filter`, `Missing required params for seed_based_fc: ['img']`, `Unknown tool: pearson_correlation`, `Unknown tool: report_tagger`.
 - v2 (final) validated: `ok=true`, `issues=[]`, `code_review.decision=approve`, `risk_level=low`, `run_id_hint=br_20260528_182842_87d13f69dd`.
 - Full validator response in `validate.json`.

@@ -22,7 +22,8 @@ This demo proves the kit fails closed for the weakest input. It is the rejection
 - `expected_output/report_attempt.log` — `scientific_report_generate` exits with `review_blocked` status; no `.tex` produced.
 - `expected_output/agent_handoff.md` — the kit's degraded-mode summary explaining what was blocked and why.
 
-**TODO**: capture from live BR MCP run.
+The committed `expected_output/` fixture is captured, sanitized, and scoreable
+offline with the demo runner.
 
 ## Run
 

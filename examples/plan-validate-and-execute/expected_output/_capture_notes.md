@@ -1,6 +1,7 @@
 # Capture notes — plan-validate-and-execute
 
-Captured against `mcp__brain-researcher-local__*` on 2026-05-28.
+Captured against a live Brain Researcher MCP server on 2026-05-28; client-specific
+server names were normalized for the public fixture.
 
 ## Tool calls
 

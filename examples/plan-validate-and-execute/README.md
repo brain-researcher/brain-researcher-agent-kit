@@ -24,7 +24,8 @@
 - `expected_output/review.json` — CodeReviewVerdict (decision, risk_level, findings).
 - `expected_output/recipe.json` — runnable recipe for the first step.
 
-**TODO**: capture from live BR MCP run.
+The committed `expected_output/` fixture is captured, sanitized, and scoreable
+offline with the demo runner.
 
 ## Run
 

@@ -5,13 +5,13 @@ toolset_hash=b4833816c5c4e8e69834b28fdd4a60fd25c60aebf279751d22fcee99c744b730).
 
 ## What ran live
 
-1. `mcp__brain-researcher-local__server_info` -> ok, BR alive, contract 2026-05-27.
-2. `mcp__brain-researcher-local__grounding_gate_evidence_basis` with the demo's
+1. `server_info` -> ok, BR alive, contract 2026-05-27.
+2. `grounding_gate_evidence_basis` with the demo's
    `weak_evidence_basis.json` body verbatim
    (`alignment_mode=judge_parity`, `partial_action=downgrade`, `min_claim_chars=12`).
    Initial call raised `MCP error -32000: Connection closed`; an immediate retry
    succeeded. Full raw response is saved under `gate_result.json.raw_response`.
-3. `mcp__brain-researcher-local__scientific_report_generate` with
+3. `scientific_report_generate` with
    `halt_on_review_block=true` and the gate findings rolled into
    `analysis_sections`. (No `run_id` / `autoresearch_dir` was available, since
    this demo is a synthetic evidence basis, not a persisted BR run.)

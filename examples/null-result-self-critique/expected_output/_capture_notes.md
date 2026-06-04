@@ -1,6 +1,7 @@
 # Capture notes — null-result-self-critique
 
-Captured live against `brain-researcher-local` MCP server on 2026-05-28.
+Captured live against a Brain Researcher MCP server on 2026-05-28; client-specific
+server names and local paths were normalized for the public fixture.
 
 ## Tool calls
 
