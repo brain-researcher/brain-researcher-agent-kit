@@ -2,7 +2,7 @@
 
 Open-source agent layer for Brain Researcher: skills, AGENTS templates, MCP adapters, sanitized demos, and eval rubrics. Sits on top of the [`brain-researcher-public`](https://github.com/brain-researcher/brain-researcher-public) core MCP server.
 
-**Status: v0.1.0 in progress.**
+**Status: v0.1.0 released.**
 
 ## Quickstart
 
