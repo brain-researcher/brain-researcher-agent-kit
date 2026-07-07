@@ -1,0 +1,294 @@
+{
+  "version": 1,
+  "provenance": {
+    "ported_from": [
+      "brain_researcher/configs/review_rules.yaml (review_mode: plan subset)",
+      "brain_researcher/src/brain_researcher/services/review/checks/tool_order.py",
+      "brain_researcher/src/brain_researcher/services/review/checks/space_compat.py",
+      "brain_researcher/src/brain_researcher/services/review/checks/method_appropriateness.py",
+      "brain_researcher/src/brain_researcher/services/review/verdict_builder.py (roll-up + checklist)"
+    ],
+    "mcp_tool": "pipeline_plan_validate (use_kg=False rule-engine mode)",
+    "note": "Only plan-time rules are ported here. Artifact-time rules (review_mode: artifact) fire against a completed run bundle and are out of scope for offline plan validation."
+  },
+
+  "rollup": {
+    "comment": "Verbatim from verdict_builder._roll_up_decision. Priority high->low.",
+    "priority": [
+      {"when": "any finding action == 'block' OR any severity == 'critical'", "decision": "block", "risk_level": "critical"},
+      {"when": "any severity == 'error'", "decision": "revise", "risk_level": "high"},
+      {"when": "any severity == 'warn'", "decision": "approve_with_warnings", "risk_level": "medium"},
+      {"when": "no findings", "decision": "approve", "risk_level": "low"}
+    ],
+    "ok_definition": "ok = no finding with severity in {error, critical} and no finding with action == 'block' (warnings still allow ok=True)."
+  },
+
+  "metric_rules": [
+    {
+      "rule_id": "REVIEW_NO_STEPS",
+      "description": "Pipeline plan has no steps",
+      "metric": "plan.step_count",
+      "comparator": "lt",
+      "threshold": 1,
+      "tool_filter": null,
+      "severity": "error",
+      "action": "block",
+      "message": "Pipeline plan contains no steps.",
+      "suggested_fix": "Add at least one tool step to the plan.",
+      "tags": ["plan", "empty"]
+    },
+    {
+      "rule_id": "REVIEW_TR_LOW",
+      "description": "TR is below the sane fMRI acquisition range",
+      "metric": "params.tr",
+      "comparator": "lt",
+      "threshold": 0.3,
+      "tool_filter": null,
+      "severity": "warn",
+      "action": "warn",
+      "message": "TR < 0.3s is extremely fast for fMRI; verify this is not a unit error (ms vs s).",
+      "suggested_fix": "Typical fMRI TR range is 0.5-3.0 s. Check whether value should be in seconds.",
+      "tags": ["fmri", "tr", "params"]
+    },
+    {
+      "rule_id": "REVIEW_TR_HIGH",
+      "description": "TR is above the sane fMRI acquisition range",
+      "metric": "params.tr",
+      "comparator": "gt",
+      "threshold": 5.0,
+      "tool_filter": null,
+      "severity": "warn",
+      "action": "warn",
+      "message": "TR > 5.0s is unusually long for fMRI; verify this is intentional.",
+      "suggested_fix": "Typical fMRI TR range is 0.5-3.0 s.",
+      "tags": ["fmri", "tr", "params"]
+    },
+    {
+      "rule_id": "REVIEW_FWHM_OOB",
+      "description": "Smoothing kernel is too large for fMRI",
+      "metric": "params.fwhm",
+      "comparator": "gt",
+      "threshold": 12.0,
+      "tool_filter": ["smooth", "fslmaths", "nilearn_smooth_img", "susan"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "FWHM smoothing kernel > 12mm is unusually large for fMRI.",
+      "suggested_fix": "Typical fMRI FWHM range is 4-8mm.",
+      "tags": ["smoothing", "fmri", "params"]
+    },
+    {
+      "rule_id": "REVIEW_FWHM_LOW",
+      "description": "Smoothing kernel is suspiciously small",
+      "metric": "params.fwhm",
+      "comparator": "lt",
+      "threshold": 2.0,
+      "tool_filter": ["smooth", "fslmaths", "nilearn_smooth_img", "susan"],
+      "severity": "error",
+      "action": "block",
+      "message": "FWHM smoothing kernel < 2mm is likely a unit error (voxels instead of mm).",
+      "suggested_fix": "Specify FWHM in mm. Common values: 4, 6, 8 mm.",
+      "tags": ["smoothing", "fmri", "params"]
+    },
+    {
+      "rule_id": "REVIEW_GLM_N_EVENTS_TOO_FEW",
+      "description": "Too few events per condition for reliable beta estimation",
+      "metric": "params.n_events_per_condition",
+      "comparator": "lt",
+      "threshold": 8,
+      "tool_filter": ["glm_first_level", "nilearn_first_level_model", "fsl_feat", "fsl_film_gls", "spm_glm", "fitlins"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "Fewer than 8 events per condition; beta estimates may be unstable.",
+      "suggested_fix": "Standard event-related designs need >= 10 events/condition. For LSS use >= 5.",
+      "tags": ["glm", "design", "events"]
+    },
+    {
+      "rule_id": "REVIEW_HIGH_PASS_TOO_AGGRESSIVE",
+      "description": "High-pass filter cutoff may remove neural signal",
+      "metric": "params.high_pass",
+      "comparator": "gt",
+      "threshold": 0.02,
+      "tool_filter": ["glm_first_level", "nilearn_first_level_model", "fsl_feat", "fsl_film_gls", "nilearn_clean_img"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "High-pass filter > 0.02 Hz (period < 50s) may remove slow neural signal.",
+      "suggested_fix": "Standard fMRI high-pass is 0.01 Hz (100s). For block designs use period > 2x block cycle.",
+      "tags": ["glm", "filter", "high_pass"],
+      "kg_lookup": {
+        "node_type": "GLMDesignPrior",
+        "property": "high_pass",
+        "query_hint": "task-conditioned GLM high-pass prior",
+        "min_confidence": 0.3,
+        "offline_note": "This kg_lookup is IGNORED in offline mode (use_kg=False). Only the KG-backed pipeline_plan_review consults GLMDesignPrior."
+      }
+    },
+    {
+      "rule_id": "REVIEW_GROUP_N_TOO_SMALL",
+      "description": "Group-level analysis with very few subjects",
+      "metric": "params.n_subjects",
+      "comparator": "lt",
+      "threshold": 10,
+      "tool_filter": ["glm_second_level", "nilearn_second_level_model", "fsl_randomise", "spm_factorial_design", "flame"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "Group analysis with fewer than 10 subjects is underpowered.",
+      "suggested_fix": "Standard fMRI group studies need N >= 20 for adequate power (80%) at typical effect sizes.",
+      "tags": ["glm", "group", "power"]
+    },
+    {
+      "rule_id": "REVIEW_DWI_BVALUE_LOW",
+      "description": "DWI b-value too low for standard tractography",
+      "metric": "params.b_value",
+      "comparator": "lt",
+      "threshold": 700,
+      "tool_filter": ["mrtrix_tckgen", "dsi_studio_tracking", "fsl_dtifit", "ants_dti", "dipy_tracking", "dmri_tractography"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "b-value < 700 s/mm^2 is too low for standard DTI/tractography.",
+      "suggested_fix": "Standard DTI uses b=1000 s/mm^2; HARDI/CSD typically uses b=2000-3000 s/mm^2.",
+      "tags": ["dwi", "bvalue", "tractography"]
+    },
+    {
+      "rule_id": "REVIEW_DWI_BVALUE_HIGH",
+      "description": "DWI b-value unusually high without multi-shell justification",
+      "metric": "params.b_value",
+      "comparator": "gt",
+      "threshold": 5000,
+      "tool_filter": ["mrtrix_tckgen", "dsi_studio_tracking", "fsl_dtifit", "dipy_tracking", "dmri_tractography"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "b-value > 5000 s/mm^2 is extreme; verify this is intentional (e.g. NODDI).",
+      "suggested_fix": "Standard HARDI: b=2000-3000. NODDI/advanced models: b=5000+ is valid but must be explicit.",
+      "tags": ["dwi", "bvalue", "tractography"]
+    },
+    {
+      "rule_id": "REVIEW_DWI_N_DIRECTIONS_LOW",
+      "description": "Too few diffusion gradient directions for robust estimation",
+      "metric": "params.n_directions",
+      "comparator": "lt",
+      "threshold": 12,
+      "tool_filter": ["mrtrix_tckgen", "fsl_dtifit", "dipy_tracking", "ants_dti", "dmri_tractography", "dmri_parcellate_connectome"],
+      "severity": "error",
+      "action": "block",
+      "message": "Fewer than 12 gradient directions is insufficient for DTI; HARDI requires >= 30.",
+      "suggested_fix": "Use >= 32 directions for DTI, >= 60 for CSD/HARDI. Minimum 6 is only valid for DKI debugging.",
+      "tags": ["dwi", "directions", "hardi"]
+    },
+    {
+      "rule_id": "REVIEW_PARAMETRIC_SMALL_N",
+      "description": "Parametric group test with very small N - nonparametric preferred",
+      "metric": "params.n_subjects",
+      "comparator": "lt",
+      "threshold": 8,
+      "tool_filter": ["scipy_ttest_ind", "scipy_ttest_rel", "pingouin_ttest", "glm_second_level", "nilearn_second_level_model"],
+      "severity": "warn",
+      "action": "warn",
+      "message": "Parametric test with N < 8 violates normality assumptions; use nonparametric alternative.",
+      "suggested_fix": "Use FSL randomise (permutation), or scipy.stats.mannwhitneyu / wilcoxon for small N.",
+      "tags": ["stats", "parametric", "small_n"]
+    }
+  ],
+
+  "structural_rules": [
+    {
+      "rule_id": "REVIEW_REGISTRATION_ORDER",
+      "description": "Atlas/parcellation step appears before registration",
+      "check": "registration_before_atlas_analysis",
+      "severity": "error",
+      "action": "block",
+      "message": "An atlas/parcellation step precedes registration; results will be in wrong space.",
+      "suggested_fix": "Move the registration step before any atlas/parcellation step.",
+      "tags": ["registration", "atlas", "ordering"]
+    },
+    {
+      "rule_id": "REVIEW_SKULL_STRIP_ORDER",
+      "description": "Registration step appears before skull-stripping",
+      "check": "skull_stripping_before_registration",
+      "severity": "warn",
+      "action": "warn",
+      "message": "A registration step precedes skull-stripping; registering with skull may degrade accuracy.",
+      "suggested_fix": "Skull-strip (bet, antsBrainExtraction) before registration.",
+      "tags": ["registration", "skull_strip", "ordering"]
+    },
+    {
+      "rule_id": "REVIEW_MISSING_CONFOUND_REGRESSION",
+      "description": "GLM step present without a prior confound regression step",
+      "check": "confound_regression_before_glm",
+      "severity": "warn",
+      "action": "warn",
+      "message": "GLM step found but no confound regression step precedes it.",
+      "suggested_fix": "Add a confound regression step before GLM to remove motion and physiological noise.",
+      "tags": ["glm", "confounds", "ordering"]
+    },
+    {
+      "rule_id": "REVIEW_MODALITY_MISMATCH",
+      "description": "EEG/MEG modality combined with volumetric MNI atlas",
+      "check": "atlas_modality_compatible",
+      "severity": "error",
+      "action": "block",
+      "message": "EEG/MEG data combined with a volumetric MNI atlas - modality/space mismatch.",
+      "suggested_fix": "Use a surface-based or EEG-compatible atlas (e.g. fsaverage, MNI-template with source imaging).",
+      "tags": ["eeg", "meg", "atlas", "modality"]
+    },
+    {
+      "rule_id": "REVIEW_DWI_TOOL_ON_BOLD",
+      "description": "DWI-specific tool applied to BOLD/fMRI modality",
+      "check": "dwi_tool_on_bold_data",
+      "severity": "error",
+      "action": "block",
+      "message": "A DWI-specific tool is declared alongside a BOLD/fMRI modality - modality mismatch.",
+      "suggested_fix": "Verify the correct modality is declared; DWI and BOLD pipelines must not share tractography steps.",
+      "tags": ["dwi", "fmri", "modality"]
+    },
+    {
+      "rule_id": "REVIEW_MIXED_MNI_VERSIONS",
+      "description": "Multiple incompatible MNI template versions in the same plan",
+      "check": "mixed_mni_versions",
+      "severity": "error",
+      "action": "block",
+      "message": "Both MNI152NLin2009cAsym and MNI152NLin6Asym appear in the same plan.",
+      "suggested_fix": "Pick one MNI version and apply it consistently. MNI2009c is standard for fMRIPrep outputs.",
+      "tags": ["mni", "space", "registration"]
+    },
+    {
+      "rule_id": "REVIEW_METHOD_APPROPRIATENESS",
+      "description": "Design-method compatibility check (offline: curated seed only)",
+      "check": "method_appropriateness_check",
+      "severity": "error",
+      "action": "block",
+      "message": "Statistical method does not match the study design.",
+      "suggested_fix": "Choose a statistical method that matches the study design's independence/dependence structure.",
+      "tags": ["stats", "design", "method_compatibility"],
+      "offline_note": "In offline mode the KG edge lookup is skipped; only configs/br-kg/method_compatibility_seed.yaml (shipped here as method_compatibility_seed.json) is consulted. A fired finding keeps the SEED rule_id but is forced to severity=error/action=block by the engine's rule-metadata merge."
+    }
+  ],
+
+  "tool_sets": {
+    "comment": "Verbatim from checks/tool_order.py and checks/space_compat.py. Membership test lowercases the plan step's tool then checks `tool.lower() in set`; set members are kept in their SOURCE casing to reproduce production behavior exactly (see rules.md 'Case-sensitivity quirk').",
+    "registration_tools": ["coreg_register", "coreg_apply_xfm", "fsl_flirt", "fsl_fnirt", "ants_registration", "antsRegistration", "mri_robust_register", "spm_normalise", "spm_coreg"],
+    "atlas_tools": ["parcellation_fetch", "label_transfer", "dmri_parcellate_connectome", "nilearn_fetch_atlas", "extract_timeseries", "atlas_apply", "atlas_label"],
+    "skull_strip_tools": ["bet", "antsBrainExtraction", "hd_bet", "mri_synthstrip", "fsl_bet", "skull_strip"],
+    "glm_tools_order": ["glm_fit", "glm_first_level", "spm_glm", "nilearn_first_level_model", "glm_contrasts", "first_level_model", "fsl_feat", "fsl_film_gls"],
+    "confound_tools": ["confound_regression", "regress_confounds", "nilearn_clean_img", "fsl_regfilt", "aroma_denoise", "fmriprep_confounds", "extract_confounds"],
+    "eeg_meg_modalities": ["eeg", "meg", "ieeg"],
+    "volumetric_mni_spaces": ["MNI152", "MNI152NLin2009cAsym", "MNI152NLin6Asym", "MNI"],
+    "dwi_tools_space": ["mrtrix_tckgen", "mrtrix_tcksift", "mrtrix_tckgen2", "dsi_studio_tracking", "fsl_dtifit", "ants_dti", "dipy_tracking", "dmri_tractography", "dmri_parcellate_connectome", "mrtrix_dwi2fod", "mrtrix_ss3t_csd", "tckgen", "tcksift", "dtifit"],
+    "bold_modalities": ["bold", "fmri", "func", "functional", "resting_state", "task_fmri"]
+  },
+
+  "checklist_tool_sets": {
+    "comment": "Verbatim from verdict_builder._generate_checklist_from_spec. Used ONLY to build the informational checklist, not to gate findings. All matched lowercased.",
+    "registration": ["coreg_register", "coreg_apply_xfm", "fsl_flirt", "fsl_fnirt", "ants_registration", "antsregistration", "mri_robust_register"],
+    "glm": ["glm_fit", "glm_first_level", "spm_glm", "nilearn_first_level_model", "first_level_model", "fsl_feat", "fsl_film_gls"],
+    "confound": ["confound_regression", "regress_confounds", "nilearn_clean_img", "fsl_regfilt", "aroma_denoise", "fmriprep_confounds", "extract_confounds"]
+  },
+
+  "bundle_extraction": {
+    "comment": "Verbatim from bundle_builder.build_plan_review_bundle.",
+    "modality_param_keys": ["modality", "modalities"],
+    "space_param_keys": ["space", "spaces", "target_space", "atlas_space"],
+    "declared_modalities_lowercased": true,
+    "declared_spaces_lowercased": false,
+    "mixed_mni_extra_param_keys": ["space", "target_space", "atlas_space", "output_space"]
+  }
+}

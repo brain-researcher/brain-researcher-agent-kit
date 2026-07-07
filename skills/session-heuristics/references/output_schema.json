@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "session-heuristics-output-schemas",
+  "description": "Output contracts for scripts/session_heuristics.py. Mirrors the MCP tools session_risk_classify (--mode risk) and session_lesson_extract (--mode lessons); --mode both merges them.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "run_id",
+        "status",
+        "source_client",
+        "has_snapshot",
+        "task_surfaces",
+        "validation_evidence",
+        "open_risks",
+        "hygiene_issues"
+      ],
+      "properties": {
+        "session_id": { "type": ["string", "null"] },
+        "run_id": { "type": ["string", "null"] },
+        "status": { "type": ["string", "null"] },
+        "source_client": { "type": ["string", "null"] },
+        "has_snapshot": { "type": "boolean" },
+        "task_surfaces": { "type": "array", "items": { "type": "string" } },
+        "validation_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "evidence_type", "source_field", "text"],
+            "properties": {
+              "id": { "type": "string" },
+              "evidence_type": { "type": "string" },
+              "source_field": { "type": "string", "enum": ["done_items", "open_items"] },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "open_risks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "text", "matched_pattern"],
+            "properties": {
+              "id": { "type": "string" },
+              "label": {
+                "type": "string",
+                "enum": [
+                  "uncommitted-local",
+                  "unrelated-dirty-worktree",
+                  "partial-validation",
+                  "prod-auth-data-runtime",
+                  "generated-artifact",
+                  "pre-existing-debt",
+                  "scientific-method-gap",
+                  "logging-metadata-gap"
+                ]
+              },
+              "text": { "type": "string" },
+              "matched_pattern": { "type": "boolean" }
+            }
+          }
+        },
+        "hygiene_issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "severity", "message", "evidence"],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "missing_source_client",
+                  "missing_final_snapshot",
+                  "vague_open_none",
+                  "succeeded_without_validation_evidence",
+                  "prod_without_rollout_health_evidence"
+                ]
+              },
+              "severity": { "type": "string", "enum": ["low", "medium", "high", "unknown"] },
+              "message": { "type": "string" },
+              "evidence": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "lessons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "issue_code", "text", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "issue_code": { "type": "string" },
+          "text": { "type": "string" },
+          "status": { "type": "string", "enum": ["candidate"] }
+        }
+      }
+    }
+  },
+  "examples": {
+    "mode_risk": {
+      "ok": true,
+      "session_id": "br-example-20260707",
+      "run_id": "run_20260707_example",
+      "classification": { "see": "classification schema above" },
+      "risk_labels": ["uncommitted-local", "..."]
+    },
+    "mode_lessons": {
+      "ok": true,
+      "session_id": "br-example-20260707",
+      "run_id": "run_20260707_example",
+      "classification": { "see": "classification schema above" },
+      "lessons": [{ "id": "lesson:...", "issue_code": "missing_source_client", "text": "...", "status": "candidate" }]
+    },
+    "mode_both": {
+      "ok": true,
+      "session_id": "br-example-20260707",
+      "run_id": "run_20260707_example",
+      "classification": { "see": "classification schema above" },
+      "lessons": ["see lessons schema above"],
+      "risk_labels": ["see closed vocabulary above"]
+    }
+  }
+}

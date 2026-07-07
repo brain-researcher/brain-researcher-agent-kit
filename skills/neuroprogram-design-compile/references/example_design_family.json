@@ -1,0 +1,17 @@
+{
+  "program_id": "example_finger_tapping",
+  "claim_mode": "confirmatory",
+  "prior_provenance": null,
+  "unknown_constraints": [],
+  "design_priors": {
+    "hrf_basis": {"canonical": 0.5, "derivs": 0.3, "glover": 0.2},
+    "high_pass": {"128": 0.5, "256": 0.5},
+    "confounds": {"6mot": 0.5, "24mot": 0.5}
+  },
+  "variants": [
+    {"variant_id": "v1", "decision_points": {"hrf_basis": "canonical", "confounds": "6mot", "high_pass": "128"}},
+    {"variant_id": "v2", "decision_points": {"hrf_basis": "derivs", "confounds": "24mot", "high_pass": "256"}},
+    {"variant_id": "v3", "decision_points": {"hrf_basis": "glover", "confounds": "6mot", "high_pass": "256"}},
+    {"variant_id": "v4", "decision_points": {"hrf_basis": "canonical", "confounds": "24mot", "high_pass": "128"}, "blocked": true}
+  ]
+}

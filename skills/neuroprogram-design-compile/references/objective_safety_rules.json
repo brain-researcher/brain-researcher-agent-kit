@@ -1,0 +1,69 @@
+{
+  "schema": "neuroprogram-objective-safety-v1",
+  "ported_from": [
+    "brain_researcher/autoresearch/society/neuroprogram.py -> NeuroObjectiveV1, _FORBIDDEN_OBJECTIVE_SUBSTRINGS, NeuroProgramV1._reject_magnitude_objectives",
+    "brain_researcher/autoresearch/society/optimize.py -> _OBJECTIVE_DIMENSION, optimize_design_family() weight validation"
+  ],
+  "invariant": "A program's objectives may ONLY target validity / robustness / coverage. Optimizing a result MAGNITUDE (effect size, novelty, significance, association, p-value, z-score) over a design space is automated garden-of-forking-paths and is REJECTED. Magnitude is a CONSTRAINT and a REPORTED quantity, never an optimization target.",
+  "allowed_objectives": [
+    "maximize_robustness",
+    "maximize_coverage",
+    "maximize_reproducibility",
+    "maximize_generalization",
+    "minimize_compute_cost"
+  ],
+  "forbidden_objective_substrings": [
+    "effect_size",
+    "effect size",
+    "effectsize",
+    "max_effect",
+    "maximize_effect",
+    "novelty",
+    "significance",
+    "significant",
+    "p_value",
+    "p-value",
+    "pvalue",
+    "minimize_p",
+    "association",
+    "magnitude",
+    "z_score",
+    "z-score"
+  ],
+  "objective_dimension_map": {
+    "maximize_robustness": "efficiency_stability",
+    "maximize_coverage": "coverage",
+    "maximize_reproducibility": "constraint_pass_frac",
+    "maximize_generalization": "coverage",
+    "minimize_compute_cost": "neg_cost"
+  },
+  "magnitude_free_dimensions": [
+    "coverage",
+    "efficiency_stability",
+    "constraint_pass_frac",
+    "neg_cost"
+  ],
+  "forbidden_score_dimensions": [
+    "mean_efficiency",
+    "effect_size",
+    "z",
+    "beta",
+    "p_value",
+    "association_strength"
+  ],
+  "weight_constraints": {
+    "finite": true,
+    "min": 0.0,
+    "rationale": "A negative weight would invert a 'maximize' objective (e.g. minimize coverage) while the result still reports the safe objective label — a real gaming path. A non-finite weight is undefined. Both are rejected."
+  },
+  "forced_exploratory_conditions": [
+    "a degenerate (near-delta) design prior with no pre-data prior_provenance attestation cannot license a confirmatory claim",
+    "a declared review constraint the rule engine does not know is fail-closed (cannot be guaranteed satisfied) -> exploratory",
+    "no candidate design family met the eligibility floors -> exploratory"
+  ],
+  "enforcement_mechanisms": [
+    "the NeuroObjectiveV1 enum has no magnitude member (a magnitude objective cannot even be named)",
+    "a field validator rejects any raw objective string containing a forbidden substring, with an explicit reason (checked BEFORE enum coercion, so a p-hacking objective cannot be smuggled past the typed enum)",
+    "the objective->score-dimension map never points at mean_efficiency or any magnitude quantity; mean_efficiency is used only as an eligibility FLOOR, never maximized"
+  ]
+}

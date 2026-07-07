@@ -1,0 +1,195 @@
+# QSM implementation-review rubric (auditable rule spec)
+#
+# Ported verbatim from the Brain Researcher review layer (upstream server, not
+# part of this public repo): the QSM pitfall critic behind the
+# `qsm_implementation_review` MCP tool. Provenance is recorded for auditors; the
+# cited module paths live in the upstream server, not here.
+#
+# This YAML is the HUMAN-READABLE mirror of the executable rules in
+# scripts/implementation_review.py (function review_qsm). The script is the
+# deterministic source of truth; `python implementation_review.py --selftest`
+# regression-guards the two against edits to the script. Edit both together.
+#
+# WHAT IT DOES: static (regex-level) analysis of a caller-supplied QSM
+# reconstruction *code string*. It does not run the code and it does not write
+# a reconstruction recipe. It only fails known-bad dataflow so that unsafe QSM
+# code cannot pass review as if it were scientifically safe.
+#
+# WHY QSM NEEDS THIS: quantitative susceptibility mapping is a dipole
+# deconvolution. The forward model relates the tissue susceptibility chi to the
+# *local* field. If you invert the *total* field (which still contains the
+# background field from air/bone/sinuses) you solve the wrong equation and the
+# chi map is dominated by background artifact even though the code "ran". The
+# canonical pipeline is: phase -> total field -> background/local-field removal
+# (RESHARP / V-SHARP / LBV / PDF) -> dipole inversion on the local field.
+
+task_type: qsm_reconstruction
+advice_mode: audit_only        # returns constraints + findings, never a replacement pipeline
+review_target: code            # a code string (optionally with a filename)
+
+# ---------------------------------------------------------------------------
+# Detection primitives (how the static analyzer recognizes structure in code)
+# ---------------------------------------------------------------------------
+detection:
+  # An inversion call = a function whose name contains one of these stems.
+  inversion_call_name_stems: [admm, tv, tkd, dipole, invert, inversion, qsm]
+  inversion_call_regex: >-
+    (?P<callee>\b[a-zA-Z_][a-zA-Z0-9_]*(?:admm|tv|tkd|dipole|invert|inversion|qsm)[a-zA-Z0-9_]*\b)\s*\((?P<args>[^)]{0,300})\)
+  # A local-field variable assignment (its name must contain 'local' then 'field').
+  local_field_assign_regex: >-
+    \b(?P<name>[a-zA-Z_][a-zA-Z0-9_]*local[a-zA-Z0-9_]*field[a-zA-Z0-9_]*)\s*=
+  # The first positional argument of an inversion call is treated as its field input.
+  # Field-name normalization lowercases and strips to [a-z0-9_].
+
+  # Passing any of these as the inversion input is a hard error: they are NOT a
+  # background-removed local field.
+  bad_inversion_input_names:
+    - totalfield
+    - total_field
+    - fieldppm
+    - field_ppm
+    - rawfield
+    - raw_field
+    - phasefield
+    - phase_field
+    - interecho
+    - inter_echo
+    - interechofield
+    - inter_echo_field
+    - deltappm
+    - delta_ppm
+  bad_inversion_input_substrings: [totalfield, fieldppm, rawfield, phasefield, interechofield, deltappm]
+
+  # A name that reads as an explicit local field (accepted inversion input).
+  local_field_names:
+    - localfield
+    - local_field
+    - resharplocalfield
+    - resharp_local_field
+    - vsharplocalfield
+    - vsharp_local_field
+    - backgroundremovedfield
+    - background_removed_field
+  local_field_heuristic: "name contains both 'local' and 'field'"
+
+  # Evidence that a background/local-field removal stage exists in the code.
+  background_removal_markers:
+    - background_removal
+    - "background removal"
+    - resharp
+    - vsharp
+    - v-sharp
+    - sharp
+    - lbv
+    - local_field
+    - "local field"
+
+  # Markers that make a TKD reconstruction acceptable (contrast preserved / QC present).
+  tkd_contrast_ok_markers:
+    - tikhonov
+    - admm
+    - "total variation"
+    - "tv regular"
+    - medi
+    - fansi
+    - contrast
+    - highpass
+    - high-pass
+
+# ---------------------------------------------------------------------------
+# Rules  (evaluation order matters for the roll-up)
+# ---------------------------------------------------------------------------
+rules:
+  - id: QSM_IMPLEMENTATION_DIRECT_FIELD_INVERSION
+    severity: critical
+    action: block
+    trigger: >-
+      An inversion call is present AND its first argument is a total / raw /
+      inter-echo / phase-derived field name (bad_inversion_input_*).
+    rationale: >-
+      Inverting the total field solves the wrong forward model; the background
+      field dominates and the chi map is invalid even though the code executes.
+    suggested_fix: >-
+      Route total_field through explicit background/local-field removal and call
+      inversion with the resulting local_field.
+
+  - id: QSM_IMPLEMENTATION_MISSING_BACKGROUND_REMOVAL
+    severity: critical
+    action: block
+    trigger: >-
+      An inversion call is present AND no background/local-field removal marker
+      is detectable anywhere in the code+filename text.
+    rationale: >-
+      Without a background-removal stage there is no local field to invert; the
+      pipeline is missing its defining preprocessing step.
+    suggested_fix: >-
+      Create an explicit local_field via RESHARP/V-SHARP/LBV or equivalent
+      background removal before dipole inversion.
+
+  - id: QSM_IMPLEMENTATION_AMBIGUOUS_INVERSION_INPUT
+    severity: critical
+    action: block
+    trigger: >-
+      An inversion call is present AND a background-removal marker exists AND no
+      bad-input was matched AND at least one inversion call's first argument is
+      neither an assigned local-field variable nor a name that reads as a local
+      field.
+    rationale: >-
+      Background removal is present but the dataflow does not visibly connect its
+      output to the inversion input, so the reviewer cannot confirm the inversion
+      consumes the local field.
+    suggested_fix: >-
+      Name the background-removal output local_field and pass that variable
+      directly into dipole inversion.
+
+  - id: QSM_IMPLEMENTATION_TKD_WITHOUT_CONTRAST_QC
+    severity: error
+    action: warn
+    trigger: >-
+      The text contains 'tkd' AND none of tkd_contrast_ok_markers are present.
+    rationale: >-
+      Truncated k-space division can improve raw/NRMSE-like or visual metrics
+      while erasing detrended tissue and deep-gray-matter contrast; needs a
+      contrast-preservation or high-pass QC check.
+    suggested_fix: >-
+      Add contrast proxy/QC checks or use a contrast-preserving regularized
+      inversion.
+
+# ---------------------------------------------------------------------------
+# Verdict roll-up (identical to rapidtide, minus the empty-findings special case)
+# ---------------------------------------------------------------------------
+roll_up:
+  - if: any finding has action=block OR severity=critical
+    then: {decision: block, risk_level: critical}
+  - elif: any finding has severity=error
+    then: {decision: revise, risk_level: high}
+  - elif: any finding has severity=warn
+    then: {decision: approve_with_warnings, risk_level: medium}
+  - else: {decision: approve, risk_level: low}
+
+# ---------------------------------------------------------------------------
+# checklist_generated returned with every verdict (audit trail)
+# ---------------------------------------------------------------------------
+hard_constraints:
+  - Dipole inversion must consume an explicitly named local_field.
+  - Direct inversion of total, raw, inter-echo, or phase-difference fields is forbidden.
+  - Background/local-field removal output must be the dipole-inversion input.
+  - Phase-to-field conversion must state delta_TE and B0/gamma scaling or an equivalent unit convention.
+
+qc_protocol:
+  - Check output shape, affine, voxel size, and finite voxel ratio before finalizing.
+  - Check robust susceptibility quantiles, IQR, and standard deviation in the brain mask.
+  - Check a local high-pass or detrended contrast proxy to catch contrast collapse.
+  - Check calcification/streak behavior separately from global smoothness when calcification is present.
+
+# ---------------------------------------------------------------------------
+# domain_invariant_review block (envelope added by the MCP wrapper / this skill)
+# ---------------------------------------------------------------------------
+non_displacement_notice: >-
+  Use this QSM response as an audit-only constraint set. Do not replace the
+  agent's reconstruction algorithm unless a hard constraint is violated.
+
+forbidden_guidance:
+  - Do not suggest generic fMRI preprocessing, fMRIPrep, FEAT, or fieldmap-distortion workflows for QSM reconstruction.
+  - Do not prescribe full-resolution iterative TV/ADMM as mandatory.
+  - Do not recommend TKD-only without contrast-preservation QC.

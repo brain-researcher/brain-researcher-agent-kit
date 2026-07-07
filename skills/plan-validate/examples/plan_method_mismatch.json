@@ -1,0 +1,5 @@
+{
+  "steps": [
+    {"step_id": "s1", "tool": "scipy_ttest_ind", "params": {"design_type": "repeated_measures", "statistical_method": "independent t-test", "n_subjects": 6}}
+  ]
+}

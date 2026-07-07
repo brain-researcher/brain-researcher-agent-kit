@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "run_id": "run_20260707_demo",
+  "session_id": "br-demo-prod-rollout-20260707",
+  "digest": {
+    "run_id": "run_20260707_demo",
+    "session_id": "br-demo-prod-rollout-20260707",
+    "status": "succeeded",
+    "source_client": "",
+    "has_snapshot": true,
+    "created_at": "2026-07-07T09:00:00Z",
+    "last_event_at": "2026-07-07T10:00:00Z",
+    "snapshot": {
+      "goal": "Roll out the MCP image to prod k3s and verify health",
+      "next_command": "kubectl rollout status deploy/br-mcp -n brain-researcher-core"
+    },
+    "event_tags": ["prod", "rollout", "mcp"],
+    "done_items": [
+      "Built and pushed the docker image tag to the registry",
+      "Ran pytest on the touched package and it passed"
+    ],
+    "open_items": [
+      "Rollout not yet deployed to prod; health endpoint not checked",
+      "Uncommitted local changes on the worktree, not pushed"
+    ]
+  }
+}

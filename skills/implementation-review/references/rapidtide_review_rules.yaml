@@ -1,0 +1,156 @@
+# rapidtide implementation-review rubric (auditable rule spec)
+#
+# Ported verbatim from the Brain Researcher review layer (upstream server, not
+# part of this public repo): the rapidtide critic behind the
+# `rapidtide_implementation_review` MCP tool. Provenance is recorded for auditors;
+# the cited module paths live in the upstream server, not here.
+#
+# This YAML is the HUMAN-READABLE mirror of the executable rules in
+# scripts/implementation_review.py (function review_rapidtide). The script is
+# the deterministic source of truth; `--selftest` proves they agree.
+#
+# WHAT IT DOES: a rule check of a caller-declared `method_contract` (how the
+# rapidtide-style analysis was configured) plus optional numeric
+# `subject_summaries` (observed per-subject outputs). It does not run rapidtide.
+#
+# WHY rapidtide NEEDS THIS: rapidtide maps systemic low-frequency oscillation
+# (sLFO) blood-arrival delays by cross-correlating each voxel's timecourse
+# against an iteratively refined probe regressor over a lag-search window. The
+# most damaging errors are methodological, not numeric: a static zero-lag
+# regression (wrong method), skipping probe refinement, or clipping the
+# lag-search range so true delays rail at the boundary. Each produces a
+# plausible-looking map that is wrong.
+
+task_type: slfo_lag_mapping
+review_target: method_contract   # a config object (+ optional subject_summaries)
+
+# ---------------------------------------------------------------------------
+# Constants / thresholds
+# ---------------------------------------------------------------------------
+constants:
+  lfo_band_low_hz: 0.009          # canonical sLFO band, below respiratory/cardiac
+  lfo_band_high_hz: 0.15
+  min_lag_search_span_s: 8.0      # narrower clips whole-brain transit delays (~ -10..+10 s)
+  min_refinement_passes: 2        # canonical iterative probe purification
+  oversample_tr_threshold_s: 1.5  # long TR needs oversampling for sub-TR lag resolution
+  lag_boundary_rail_fraction: 0.10  # observed fraction railing at boundary that confirms clipping
+
+# method_contract keys the rules read (all optional; a missing key skips its
+# check EXCEPT lag_search_range_s, whose absence blocks):
+recognized_contract_keys:
+  cross_correlation_lag_search: bool
+  lag_search_range_s: "[low, high] seconds"
+  refinement_passes: int
+  regressor_source: "'refined_sLFO' | 'global_mean' | 'global_signal' | 'mean' | ..."
+  temporal_filter_band_hz: "[low, high] Hz"
+  oversample_factor: number
+  tr_s: number
+  lag_map_despeckle: bool
+# subject_summaries entries read: {subject|id: str, lag_boundary_fraction: number}
+
+# ---------------------------------------------------------------------------
+# Rules  (evaluation order = rule number)
+# ---------------------------------------------------------------------------
+rules:
+  - id: RAPIDTIDE_STATIC_ZERO_LAG_CORRELATION
+    severity: critical
+    action: block
+    trigger: cross_correlation_lag_search is present AND false-y
+    rationale: >-
+      A static (zero-lag) regression is a different, wrong method for sLFO delay
+      mapping; the defining step is a per-voxel time-lagged cross-correlation.
+    suggested_fix: >-
+      Search peak cross-correlation over a lag window per voxel; do not fit a
+      single fixed-lag GLM.
+
+  - id: RAPIDTIDE_LAG_SEARCH_RANGE_MISSING
+    severity: error
+    action: block
+    trigger: lag_search_range_s absent or not a valid [low, high] pair
+    rationale: Without a declared lag window, delay clipping cannot be verified.
+    suggested_fix: "Declare lag_search_range_s, e.g. [-10, 10] s, covering plausible transit delays."
+
+  - id: RAPIDTIDE_LAG_SEARCH_RANGE_TOO_NARROW
+    severity: error
+    action: block
+    trigger: (high - low) < min_lag_search_span_s (8 s)
+    rationale: >-
+      Whole-brain sLFO transit delays span roughly -10..+10 s; a narrower window
+      makes true peaks rail at the boundary.
+    suggested_fix: "Widen lag_search_range_s (e.g. [-10, 10] s) and re-run."
+
+  - id: RAPIDTIDE_NO_REGRESSOR_REFINEMENT
+    severity: error
+    action: warn
+    trigger: refinement_passes is numeric AND < min_refinement_passes (2)
+    rationale: >-
+      The canonical method iteratively refines the probe regressor so it reflects
+      the sLFO rather than the raw global mean.
+    suggested_fix: "Run >=2 refinement passes so the regressor reflects the sLFO, not the raw global mean."
+
+  - id: RAPIDTIDE_NAIVE_GLOBAL_REGRESSOR
+    severity: warn
+    action: warn
+    trigger: >-
+      regressor_source in {global_mean, global_signal, mean} AND
+      (refinement_passes missing OR < 2)
+    rationale: The raw global mean without refinement conflates sLFO with non-sLFO global signal.
+    suggested_fix: "Derive and iteratively refine the sLFO probe regressor instead of using the raw global mean."
+
+  - id: RAPIDTIDE_FILTER_BAND_OUTSIDE_LFO
+    severity: warn
+    action: warn
+    trigger: >-
+      temporal_filter_band_hz low < 0.009 (−1e-6) OR high > 0.15 (+1e-6)
+    rationale: A band outside the sLFO range lets respiratory/cardiac signal contaminate the regressor.
+    suggested_fix: "Restrict the bandpass to the LFO band (~0.009-0.15 Hz)."
+
+  - id: RAPIDTIDE_INSUFFICIENT_OVERSAMPLING
+    severity: warn
+    action: warn
+    trigger: tr_s >= oversample_tr_threshold_s (1.5) AND oversample_factor < 2.0
+    rationale: At long TR without oversampling, lag resolution is limited to the TR.
+    suggested_fix: "Increase oversample_factor (>=2) for sub-TR lag resolution at long TR."
+
+  - id: RAPIDTIDE_LAG_MAP_NO_DESPECKLE
+    severity: warn
+    action: warn
+    trigger: lag_map_despeckle is present AND false-y
+    rationale: Without despeckling, isolated voxels can hold spurious extreme lags.
+    suggested_fix: "Enable despeckling so neighbours correct isolated lag outliers."
+
+  - id: RAPIDTIDE_LAG_RAILING_AT_BOUNDARY
+    severity: error
+    action: block
+    scope: per subject_summaries entry
+    trigger: lag_boundary_fraction > lag_boundary_rail_fraction (0.10)
+    rationale: >-
+      Observable confirmation (not just a declaration) that the search window
+      truncates real delays; the finding carries the subject id as artifact_name.
+    suggested_fix: "Widen the lag-search range until boundary railing is negligible, then re-run."
+
+# ---------------------------------------------------------------------------
+# Verdict roll-up
+# ---------------------------------------------------------------------------
+roll_up:
+  - if: no findings
+    then: {decision: approve, risk_level: low}
+  - elif: any finding has action=block OR severity=critical
+    then: {decision: block, risk_level: critical}
+  - elif: any finding has severity=error
+    then: {decision: revise, risk_level: high}
+  - else: {decision: approve_with_warnings, risk_level: medium}
+
+# checklist_generated returned with every verdict (canonical-method contract keys)
+checklist:
+  - cross_correlation_lag_search
+  - lag_search_range_s
+  - refinement_passes
+  - temporal_filter_band_hz
+  - regressor_source
+
+# Input validation (raises -> {"ok": false, "error": ...} at the tool boundary)
+validation:
+  task_profile: required non-empty string
+  method_contract: required object
+  subject_summaries: list when provided

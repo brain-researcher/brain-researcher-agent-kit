@@ -1,0 +1,11 @@
+{
+  "project_root": "/data/study",
+  "run_tag": "clean-fmri-glm",
+  "steps": [
+    {"step_id": "strip", "tool": "bet", "params": {"modality": "bold"}},
+    {"step_id": "reg", "tool": "fsl_flirt", "params": {"target_space": "MNI152NLin2009cAsym"}},
+    {"step_id": "confounds", "tool": "confound_regression", "params": {}},
+    {"step_id": "glm", "tool": "glm_first_level", "params": {"tr": 2.0, "high_pass": 0.01, "n_events_per_condition": 20}},
+    {"step_id": "atlas", "tool": "extract_timeseries", "params": {"atlas": "schaefer400"}}
+  ]
+}
