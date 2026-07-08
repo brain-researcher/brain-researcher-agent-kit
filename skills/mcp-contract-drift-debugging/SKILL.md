@@ -16,7 +16,7 @@ silently fails or hits the wrong tool.
 
 The relied-on stable-tier tools are `server_info` (contract, stable/deprecated
 inventory, capabilities), `tool_search` (capability rediscovery), and `tool_get`
-(exact name + argument schema). Authored against **`contract_version >= 2026-05-27`**.
+(exact name + argument schema). Authored against **`contract_version >= 2026-07-08`**.
 
 **When NOT to use.** If the server is reachable, the tool you want is in
 `stable_tools`, and the name matches, there is no drift — just call it. This is

@@ -19,7 +19,7 @@ Use it when asked "is this analysis pre-registered?" / "give me a claim card / a
 record" for an analysis that already ran. Do **not** use it to seal a *new*
 confirmatory analysis (that is `sealed-commitment-preregistration`).
 
-Authored against Brain Researcher MCP `contract_version >= 2026-05-27`.
+Authored against Brain Researcher MCP `contract_version >= 2026-07-08`.
 
 ## Workflow
 

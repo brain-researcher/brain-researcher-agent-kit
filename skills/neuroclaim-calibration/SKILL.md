@@ -20,7 +20,7 @@ hypotheses (`kg-hypothesis-discovery-and-verification`), to ground the anchors o
 claim you're about to state (`evidence-grounding`), or to gate a final report
 (`final-report-gate`) — this is multi-axis *ceiling* calibration.
 
-Authored against Brain Researcher MCP `contract_version >= 2026-05-27`.
+Authored against Brain Researcher MCP `contract_version >= 2026-07-08`.
 
 ## Workflow
 

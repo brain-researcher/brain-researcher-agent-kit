@@ -17,7 +17,7 @@ Use it when a run failed / stalled / errored surprisingly and the user wants "wh
 went wrong and how do I fix it?". Do **not** use it for a *successful* run's quality
 review (that is scientific/code review), or to claim a fix worked without a re-run.
 
-Authored against Brain Researcher MCP `contract_version >= 2026-05-27`.
+Authored against Brain Researcher MCP `contract_version >= 2026-07-08`.
 
 ## Workflow
 
