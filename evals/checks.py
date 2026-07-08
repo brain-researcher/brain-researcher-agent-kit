@@ -329,12 +329,142 @@ def check_report_gate_rejection(out: Path) -> list[dict]:
     return results
 
 
+# Reverse-inference relation markers — a "region X engages cognition Y" claim shape.
+# Mirrors autoresearch.society.compile._REVERSE_INFERENCE_MARKERS so this check
+# classifies a reverse-inference claim the same way the primitive does.
+_REVERSE_MARKERS = (
+    "engages", "engaged in", "involved in", "is involved", "involvement",
+    "mediates", "mediated by", "underlies", "underlying", "subserves",
+    "responsible for", "supports", "recruited", "necessary for", "implements",
+)
+
+
+def _is_reverse_claim(text: str) -> bool:
+    t = (text or "").lower()
+    return any(m in t for m in _REVERSE_MARKERS)
+
+
+def check_neuroclaim_evidence_gate(out: Path) -> list[dict]:
+    """Assert the honesty invariants of the neuroclaim_compile primitive.
+
+    Reads the captured NeuroClaimReportV1 JSONs (neuroclaim_report_*.json) and, per
+    honesty branch, asserts the property the primitive promises. Reports are classified
+    by CONTENT (verdict_basis / status / degraded / claim shape), so the checks are
+    order-independent and never rely on filename position.
+    """
+    results: list[dict] = []
+    report_paths = sorted(out.glob("neuroclaim_report_*.json"))
+
+    reports: list[tuple[str, dict]] = []
+    parse_errors: list[str] = []
+    for p in report_paths:
+        obj, err = _read_json(p)
+        if err:
+            parse_errors.append(err)
+        elif isinstance(obj, dict):
+            reports.append((p.name, obj))
+
+    results.append({
+        "id": "neuroclaim_reports_loaded",
+        "passed": len(reports) >= 4 and not parse_errors,
+        "detail": (
+            f"{len(reports)} report(s) parsed from {len(report_paths)} file(s) "
+            f"(need >=4); parse_errors={parse_errors}"
+        ),
+    })
+    if not reports:
+        return results
+
+    # Content-based classification (order-independent).
+    evidential = [
+        (n, r) for n, r in reports
+        if r.get("verdict_basis") == "evidential" and not r.get("degraded")
+    ]
+    reverse = [(n, r) for n, r in evidential if _is_reverse_claim(r.get("claim_text", ""))]
+    ill_typed = [(n, r) for n, r in reports if r.get("status") == "ill_typed"]
+    degraded = [(n, r) for n, r in reports if r.get("degraded") is True]
+
+    # (a) Every non-degraded evidential claim MUST have run the mandatory sensitivity sweep.
+    def _sens_ran(r: dict) -> bool:
+        s = r.get("sensitivity")
+        return isinstance(s, dict) and s.get("ran") is True
+
+    bad_sens = [n for n, r in evidential if not _sens_ran(r)]
+    results.append({
+        "id": "evidential_claims_ran_sensitivity",
+        "passed": len(evidential) >= 1 and not bad_sens,
+        "detail": (
+            f"{len(evidential)} evidential claim(s); sensitivity.ran==true for all "
+            f"except {bad_sens}" if evidential else "no evidential claim found"
+        ),
+    })
+
+    # (b) A reverse-inference claim MUST be capped to `qualified` + carry a reverse caveat.
+    def _reverse_caveat(r: dict) -> list[str]:
+        return [
+            m for m in (r.get("missing_premises") or [])
+            if isinstance(m, str) and m.strip() and "reverse inference" in m.lower()
+        ]
+
+    rev_bad = []
+    for n, r in reverse:
+        if r.get("status") != "qualified" or not _reverse_caveat(r):
+            rev_bad.append(f"{n}(status={r.get('status')}, caveat={bool(_reverse_caveat(r))})")
+    results.append({
+        "id": "reverse_inference_capped_to_qualified_with_caveat",
+        "passed": len(reverse) >= 1 and not rev_bad,
+        "detail": (
+            f"{len(reverse)} reverse-inference claim(s); violations={rev_bad}"
+            if reverse else "no reverse-inference-shaped evidential claim found"
+        ),
+    })
+
+    # (c) An ill-typed claim MUST be a structural short-circuit that never hit the evidence layer.
+    ill_bad = []
+    for n, r in ill_typed:
+        reasons = (r.get("typecheck") or {}).get("ill_typed_reasons")
+        if (r.get("verdict_basis") != "structural" or not reasons
+                or r.get("evidence_verdict") is not None):
+            ill_bad.append(
+                f"{n}(basis={r.get('verdict_basis')}, has_reasons={bool(reasons)}, "
+                f"evidence_verdict_none={r.get('evidence_verdict') is None})"
+            )
+    results.append({
+        "id": "ill_typed_is_structural_shortcircuit",
+        "passed": len(ill_typed) >= 1 and not ill_bad,
+        "detail": (
+            f"{len(ill_typed)} ill_typed report(s); violations={ill_bad}"
+            if ill_typed else "no ill_typed report found"
+        ),
+    })
+
+    # (d) A degraded/backend-unreachable capture MUST be unresolved + degraded, never laundered.
+    deg_bad = []
+    for n, r in degraded:
+        if (r.get("status") != "unresolved" or r.get("degraded") is not True
+                or r.get("evidence_verdict") is not None):
+            deg_bad.append(
+                f"{n}(status={r.get('status')}, degraded={r.get('degraded')}, "
+                f"evidence_verdict_none={r.get('evidence_verdict') is None})"
+            )
+    results.append({
+        "id": "degraded_backend_unresolved_not_laundered",
+        "passed": len(degraded) >= 1 and not deg_bad,
+        "detail": (
+            f"{len(degraded)} degraded report(s); violations={deg_bad}"
+            if degraded else "no degraded report found"
+        ),
+    })
+    return results
+
+
 REGISTRY = {
     "cross-tool-handoff": check_cross_tool_handoff,
     "literature-grounding": check_literature_grounding,
     "null-result-self-critique": check_null_result_self_critique,
     "plan-validate-and-execute": check_plan_validate_and_execute,
     "report-gate-rejection": check_report_gate_rejection,
+    "neuroclaim-evidence-gate": check_neuroclaim_evidence_gate,
 }
 
 

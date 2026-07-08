@@ -1,0 +1,127 @@
+{
+  "ok": true,
+  "schema_version": "neuroclaim-report-v1",
+  "claim_id": "claim:c5f0c9dd907d",
+  "claim_text": "The dorsolateral prefrontal cortex engages working memory.",
+  "formalized_claim": {
+    "raw": "The dorsolateral prefrontal cortex engages working memory.",
+    "subject": null,
+    "relation": null,
+    "object": null
+  },
+  "scope": {
+    "population": "healthy adults",
+    "modality": "fMRI",
+    "datasets": [
+      "ds000030"
+    ],
+    "workflow_family": "task_glm_activation"
+  },
+  "status": "qualified",
+  "verdict_basis": "evidential",
+  "typecheck": {
+    "checked": false,
+    "well_typed": true,
+    "findings": [],
+    "ill_typed_reasons": [],
+    "skipped_reason": "no plan supplied — pipeline type-coherence not checked"
+  },
+  "evidence_verdict": {
+    "status": "supported_within_scope",
+    "backend": "nimare",
+    "profile": "default",
+    "association_probability": 0.86,
+    "confidence": 0.86,
+    "normalized_claim": null,
+    "inference": "forward_convergence",
+    "region_confidence": 0.82,
+    "term_confidence": 0.78,
+    "region_source": "grounding.region_lexicon",
+    "term_source": "grounding.term_lexicon",
+    "n_supporting": 41,
+    "n_conflicting": 2,
+    "supporting_refs": [
+      "study:neurosynth-ale-1",
+      "study:neurosynth-ale-2"
+    ],
+    "conflicting_refs": [],
+    "reproducible_query": {
+      "backend": "nimare",
+      "estimator": "ALE(null_method=approximate)",
+      "profile": "default"
+    },
+    "raw": {
+      "inference": "forward_convergence"
+    },
+    "warnings": [
+      "forward-convergence evidence (not reverse inference)"
+    ]
+  },
+  "uncertainty": {
+    "association_p": {
+      "name": "association_p",
+      "value": 0.86,
+      "source": "nimare.confidence",
+      "is_sorry": false,
+      "note": ""
+    },
+    "extraction_confidence": {
+      "name": "extraction_confidence",
+      "value": 0.88,
+      "source": "caller",
+      "is_sorry": false,
+      "note": ""
+    },
+    "evidence_quality": {
+      "name": "evidence_quality",
+      "value": 0.8634,
+      "source": "nimare.method_quality",
+      "is_sorry": false,
+      "note": "weighted methodological factors study_base=1.00, evidence_balance=0.95, inference_tier=0.50, sensitivity=1.00 -> base 0.86"
+    },
+    "coordinate_to_region": {
+      "name": "coordinate_to_region",
+      "value": 0.82,
+      "source": "grounding.region_lexicon",
+      "is_sorry": false,
+      "note": ""
+    },
+    "task_to_ontology": {
+      "name": "task_to_ontology",
+      "value": 0.78,
+      "source": "grounding.term_lexicon",
+      "is_sorry": false,
+      "note": ""
+    }
+  },
+  "sensitivity": {
+    "ran": true,
+    "default_profile": "default",
+    "default_status": "supported_within_scope",
+    "strict_profile": "strict",
+    "strict_status": "supported_within_scope",
+    "verdict_survives": true,
+    "note": "verdict unchanged under conservative evidence"
+  },
+  "contradictions": [],
+  "missing_premises": [
+    "no plan supplied — pipeline type-coherence not checked",
+    "reverse inference not established: forward-convergence evidence only (P(region|cognition) != P(cognition|region), Poldrack 2006) — capped supported_within_scope -> qualified"
+  ],
+  "source_spans": [
+    "study:neurosynth-ale-1",
+    "study:neurosynth-ale-2"
+  ],
+  "provenance": null,
+  "reproducible_query": {
+    "backend": "nimare",
+    "estimator": "ALE(null_method=approximate)",
+    "profile": "default"
+  },
+  "backend": "nimare",
+  "run_id": null,
+  "degraded": false,
+  "degraded_reason": "",
+  "status_not_ground_truth": true,
+  "generated_at": "2026-07-08T21:51:03.848485+00:00"
+}

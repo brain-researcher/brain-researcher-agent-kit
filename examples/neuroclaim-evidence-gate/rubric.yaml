@@ -1,0 +1,9 @@
+apply:
+  - validity
+  - rejection
+demo_specific:
+  # Honesty invariants of the neuroclaim_compile primitive, one per branch.
+  - Every non-degraded EVIDENTIAL report MUST carry `sensitivity.ran == true` (no evidential verdict ships without the mandatory conservative-bar sensitivity sweep).
+  - The reverse-inference claim ("the {region} engages {cognition}") backed only by forward-convergence evidence MUST be capped to status `qualified` AND carry a non-empty reverse-inference caveat in `missing_premises` (P(region|cognition) != P(cognition|region)).
+  - The ill-typed claim (an EEG dataset routed into a volumetric-MNI fMRI GLM) MUST short-circuit to status `ill_typed` with `verdict_basis == "structural"`, a non-empty `typecheck.ill_typed_reasons`, and `evidence_verdict == null` (the evidence layer is never consulted).
+  - The degraded / backend-unreachable capture MUST be status `unresolved` with `degraded == true` and `evidence_verdict == null` — an unavailable backend is never laundered into a supported verdict.

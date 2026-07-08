@@ -1,0 +1,84 @@
+{
+  "_about": "Four claims + scopes that each exercise one honesty branch of the neuroclaim_compile MCP primitive. Each entry maps 1:1 onto the neuroclaim_compile tool arguments (claim_text, population/modality/datasets/workflow_family, optional plan, extraction_confidence, backend, run_sensitivity). `expected_branch` records the honesty property the claim is chosen to prove; it is documentation, not a tool argument.",
+  "claims": [
+    {
+      "id": "clean_association",
+      "expected_branch": "evidential_supported",
+      "claim_text": "Amygdala activation is greater for fearful than neutral faces.",
+      "scope": {
+        "population": "healthy adults",
+        "modality": "fMRI",
+        "datasets": ["ds000109"],
+        "workflow_family": "task_glm_activation"
+      },
+      "extraction_confidence": 0.9,
+      "run_sensitivity": true,
+      "backend": "nimare",
+      "_note": "A forward-activation contrast (no reverse-inference marker). Should compile to an evidential verdict; the MANDATORY sensitivity sweep must have run (sensitivity.ran == true)."
+    },
+    {
+      "id": "reverse_inference",
+      "expected_branch": "reverse_inference_capped",
+      "claim_text": "The dorsolateral prefrontal cortex engages working memory.",
+      "scope": {
+        "population": "healthy adults",
+        "modality": "fMRI",
+        "datasets": ["ds000030"],
+        "workflow_family": "task_glm_activation"
+      },
+      "extraction_confidence": 0.88,
+      "run_sensitivity": true,
+      "backend": "nimare",
+      "_note": "A 'region X engages cognition Y' claim backed only by forward-convergence evidence. P(region|cognition) != P(cognition|region) (Poldrack 2006), so a clean support must be capped to `qualified` with a reverse-inference caveat."
+    },
+    {
+      "id": "ill_typed_eeg_into_fmri_glm",
+      "expected_branch": "ill_typed_structural",
+      "claim_text": "An EEG dataset can be analyzed with an fMRI first-level GLM to localize face-selective activation.",
+      "scope": {
+        "modality": "EEG",
+        "datasets": ["ds_eeg_faces"],
+        "workflow_family": "fmri_glm"
+      },
+      "extraction_confidence": 0.9,
+      "backend": "kg_verify",
+      "plan": {
+        "project_root": "/tmp/br-demo-run",
+        "steps": [
+          {
+            "step_id": "s1_load_eeg",
+            "tool": "bids_loader",
+            "params": {"dataset": "ds_eeg_faces", "modality": "eeg"}
+          },
+          {
+            "step_id": "s2_fmri_first_level_glm",
+            "tool": "fitlins",
+            "params": {
+              "modality": "eeg",
+              "space": "MNI152NLin2009cAsym",
+              "model": "first_level",
+              "contrasts": {"faces_gt_houses": {"faces": 1.0, "houses": -1.0}}
+            }
+          }
+        ]
+      },
+      "_note": "A type-incoherent plan (an EEG dataset routed into a volumetric-MNI fMRI GLM). The deterministic typecheck must short-circuit to status `ill_typed` with verdict_basis `structural` BEFORE any evidence layer is consulted."
+    },
+    {
+      "id": "degraded_backend_unreachable",
+      "expected_branch": "degraded_unresolved",
+      "claim_text": "Insular cortex functional connectivity predicts trait anxiety severity.",
+      "scope": {
+        "population": "clinical (anxiety)",
+        "modality": "fMRI",
+        "datasets": ["ds_anx_rest"],
+        "workflow_family": "resting_state_fc"
+      },
+      "extraction_confidence": 0.7,
+      "run_sensitivity": true,
+      "backend": "kg_verify",
+      "simulate": "evidence_backend_unreachable",
+      "_note": "The evidence backend is unreachable at query time (e.g. Neo4j offline). The compiler must ABSTAIN with a typed degraded report: status `unresolved`, degraded == true, evidence_verdict null — an unavailable backend is NEVER laundered into a supported verdict."
+    }
+  ]
+}
