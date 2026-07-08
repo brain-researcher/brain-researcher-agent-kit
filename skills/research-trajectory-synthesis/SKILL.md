@@ -18,7 +18,7 @@ synthesis. Do **not** use it for a single-run review (`scientific-self-critique`
 session-lesson→memory promotion (`session-lessons-to-memory-promotion`), or a final
 report over one result (`final-report-gate`).
 
-Authored against Brain Researcher MCP `contract_version >= 2026-05-27`.
+Authored against Brain Researcher MCP `contract_version >= 2026-07-08`.
 
 ## Workflow
 

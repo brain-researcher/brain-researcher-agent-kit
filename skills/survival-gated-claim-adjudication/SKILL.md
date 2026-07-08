@@ -18,7 +18,7 @@ to report a winner/ranking or dispatch external (SLURM) compute. Do **not** use 
 for the full governed run demonstration (`governed-autoresearch-episode`) — this is
 the lightweight commit + gate + compare discipline any autonomous run hits.
 
-Authored against Brain Researcher MCP `contract_version >= 2026-05-27`.
+Authored against Brain Researcher MCP `contract_version >= 2026-07-08`.
 
 ## Workflow
 

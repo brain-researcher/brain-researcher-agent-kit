@@ -21,7 +21,7 @@ This skill wraps the stable-tier tools `run_bundle_get`, `run_scorecard`, and th
 `artifact_*` inspection surface (`artifact_list`, `artifact_get_metadata`), then
 feeds a downstream `scientific_report_generate`, `run_scientific_review`,
 `run_code_review`, or `request_scientific_review`. It was authored against
-`contract_version >= 2026-05-27` and depends on the `run_observability`
+`contract_version >= 2026-07-08` and depends on the `run_observability`
 capability. It adds no new logic — only the threading discipline around the
 existing calls.
 

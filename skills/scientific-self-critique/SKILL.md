@@ -25,7 +25,7 @@ result to critique; and for pre-execution plan critique (that is
 manufacture a positive story from noise — the follow-up is a documented
 exploration, not a hunt for a headline.
 
-Authored against BR stable-tier surface, `contract_version >= 2026-05-27`.
+Authored against BR stable-tier surface, `contract_version >= 2026-07-08`.
 
 ## Workflow
 
@@ -33,7 +33,7 @@ Each step names a BR tool, a check, or a decision. Inspect the live MCP surface
 first; only call tools the current client actually exposes.
 
 1. **Preflight + start logging.** Call `server_info`; confirm
-   `contract_version >= 2026-05-27` and that the `scientific_review` capability
+   `contract_version >= 2026-07-08` and that the `scientific_review` capability
    is `true`. Open the task with
    `log_research_event(kind="start", source="agent", source_client=...)` using
    one stable `session_id`. If `server_info` fails or the review capability is

@@ -18,7 +18,7 @@ you candidate hypotheses and asks "are these actually supported?". Do **not** us
 it to ground the anchors of an *already-formed* claim you are about to state — that
 is the `evidence-grounding` skill.
 
-Authored against Brain Researcher MCP `contract_version >= 2026-05-27`.
+Authored against Brain Researcher MCP `contract_version >= 2026-07-08`.
 
 ## Workflow
 

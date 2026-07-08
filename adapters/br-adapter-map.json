@@ -1,6 +1,6 @@
 {
   "$schema": "./adapter-map.schema.json",
-  "contract_version_required": "2026-05-27",
+  "contract_version_required": "2026-07-08",
   "description": "Generic-intent → Brain Researcher stable-tier tool routing. Each intent declares a preferred call sequence, a fallback chain, and notes that constrain how the result should be described to the user.",
   "intents": [
     {
