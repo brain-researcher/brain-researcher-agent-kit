@@ -45,9 +45,9 @@ What it checks (all ported verbatim from BR — see `references/rules.md`):
 The KG-backed path stays an MCP call — it is `pipeline_plan_validate` (the tool
 sets `use_kg=False` internally but still does registry preflight + workspace
 resolution) and `pipeline_plan_review(plan, use_kg=True)` (adds KG parameter
-grounding). Those are listed in `needs_mcp_tools`. This skill does **not**
-certify that a plan is runnable — only that it is internally consistent and
-scientifically well-formed.
+grounding). Those two MCP calls are the server-backed handoff. This skill does
+**not** certify that a plan is runnable — only that it is internally consistent
+and scientifically well-formed.
 
 ## Workflow
 
@@ -105,7 +105,7 @@ The output mirrors the `code_review` verdict of the MCP tool:
 ### Step 5 — Escalate to the server only when needed
 
 If a finding depends on a literature prior, a registry check, or a certified
-verdict of record, hand off to the MCP (see `needs_mcp_tools`): call
+verdict of record, hand off to the MCP: call
 `pipeline_plan_review` with `use_kg=true` for KG-grounded parameter review, or
 `pipeline_plan_validate` for the full server-side normalize + registry preflight
 + workspace resolution. State explicitly that the offline pass is advisory and
