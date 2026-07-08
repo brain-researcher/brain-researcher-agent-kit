@@ -1,0 +1,101 @@
+{
+  "ok": true,
+  "schema_version": "neuroclaim-report-v1",
+  "claim_id": "claim:e8e2af41ba36",
+  "claim_text": "An EEG dataset can be analyzed with an fMRI first-level GLM to localize face-selective activation.",
+  "formalized_claim": {
+    "raw": "An EEG dataset can be analyzed with an fMRI first-level GLM to localize face-selective activation.",
+    "subject": null,
+    "relation": null,
+    "object": null
+  },
+  "scope": {
+    "population": null,
+    "modality": "EEG",
+    "datasets": [
+      "ds_eeg_faces"
+    ],
+    "workflow_family": "fmri_glm"
+  },
+  "status": "ill_typed",
+  "verdict_basis": "structural",
+  "typecheck": {
+    "checked": true,
+    "well_typed": false,
+    "findings": [
+      {
+        "rule_id": "REVIEW_MODALITY_MISMATCH",
+        "severity": "error",
+        "message": "Modalities ['eeg'] combined with volumetric MNI space/atlas ['MNI152NLin2009cAsym'] — modality/space mismatch.",
+        "reason_tags": [
+          "eeg",
+          "meg",
+          "atlas",
+          "modality"
+        ]
+      }
+    ],
+    "ill_typed_reasons": [
+      "REVIEW_MODALITY_MISMATCH: Modalities ['eeg'] combined with volumetric MNI space/atlas ['MNI152NLin2009cAsym'] — modality/space mismatch."
+    ],
+    "skipped_reason": ""
+  },
+  "evidence_verdict": null,
+  "uncertainty": {
+    "association_p": {
+      "name": "association_p",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    },
+    "extraction_confidence": {
+      "name": "extraction_confidence",
+      "value": 0.9,
+      "source": "caller",
+      "is_sorry": false,
+      "note": ""
+    },
+    "evidence_quality": {
+      "name": "evidence_quality",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    },
+    "coordinate_to_region": {
+      "name": "coordinate_to_region",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    },
+    "task_to_ontology": {
+      "name": "task_to_ontology",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    }
+  },
+  "sensitivity": null,
+  "contradictions": [],
+  "missing_premises": [
+    "REVIEW_MODALITY_MISMATCH: Modalities ['eeg'] combined with volumetric MNI space/atlas ['MNI152NLin2009cAsym'] — modality/space mismatch.",
+    "association_p: unresolved (no source)",
+    "evidence_quality: unresolved (no source)",
+    "coordinate_to_region: unresolved (no source)",
+    "task_to_ontology: unresolved (no source)"
+  ],
+  "source_spans": [],
+  "provenance": null,
+  "reproducible_query": {
+    "typecheck": "rule_engine.evaluate_plan(build_plan_review_bundle(plan))"
+  },
+  "backend": "kg_verify",
+  "run_id": null,
+  "degraded": false,
+  "degraded_reason": "",
+  "status_not_ground_truth": true,
+  "generated_at": "2026-07-08T21:51:03.910585+00:00"
+}

@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "schema_version": "neuroclaim-report-v1",
+  "claim_id": "claim:6d7271a59aeb",
+  "claim_text": "Insular cortex functional connectivity predicts trait anxiety severity.",
+  "formalized_claim": {
+    "raw": "Insular cortex functional connectivity predicts trait anxiety severity.",
+    "subject": null,
+    "relation": null,
+    "object": null
+  },
+  "scope": {
+    "population": "clinical (anxiety)",
+    "modality": "fMRI",
+    "datasets": [
+      "ds_anx_rest"
+    ],
+    "workflow_family": "resting_state_fc"
+  },
+  "status": "unresolved",
+  "verdict_basis": "evidential",
+  "typecheck": {
+    "checked": false,
+    "well_typed": true,
+    "findings": [],
+    "ill_typed_reasons": [],
+    "skipped_reason": "no plan supplied — pipeline type-coherence not checked"
+  },
+  "evidence_verdict": null,
+  "uncertainty": {
+    "association_p": {
+      "name": "association_p",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    },
+    "extraction_confidence": {
+      "name": "extraction_confidence",
+      "value": 0.7,
+      "source": "caller",
+      "is_sorry": false,
+      "note": ""
+    },
+    "evidence_quality": {
+      "name": "evidence_quality",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    },
+    "coordinate_to_region": {
+      "name": "coordinate_to_region",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    },
+    "task_to_ontology": {
+      "name": "task_to_ontology",
+      "value": null,
+      "source": "",
+      "is_sorry": true,
+      "note": ""
+    }
+  },
+  "sensitivity": null,
+  "contradictions": [],
+  "missing_premises": [
+    "association_p: unresolved (no source)",
+    "evidence_quality: unresolved (no source)",
+    "coordinate_to_region: unresolved (no source)",
+    "task_to_ontology: unresolved (no source)",
+    "evidence backend 'kg_verify' unreachable — evidence step ABSTAINED (typed): KG verify backend unreachable (Neo4j offline?): ServiceUnavailable: Unable to retrieve routing information. Verdict withheld; report degraded (not a real adjudication)."
+  ],
+  "source_spans": [],
+  "provenance": null,
+  "reproducible_query": {
+    "backend": "kg_verify",
+    "evidence": "unavailable_abstain"
+  },
+  "backend": "kg_verify",
+  "run_id": null,
+  "degraded": true,
+  "degraded_reason": "evidence backend 'kg_verify' unreachable — evidence step ABSTAINED (typed): KG verify backend unreachable (Neo4j offline?): ServiceUnavailable: Unable to retrieve routing information. Verdict withheld; report degraded (not a real adjudication).",
+  "status_not_ground_truth": true,
+  "generated_at": "2026-07-08T21:51:03.910810+00:00"
+}
