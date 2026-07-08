@@ -1,0 +1,51 @@
+{
+  "schema": "neuroprogram-design-axis-taxonomy-v1",
+  "ported_from": [
+    "brain_researcher/autoresearch/society/optimize.py -> _FULL_AXES, _COVERAGE_AXES, _CONFOUND_REGRESSOR_COUNT, MIN_VARIANTS, MIN_AXES_VARIED, MIN_MEAN_EFFICIENCY, _prior_is_degenerate, make_count_efficiency_fn, _coverage_entropy",
+    "brain_researcher/autoresearch/society/compile_design.py -> DEFAULT_DESIGN_PRIORS, _DEFAULT_AXES",
+    "brain_researcher/core/multiverse/spec_family.py -> _DEFAULT_AXES, AXIS_PRIORITY"
+  ],
+  "full_axes": {
+    "hrf_basis": ["canonical", "derivs", "glover", "fir"],
+    "confounds": ["6mot", "24mot", "24mot_physio", "24mot_pupil", "24mot_physio_pupil"],
+    "high_pass": ["128", "256"]
+  },
+  "coverage_axes": ["hrf_basis", "confounds", "high_pass"],
+  "axis_semantics": {
+    "hrf_basis": "haemodynamic response basis for the GLM convolution (canonical SPM, canonical + temporal/dispersion derivatives, Glover, or FIR).",
+    "confounds": "nuisance-regressor model: 6 motion params, 24 motion (Friston), +physio (aCompCor/global), +pupil, or both.",
+    "high_pass": "cosine-drift high-pass cutoff in seconds (128 or 256)."
+  },
+  "confound_regressor_counts": {
+    "6mot": 6,
+    "24mot": 24,
+    "24mot_physio": 32,
+    "24mot_pupil": 25,
+    "24mot_physio_pupil": 33
+  },
+  "hrf_extra_regressors": {
+    "canonical": 0,
+    "glover": 0,
+    "derivs": 2,
+    "fir": 6
+  },
+  "default_design_priors": {
+    "hrf_basis": {"canonical": 0.4, "derivs": 0.3, "glover": 0.2, "fir": 0.1},
+    "high_pass": {"128": 0.5, "256": 0.5},
+    "confounds": {"6mot": 0.5, "24mot": 0.3, "24mot_physio": 0.2}
+  },
+  "eligibility_floors": {
+    "MIN_VARIANTS": 2,
+    "MIN_AXES_VARIED": 2,
+    "MIN_MEAN_EFFICIENCY": 1e-06
+  },
+  "degenerate_prior_threshold": 0.99,
+  "notes": {
+    "coverage": "normalized Shannon entropy over the FULL axis space (NOT the prior-restricted options), clamped to 1.0 per axis, so a near-delta prior LOWERS coverage rather than hiding a collapsed multiverse.",
+    "mean_efficiency": "eligibility FLOOR only (a design whose contrast is unestimable is ineligible); NEVER maximized. A high mean efficiency is a detection-power proxy for the PRE-CHOSEN contrast, so maximizing it would be a back door to result-favourable selection.",
+    "efficiency_stability": "the MAXIMIZED robustness signal = across-variant concordance 1/(1+cv) of the per-variant efficiency. It reads only event TIMING + synthetic confound STRUCTURE (regressor COUNT), never confounds.tsv VALUES or any z-map/beta.",
+    "count_efficiency_proxy": "events-free, value-free structural DOF proxy 1/(1 + n_confound_regressors + hrf_extra_regressors); used offline when raw events.tsv is unavailable. For the real events-based nilearn design-matrix efficiency, use the server-backed optimizer (efficiency_fn built from event timing).",
+    "duplicate_variants": "a committed multiverse is a SET of DISTINCT pipelines; duplicate variant ids are de-duplicated so they cannot inflate the variant count, coverage, or stability.",
+    "objective_safety": "the fitness reads only the DESIGN (decision points, the contrast vector, event timing). Two different confounds.tsv files give byte-identical scores; that byte-identity is the load-bearing CI invariant."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "program_id": "example_phacking_program",
+  "comparison": "faces vs houses",
+  "objectives": ["maximize_effect_size", "maximize_novelty", "maximize_coverage"],
+  "weights": {"maximize_coverage": -1.0},
+  "claim_mode": "confirmatory",
+  "_note": "Intentionally UNSAFE fixture: two magnitude objectives and a negative weight. check_objective_safety.py must reject it (exit code 1)."
+}

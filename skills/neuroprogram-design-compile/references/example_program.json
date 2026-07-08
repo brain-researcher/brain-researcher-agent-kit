@@ -1,0 +1,12 @@
+{
+  "program_id": "example_finger_tapping",
+  "comparison": "finger tapping vs rest",
+  "objectives": ["maximize_robustness", "maximize_coverage", "minimize_compute_cost"],
+  "weights": {"maximize_robustness": 2.0, "maximize_coverage": 1.0, "minimize_compute_cost": 0.5},
+  "claim_mode": "confirmatory",
+  "design_priors": {
+    "hrf_basis": {"canonical": 0.4, "derivs": 0.3, "glover": 0.2, "fir": 0.1},
+    "high_pass": {"128": 0.5, "256": 0.5},
+    "confounds": {"6mot": 0.5, "24mot": 0.3, "24mot_physio": 0.2}
+  }
+}

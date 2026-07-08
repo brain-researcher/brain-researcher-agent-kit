@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0.0",
+  "source_of_truth": "Ported verbatim from brain_researcher services/shared/session_lessons.py (functions classify_session + extract_session_lessons). Patterns are case-insensitive Python regular expressions applied with re.search.",
+  "notes": [
+    "This file is the auditable rule kernel. scripts/session_heuristics.py loads it and applies the patterns; edit a pattern here and the classifier behavior changes deterministically.",
+    "risk_labels is the closed, canonical open-risk vocabulary returned by session_risk_classify. Any open item that matches no pattern falls back to 'pre-existing-debt'.",
+    "Regex escapes are JSON-escaped (a literal backslash is written as two characters). scripts compile these with re.IGNORECASE."
+  ],
+
+  "risk_labels": [
+    "uncommitted-local",
+    "unrelated-dirty-worktree",
+    "partial-validation",
+    "prod-auth-data-runtime",
+    "generated-artifact",
+    "pre-existing-debt",
+    "scientific-method-gap",
+    "logging-metadata-gap"
+  ],
+
+  "open_risk_patterns": [
+    {
+      "label": "uncommitted-local",
+      "pattern": "\\b(uncommitted|not committed|local only|ahead of origin|not pushed|unstaged|staged)\\b"
+    },
+    {
+      "label": "unrelated-dirty-worktree",
+      "pattern": "\\b(unrelated|dirty worktree|dirty files|untracked .*remain|left untouched|outside this|not touched)\\b"
+    },
+    {
+      "label": "partial-validation",
+      "pattern": "\\b(no tests|not run|not verified|unverified|manual verification|partial validation|smoke .*not|full .*not run|coverage .*missing)\\b"
+    },
+    {
+      "label": "prod-auth-data-runtime",
+      "pattern": "\\b(prod|deploy|rollout|runtime|auth|credential|secret|token|health|degraded|timeout|unavailable|service issue|bucket_state|migration)\\b"
+    },
+    {
+      "label": "generated-artifact",
+      "pattern": "\\b(generated|artifact|artifacts|pdf|report|run bundle|ignored output|build output)\\b"
+    },
+    {
+      "label": "pre-existing-debt",
+      "pattern": "\\b(pre-existing|existing .*debt|lint debt|ruff .*fails|deprecation|legacy|broad existing)\\b"
+    },
+    {
+      "label": "scientific-method-gap",
+      "pattern": "\\b(null|weak effect|non-significant|confound|label|granularity|methodological|atlas|query-based seed|outer harness|raw data|ibma|blocked asset|gate remains blocked)\\b"
+    },
+    {
+      "label": "logging-metadata-gap",
+      "pattern": "\\b(source_client|snapshot|running session|transcript|tool trace|client_session_id|logging metadata)\\b"
+    }
+  ],
+  "open_risk_fallback_label": "pre-existing-debt",
+
+  "task_surface_patterns": [
+    {
+      "name": "prod-runtime",
+      "pattern": "\\b(prod|rollout|deploy|k3s|gcp|helm|docker|image tag|pod|health|smoke|runtime|orchestrator|secret|auth)\\b"
+    },
+    {
+      "name": "web-demo-ui",
+      "pattern": "\\b(web-ui|studio|demo|frontend|browser|playwright|screenshot|ui|artifact viewer|case report|route|next api)\\b"
+    },
+    {
+      "name": "repo-cleanup-release",
+      "pattern": "\\b(open-source|release readiness|repo-cleanup|license|gitignore|\\.env|secret cleanup|generated artifact|vendored)\\b"
+    },
+    {
+      "name": "docs-manuscript",
+      "pattern": "\\b(overleaf|latex|manuscript|abstract|caption|figure|supplement|discussion|bibliography|paper)\\b"
+    },
+    {
+      "name": "benchmark-eval-review",
+      "pattern": "\\b(benchmark|eval|review packet|score|scorer|metric|neurometabench|layer b|harbor|rubric|audit)\\b"
+    },
+    {
+      "name": "scientific-workflow",
+      "pattern": "\\b(autoresearch|hypothesis|scientific workflow|scientific report|neuroimaging|fmri|qsm|abide|hcp|connectome|multiverse|tribe|analysis)\\b"
+    },
+    {
+      "name": "kg-literature-data",
+      "pattern": "\\b(kg|br_kg|knowledge graph|literature|deepxiv|pubmed|openalex|dataset|openneuro|cognitive atlas|neurosynth|nimare)\\b"
+    },
+    {
+      "name": "code-contract",
+      "pattern": "\\b(pytest|test|ci|ruff|typecheck|schema|contract|api|module-boundary|core-services|implementation|bug|fix)\\b"
+    },
+    {
+      "name": "agent-policy-logging",
+      "pattern": "\\b(agents\\.md|claude\\.md|prompt|source_client|session logging|research logging|mcp function|instruction|codex|claude code)\\b"
+    }
+  ],
+  "task_surface_fallback": "other",
+
+  "validation_evidence_patterns": [
+    { "evidence_type": "pytest", "pattern": "\\bpytest\\b" },
+    { "evidence_type": "lint", "pattern": "\\b(ruff|lint|black --check|eslint)\\b" },
+    { "evidence_type": "typecheck", "pattern": "\\b(typecheck|tsc|mypy)\\b" },
+    { "evidence_type": "compile", "pattern": "\\b(py_compile|compileall|latexmk|compiled|build passed)\\b" },
+    { "evidence_type": "git-check", "pattern": "\\b(git diff --check|git status|git ls-files|git check-ignore)\\b" },
+    { "evidence_type": "health-smoke", "pattern": "\\b(health endpoint|/api/health|smoke|curl|browser|playwright)\\b" },
+    { "evidence_type": "artifact-check", "pattern": "\\b(pdfinfo|file check|artifact .*exists|verified .*artifact)\\b" },
+    { "evidence_type": "schema-contract", "pattern": "\\b(schema|contract|json parse|validated .*shape)\\b" },
+    {
+      "evidence_type": "neurometabench-bundle",
+      "pattern": "\\b(BR plan_preflight|BR audit verified|Wrote RUN_SUMMARY|coordinate count|space consistency|coordinate_table\\.csv|included_studies\\.csv|Generated ALE maps|metrics\\.json|provenance_manifest\\.json|spatial_report\\.md)\\b"
+    },
+    {
+      "evidence_type": "test-prose",
+      "pattern": "\\b(validated \\d+ .*tests? passing|validated .* tests? pass(?:ing|ed)?|\\d+ tests? pass(?:ing|ed)?)\\b"
+    },
+    {
+      "evidence_type": "report-render",
+      "pattern": "\\b(pdf rendered|rendered PDF|rerendered|LaTeX log|pdftotext|pdfinfo|md5 parity|compiled PDF|rebuilt .*\\.pdf|no LaTeX errors|no fatal)\\b"
+    },
+    {
+      "evidence_type": "prod-operational",
+      "pattern": "\\b(tools/list|rollout status|deployment image|verified prod|live MCP|MCP transport|kubectl)\\b"
+    },
+    {
+      "evidence_type": "kg-literature",
+      "pattern": "\\b(kg_search_nodes|deepxiv|DeepXiv|literature lookup|publication evidence|KG search)\\b"
+    }
+  ],
+
+  "prod_task_regex": "\\b(prod|rollout|deploy|k3s|gcp|helm|docker|image|pod|health|smoke|runtime)\\b",
+  "prod_evidence_regex": "\\b(rollout status|rolled out|deployed|image tag|docker\\.io|kubectl|deployment image|tools/list|live MCP|MCP transport|verified prod|/api/health|health endpoint|browser smoke|api smoke|public health|200)\\b",
+
+  "vague_open_values": [
+    "",
+    "none",
+    "n/a",
+    "na",
+    "no open issues",
+    "no open issues.",
+    "nothing"
+  ],
+
+  "hygiene_checks": [
+    {
+      "code": "missing_source_client",
+      "severity": "medium",
+      "message": "Session does not record source_client.",
+      "when": "source_client is empty or absent",
+      "evidence": "[session_id]"
+    },
+    {
+      "code": "missing_final_snapshot",
+      "severity": "high",
+      "message": "Session has no final write_session_snapshot closeout.",
+      "when": "has_snapshot is false",
+      "evidence": "[session_id]"
+    },
+    {
+      "code": "vague_open_none",
+      "severity": "low",
+      "message": "Open items contain vague none-style placeholders.",
+      "when": "any open item lowercases to a value in vague_open_values",
+      "evidence": "the matched vague open items"
+    },
+    {
+      "code": "succeeded_without_validation_evidence",
+      "severity": "medium",
+      "message": "Session is closed as succeeded but no concrete validation evidence was detected in done/open items.",
+      "when": "status == 'succeeded' AND has_snapshot is true AND validation_evidence is empty",
+      "evidence": "first 3 done_items"
+    },
+    {
+      "code": "prod_without_rollout_health_evidence",
+      "severity": "high",
+      "message": "Prod/runtime-like task lacks detected rollout or health evidence.",
+      "when": "prod_task_regex matches the digest text AND prod_evidence_regex does NOT match the done+open text",
+      "evidence": "first 4 digest text parts"
+    }
+  ],
+
+  "lesson_map": {
+    "missing_final_snapshot": "Close completed BR work with one final session snapshot.",
+    "missing_source_client": "Pass source_client so client-specific agent behavior is auditable.",
+    "succeeded_without_validation_evidence": "Pair succeeded closeout with concrete validation evidence.",
+    "prod_without_rollout_health_evidence": "Prod/runtime handoffs need rollout and health evidence.",
+    "vague_open_none": "Use explicit open-risk labels instead of vague none placeholders."
+  }
+}
