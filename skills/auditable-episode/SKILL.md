@@ -5,8 +5,8 @@ description: Run one offline, deterministic, PII-scrubbed auditable-research epi
 
 # Auditable episode (offline, deterministic, portable)
 
-Reproduces the Society **audit chain** — seal → adjudicate → emit — with zero external dependencies:
-no Neo4j, no network, no cluster, no bundled governed data. It is a portable proof that the
+Reproduces the Society **audit chain** — seal → adjudicate → emit — with zero external dependencies
+in its default mode: no Neo4j, no network, no cluster, no bundled governed data. It is a portable proof that the
 ordering holds (commit-before-observe) and that the emitted bundle actually carries the sealed card
 plus the deterministic verdict.
 
@@ -20,6 +20,10 @@ plus the deterministic verdict.
 - **NOT for** a real scientific result. The signal is a toy in-memory fixture. For a real governed
   analysis on real data, use the project-specific governed workflow for that dataset and keep it
   separate from this portable demo.
+- Reproduce the **local-data plumbing** Jeanette asked about for the HCP/A1 case: stage HCP-YA
+  behavioral data and paper-derived Liu/Tian component targets under the user's own data-use terms,
+  convert them into a checksum-bound local input contract, then run the same seal -> adjudicate ->
+  bundle path against those local files.
 
 ## Honest scope (one caveat is load-bearing)
 - The **fully-offline, reproducible-anywhere guarantee covers ONLY the deterministic
@@ -39,8 +43,10 @@ plus the deterministic verdict.
 2. **conda env `brain_researcher`** with `numpy`, `nimare`, `nilearn`. Preflight refuses if the
    offline NiMARE backend is not importable (otherwise `neuroclaim_compile` would silently fall
    back to the online KG backend and the "offline" claim would be a lie).
-3. No Neo4j, no Gemini key, no data downloads. The runner sets `USE_GEMINI_CLI=false` and
-   `BR_NEUROCLAIM_BACKEND=nimare`.
+3. No Neo4j or Gemini key. The default self-check uses no downloads. The optional HCP/A1
+   local-data path requires user-staged HCP-YA behavioral data plus the paper-derived component
+   table and, for a scientific rerun, subject-level A1 predictions. HCP data are not redistributed
+   by this repository.
 
 ## Run
 ```bash
@@ -57,6 +63,55 @@ PYTHONPATH=/path/to/br/src python skills/auditable-episode/scripts/run_episode.p
 # let the runner wire the checkout onto sys.path for you
 python skills/auditable-episode/scripts/run_episode.py --br-src /path/to/br@master
 ```
+
+## Optional HCP/A1 local-data staging path
+
+This is the reviewer-facing "my data are local" path for the HCP/A1 paper case. It deliberately
+separates **data acquisition** from **audit input preparation**:
+
+- HCP-YA behavioral data must be obtained by the user under HCP Data Use Terms. Current routes are
+  the HCP ConnectomeDB/BALSA portal and the HCP Open Data Registry on AWS; both still require the
+  applicable HCP terms.
+- The Liu/Tian component behavior table is a paper-derived HCP component target table with
+  `Subject` plus `ICA_Cognition`, `ICA_TobaccoUse`, `ICA_PersonalityEmotion`,
+  `ICA_IllicitDrugUse`, and `ICA_MentalHealth`.
+- A scientific A1 audit input also needs subject-level out-of-sample predictions and the A1 fold
+  manifest. A frozen metrics summary alone is not enough to rerun the `permutation_null` battery.
+
+```bash
+conda activate brain_researcher
+cd /path/to/brain-researcher-agent-kit
+
+# Use files the user has already staged under HCP/Liu paper access terms.
+python skills/auditable-episode/scripts/prepare_hcp_a1_local_inputs.py \
+  --output-dir data/auditable-episode-hcp-a1 \
+  --liu-behavior-csv /path/to/liu_component_behavior.csv \
+  --hcp-subjects-csv /path/to/HCP_YA_subjects.csv \
+  --predictions-csv /path/to/a1_subject_predictions.csv \
+  --prediction-column pred_ICA_Cognition \
+  --fold-manifest /path/to/fold_manifest.json
+
+# Now the audit runner reads only the local directory above.
+PYTHONPATH=/path/to/br/src python skills/auditable-episode/scripts/run_episode.py \
+  --br-src /path/to/br \
+  --data-dir data/auditable-episode-hcp-a1
+```
+
+For the Jeanette-style "prove local data can enter the full protocol" demo before A1 predictions are
+available, add `--allow-planted-demo`. That mode uses the HCP-derived residualized target but plants
+the positive-control prediction; it is audit plumbing only, not the A1 scientific result.
+
+The staging script writes:
+
+- `auditable_episode_manifest.json` — source dataset, staging routes, source-file hashes, target
+  residualization provenance, prediction source, and privacy notes (no subject IDs exported).
+- `auditable_episode_inputs.npz` — the local arrays consumed by the audit runner.
+- `hcp_a1_target_values.csv` — row-indexed target/prediction/fold values used to bind the run to
+  the local staged data without exporting subject identifiers.
+
+The emitted audit evidence and claim card include the local-data manifest. Raw HCP rows, subject
+identifiers, and credentials are not copied into the audit bundle; they stay in the user's local
+staging area.
 
 ## Expected output
 ```
@@ -88,8 +143,13 @@ the survival-gated score is withheld. The permutation p is reproducible byte-for
   the claim card (survival-gated on the permutation battery) + a **redacted** evidence file;
   (6) emit via `persist_audit_bundle`, then **re-open the bundle and assert** it contains the sealed
   card (hash unchanged), the `permutation_null` verdict, and no leaked PII.
-- `scripts/run_episode.py` — two tiny in-memory fixtures (PII-free by construction), fresh
-  `run_dir` per component, forces the offline env, runs the reference self-check.
+- `scripts/prepare_hcp_a1_local_inputs.py` — optional HCP/A1 local-data bridge. It validates
+  user-staged HCP and Liu/Tian files, residualizes `ICA_Cognition` against PMAT24/ListSort/ReadEng
+  when needed, binds subject-level predictions plus the A1 fold manifest, writes local arrays plus a
+  checksum manifest, and prints the `run_episode.py --data-dir` command.
+- `scripts/run_episode.py` — two tiny in-memory fixtures by default; with `--data-dir`, consumes
+  staged local inputs instead. In both modes it uses a fresh `run_dir` per component, forces the
+  offline env, and runs the reference self-check.
 
 ## Honesty / invariants (what makes this a real audit, not theater)
 - **Commit before observe.** The card is sealed and `verify_hash()`-checked *before* the compile or
@@ -105,6 +165,9 @@ the survival-gated score is withheld. The permutation p is reproducible byte-for
 - **Redaction is tested, not claimed.** `_redaction_self_test()` injects a PII canary and asserts
   the scrub removes it before the real evidence is written; the permutation probe stores an
   `inputs_fingerprint`, never the raw per-subject arrays.
+- **HCP data remain local.** The optional staging script records source-file hashes and row-indexed
+  derived values, but the audit bundle does not copy raw HCP rows, subject identifiers, or
+  credentials.
 
 ## Gotchas
 - **Version skew is silent.** A carved/old checkout can be missing a primitive or ship a toothless
@@ -116,3 +179,6 @@ the survival-gated score is withheld. The permutation p is reproducible byte-for
 - The synthetic-corpus reverse inference emits benign `RuntimeWarning: invalid value encountered in
   divide` from `nimare.mkda` (zero-denominator voxels); the runner filters warnings. The verdict is
   unaffected.
+- There is no public one-command HCP download in this skill. HCP-YA requires account/terms handling,
+  and some fields are restricted. Keep acquisition outside the repo, then stage local files through
+  `prepare_hcp_a1_local_inputs.py`.

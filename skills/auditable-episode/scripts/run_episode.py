@@ -5,8 +5,9 @@
   PYTHONPATH=/path/to/br/src python scripts/run_episode.py                 # both fixtures
   PYTHONPATH=/path/to/br/src python scripts/run_episode.py --component true # just the true signal
   python scripts/run_episode.py --br-src /path/to/br@master                # adds <root>/src for you
+  python scripts/run_episode.py --data-dir data/auditable-episode-hcp-a1
 
-Two tiny in-memory fixtures (no bundled data, PII-free by construction):
+By default this uses two tiny in-memory fixtures (no bundled data, PII-free by construction):
 
   true : a real out-of-sample effect (fold-mean r high) whose region/term pair the offline NiMARE
          corpus supports  -> permutation_null SURVIVES  -> supported_within_scope, score BANKED.
@@ -17,11 +18,18 @@ Everything is forced offline: the NiMARE backend is passed as an instance (never
 online KG backend) and USE_GEMINI_CLI=false. Only the deterministic permutation_null battery is
 bit-reproducible anywhere; the nimare verdict is offline-but-version-sensitive (see the honest
 scope in SKILL.md and each episode's evidence file).
+
+If ``--data-dir`` is supplied, the runner consumes local files prepared by a dataset-specific
+staging script, such as ``prepare_hcp_a1_local_inputs.py``. That mode demonstrates the
+user-local data path: restricted/public data are obtained by the user under the dataset's terms,
+converted into a small checksum-bound local input contract, then the seal/adjudicate/audit chain
+reads only that local directory.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import sys
@@ -56,6 +64,28 @@ _EXPECTED = {
 }
 
 
+def _load_local_data(data_dir: str | Path):
+    import numpy as np
+
+    root = Path(data_dir).expanduser().resolve()
+    manifest_path = root / "auditable_episode_manifest.json"
+    arrays_path = root / "auditable_episode_inputs.npz"
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"missing local data manifest: {manifest_path}")
+    if not arrays_path.exists():
+        raise FileNotFoundError(f"missing local data arrays: {arrays_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    arrays = np.load(arrays_path)
+    out: dict[str, dict] = {}
+    for comp in ("true", "null"):
+        out[comp] = {
+            "y_true": arrays[f"{comp}_y_true"],
+            "y_pred": arrays[f"{comp}_y_pred"],
+            "fold_ids": arrays[f"{comp}_fold_ids"],
+        }
+    return root, manifest, out
+
+
 def _make_signal(effect: float, seed: int, n: int = 120, folds: int = 5):
     import numpy as np
 
@@ -82,6 +112,14 @@ def main() -> int:
         "--workdir",
         default=None,
         help="parent work dir (default: /tmp/auditable-episode)",
+    )
+    ap.add_argument(
+        "--data-dir",
+        default=None,
+        help=(
+            "local data directory prepared by a dataset-specific staging script; "
+            "uses staged local inputs instead of the in-memory fixture"
+        ),
     )
     ap.add_argument("--n-permutations", type=int, default=2000)
     ap.add_argument(
@@ -125,6 +163,12 @@ def main() -> int:
         else Path("/tmp/auditable-episode")
     )
     components = ["true", "null"] if args.component == "both" else [args.component]
+    local_root = None
+    local_manifest = None
+    local_arrays = None
+    if args.data_dir:
+        local_root, local_manifest, local_arrays = _load_local_data(args.data_dir)
+        print(f"\n[auditable-episode] using staged local data: {local_root}")
 
     results = []
     mismatches = []
@@ -134,20 +178,33 @@ def main() -> int:
         if run_dir.exists():
             shutil.rmtree(run_dir)  # fresh run_dir (never backfill a sealed card)
         run_dir.mkdir(parents=True)
-        y_pred, y_true, fold_ids = _make_signal(
-            fx["effect"], fx["seed"], n=120, folds=5
-        )
+        data_manifest = None
+        claim_text = fx["claim_text"]
+        if local_arrays is not None and local_manifest is not None:
+            arrs = local_arrays[comp]
+            y_pred, y_true, fold_ids = arrs["y_pred"], arrs["y_true"], arrs["fold_ids"]
+            data_manifest = local_manifest
+            claim_text = (
+                local_manifest.get("components", {})
+                .get(comp, {})
+                .get("claim_text", claim_text)
+            )
+        else:
+            y_pred, y_true, fold_ids = _make_signal(
+                fx["effect"], fx["seed"], n=120, folds=5
+            )
         res = controller.run_auditable_episode(
             run_dir=run_dir,
             component=comp,
             claim_id=fx["claim_id"],
-            claim_text=fx["claim_text"],
+            claim_text=claim_text,
             offline_claim=fx["offline_claim"],
             scope={"modality": "fMRI", "workflow_family": "fc"},
             corpus=corpus,
             y_pred=y_pred,
             y_true=y_true,
             fold_ids=fold_ids,
+            data_manifest=data_manifest,
             n_permutations=args.n_permutations,
             perm_seed=0,
         )
@@ -163,6 +220,8 @@ def main() -> int:
             f"offline_nimare={res['offline_nimare_status']}({res['offline_nimare_backend']}) "
             f"hash={res['commitment_hash'][:12]}"
         )
+        if res.get("local_data_manifest"):
+            print("  local data manifest: included in claim_card/evidence")
         print(f"  audit bundle: {res['audit_dir']}")
 
         exp = _EXPECTED[comp]

@@ -119,6 +119,7 @@ def run_auditable_episode(
     y_pred: Any,
     y_true: Any,
     fold_ids: Any,
+    data_manifest: dict[str, Any] | None = None,
     n_permutations: int = 2000,
     perm_seed: int = 0,
 ) -> dict[str, Any]:
@@ -257,6 +258,7 @@ def run_auditable_episode(
             "with any downstream use."
         ),
     }
+    local_data_provenance = copy.deepcopy(data_manifest) if data_manifest else None
 
     claim_card = ClaimCardV1(
         claim_id=claim.claim_id,
@@ -279,6 +281,7 @@ def run_auditable_episode(
             "permutation_null": probe,
             "permutation_null_gate": {"refuted": refuted, "reason": gate_reason},
             "offline_neuroclaim": offline_provenance,
+            "local_data": local_data_provenance,
             "survival_gate": {
                 "authority": "permutation_null (committed HARD axis)",
                 "score_banked": banked is not None,
@@ -301,6 +304,7 @@ def run_auditable_episode(
             "reason": gate_reason,
         },
         "offline_neuroclaim": offline_provenance,
+        "local_data": local_data_provenance,
         "honest_scope": (
             "The fully-offline / reproducible-anywhere guarantee covers ONLY the deterministic "
             "permutation_null battery (seeded numpy). The nimare verdict is offline but "
@@ -341,6 +345,7 @@ def run_auditable_episode(
         "offline_nimare_backend": ev.backend,
         "offline_nimare_profile": ev.profile,
         "commitment_hash": card.commitment_hash,
+        "local_data_manifest": bool(local_data_provenance),
         "audit_dir": str(audit_dir),
         "run_dir": str(run_dir),
     }
