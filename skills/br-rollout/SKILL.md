@@ -7,7 +7,7 @@ description: BR Rollout — build, push, and roll out Brain Researcher container
 
 Release Brain Researcher services safely to production.
 
-Primary prod target is **k3s on the GCE VM `brain-researcher-vm`**, NOT GKE and NOT
+Primary prod target is **k3s on the GCE VM `${PROD_VM}`**, NOT GKE and NOT
 the local `k3d-*` cluster. Operate the prod control plane only via
 `gcloud compute ssh ... "sudo k3s kubectl ..."`. Do not trust the local `kubectl`
 context for prod decisions (it usually points at a k3d test cluster).
@@ -25,7 +25,7 @@ context for prod decisions (it usually points at a k3d test cluster).
 | Kubernetes namespace | `brain-researcher-core` |
 | Helm release | `brain-researcher` |
 | GCP project | set via `GCP_PROJECT` |
-| Prod VM | `brain-researcher-vm` |
+| Prod VM | `${PROD_VM}` |
 | Zone | `us-west1-b` |
 | Prod domain | `brain-researcher.com` |
 | Prod values file | `infrastructure/deployment/gce_k3s/values.prod.yaml` |
@@ -72,7 +72,7 @@ Use the SAME `<TAG>` that was pushed. (RollingUpdate `maxUnavailable:0` → zero
 
 ```bash
 TAG="<the pushed tag>"
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image deployment/brain-researcher-web-ui web-ui=docker.io/zjc062/web-ui:${TAG} && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-web-ui --timeout=300s"
 ```
@@ -86,7 +86,7 @@ on `deployment/brain-researcher-orchestrator` (`BR_MARIMO_RUNTIME_IMAGE`), not a
 
 ```bash
 # running image matches the pushed tag
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core get deploy brain-researcher-web-ui -o jsonpath='{.spec.template.spec.containers[0].image}' && echo"
 
 # public health (expect HTTP 200)
@@ -112,7 +112,7 @@ webUi:
 ### 5. Rollback (if unhealthy)
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core rollout undo deployment/brain-researcher-web-ui && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-web-ui --timeout=300s"
 ```
@@ -146,7 +146,7 @@ Reverted `landing-page-static.tsx` to the "Take any neuroimaging workflow with y
 1. Commit on master: `a6ee48274`.
 2. `ROLLOUT=false IMAGE_TAG=20260529044256-homepage-revert-a6ee48274 ./skills/br-rollout/scripts/release_prod.sh web-ui`
    → pushed `docker.io/zjc062/web-ui:20260529044256-homepage-revert-a6ee48274` (digest `sha256:f5f5129a…`).
-3. `gcloud compute ssh brain-researcher-vm ... set image deployment/brain-researcher-web-ui web-ui=...:<tag> && rollout status` → succeeded, zero downtime.
+3. `gcloud compute ssh ${PROD_VM} ... set image deployment/brain-researcher-web-ui web-ui=...:<tag> && rollout status` → succeeded, zero downtime.
 4. Verified: running image = new tag, `https://brain-researcher.com/api/health` = 200, live headline = "Take any neuroimaging workflow".
 5. Pinned `webUi.imageTag` in `values.prod.yaml` (commit `0af37f1f3`).
 

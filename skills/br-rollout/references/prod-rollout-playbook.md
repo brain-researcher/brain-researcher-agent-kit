@@ -9,7 +9,7 @@ Use this playbook to release one service safely to production k3s after code cha
 - Repo is up to date and local tests are green.
 - `docker login` has access to `docker.io/zjc062`.
 - `gcloud` auth can access the project named by `GCP_PROJECT`.
-- Production VM `brain-researcher-vm` is reachable.
+- Production VM `${PROD_VM}` is reachable.
 - Target workload exists in namespace `brain-researcher-core`.
 
 ## Critical Path
@@ -22,7 +22,7 @@ Use this playbook to release one service safely to production k3s after code cha
 ## VM Access Check
 
 ```bash
-gcloud compute ssh brain-researcher-vm \
+gcloud compute ssh ${PROD_VM} \
   --zone us-west1-b \
   --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core get deploy,sts -o wide"
@@ -47,7 +47,7 @@ Use the same `<TAG>` that was pushed.
 ### `web-ui` (deployment)
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image deployment/brain-researcher-web-ui web-ui=docker.io/zjc062/web-ui:<TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-web-ui --timeout=300s"
 ```
@@ -55,7 +55,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 ### `mcp` (deployment)
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image deployment/brain-researcher-mcp mcp=docker.io/zjc062/mcp:<TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-mcp --timeout=300s"
 ```
@@ -63,7 +63,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 ### `orchestrator` (deployment)
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image deployment/brain-researcher-orchestrator orchestrator=docker.io/zjc062/orchestrator:<TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-orchestrator --timeout=300s"
 ```
@@ -71,7 +71,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 ### `agent` (statefulset)
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image statefulset/brain-researcher-agent agent=docker.io/zjc062/agent:<TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status statefulset/brain-researcher-agent --timeout=600s"
 ```
@@ -79,7 +79,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 ### `neurokg` (statefulset)
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image statefulset/brain-researcher-neurokg neurokg=docker.io/zjc062/neurokg:<TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status statefulset/brain-researcher-neurokg --timeout=600s"
 ```
@@ -99,7 +99,7 @@ ROLLOUT=false \
 Manual VM rollout with an already-pushed tag:
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set env deployment/brain-researcher-orchestrator BR_MARIMO_RUNTIME_IMAGE=docker.io/zjc062/marimo-singleuser:<TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-orchestrator --timeout=300s"
 ```
@@ -107,7 +107,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 Verification:
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core get deploy brain-researcher-orchestrator -o jsonpath='{range .spec.template.spec.containers[0].env[*]}{.name}={.value}{\"\\n\"}{end}' | grep '^BR_MARIMO_RUNTIME_IMAGE='"
 ```
 
@@ -139,7 +139,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 If any issue is observed:
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core rollout undo deployment/brain-researcher-web-ui && \
              sudo k3s kubectl -n brain-researcher-core rollout status deployment/brain-researcher-web-ui --timeout=300s"
 ```
@@ -147,7 +147,7 @@ gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT
 For statefulsets, rollback by setting the previous known-good image tag:
 
 ```bash
-gcloud compute ssh brain-researcher-vm --zone us-west1-b --project "$GCP_PROJECT" \
+gcloud compute ssh ${PROD_VM} --zone us-west1-b --project "$GCP_PROJECT" \
   --command "sudo k3s kubectl -n brain-researcher-core set image statefulset/brain-researcher-neurokg neurokg=docker.io/zjc062/neurokg:<PREV_TAG> && \
              sudo k3s kubectl -n brain-researcher-core rollout status statefulset/brain-researcher-neurokg --timeout=600s"
 ```

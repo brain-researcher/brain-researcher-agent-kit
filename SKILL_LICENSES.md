@@ -7,7 +7,6 @@ Per-skill license stance. The kit ships under MIT (see `LICENSE`); some skills b
 | Skill | License | Provenance |
 |---|---|---|
 | `brain-researcher-session-handoff/` | MIT | Authored for this kit. |
-| `banghcp-gcp-batch-orchestration/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `br-rollout/` | MIT | First-party BR operational skill, ported from Claude project skills with local paths generalized. |
 | `br-vs-host-benchmark/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `brain-researcher-docs-public-prune/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
@@ -15,7 +14,6 @@ Per-skill license stance. The kit ships under MIT (see `LICENSE`); some skills b
 | `brain-researcher-mcp-contract-workflow/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `brain-researcher-mechanism-proof-review/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `brain-researcher-scientific-review-gate/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
-| `codex-review-operator/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `god-file-carve/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `method-condition-coverage/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `neuroprogram-real-fmri/` | MIT | Authored for this kit; path-parameterized OpenNeuro/fMRIPrep workflow wrapper. |
