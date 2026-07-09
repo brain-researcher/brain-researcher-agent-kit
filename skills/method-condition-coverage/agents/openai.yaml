@@ -1,0 +1,4 @@
+interface:
+  display_name: "BR-KG Method-Condition Coverage"
+  short_description: "Extract, ingest, and prove reachability of BR-KG method-condition fields"
+  default_prompt: "Use $method-condition-coverage to check the GABRIEL fleet, ingest the accepted manifest into the prod KG, and prove the reviewer's method fields are now reachable."

@@ -7,7 +7,20 @@ Per-skill license stance. The kit ships under MIT (see `LICENSE`); some skills b
 | Skill | License | Provenance |
 |---|---|---|
 | `brain-researcher-session-handoff/` | MIT | Authored for this kit. |
+| `banghcp-gcp-batch-orchestration/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `br-vs-host-benchmark/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `brain-researcher-docs-public-prune/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `brain-researcher-git-worktree-hygiene/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `brain-researcher-mcp-contract-workflow/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `brain-researcher-mechanism-proof-review/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `brain-researcher-scientific-review-gate/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `codex-review-operator/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `god-file-carve/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `method-condition-coverage/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `neuroprogram-real-fmri/` | MIT | Authored for this kit; path-parameterized OpenNeuro/fMRIPrep workflow wrapper. |
+| `prod-mcp-health-sweep/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `repo-github-workflow/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `worktree-pr-cycle/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `scientific-self-critique/` *(planned)* | MIT | Authored for this kit; thin wrapper over BR review tools. |
 | `plan-validation/` *(planned)* | MIT | Authored; wraps `pipeline_plan_validate` / `pipeline_plan_review`. |
 | `evidence-grounding/` *(planned)* | MIT | Authored; wraps `grounding_resolve` / `grounding_gate_evidence_basis`. |

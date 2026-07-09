@@ -1,0 +1,4 @@
+interface:
+  display_name: "BangHCP GCP Orchestrator"
+  short_description: "Run BangHCP GCP batches safely"
+  default_prompt: "Use $banghcp-gcp-batch-orchestration to plan or run a BangHCP experiment batch within the approved GCP wrappers."

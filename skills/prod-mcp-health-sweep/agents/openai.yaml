@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prod MCP Health Sweep"
+  short_description: "Sweep the prod BR MCP surface, list broken vs working, then re-verify after a fix"
+  default_prompt: "Use $prod-mcp-health-sweep to health-check the brain_researcher MCP against prod, list broken vs working tools, and after any fix reload the MCP and re-verify the previously-failing fields populate."

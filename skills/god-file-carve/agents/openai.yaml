@@ -1,0 +1,4 @@
+interface:
+  display_name: "God-File Carve"
+  short_description: "Split an oversized Python module (or cut an import cycle) behavior-neutrally, one reviewable PR per slice"
+  default_prompt: "Use $god-file-carve to split this oversized Python module into cohesive submodules (or cut the import cycle) without changing behavior, proving neutrality with a head-to-head backup diff and shipping one reviewable PR per slice."
