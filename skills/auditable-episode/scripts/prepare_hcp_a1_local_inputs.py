@@ -57,6 +57,206 @@ def _file_record(path: Path, role: str) -> dict[str, Any]:
     }
 
 
+def _read_json(path: Path) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"{path} must contain a JSON object")
+    return payload
+
+
+def _optional_path(value: str | None) -> Path | None:
+    if not value:
+        return None
+    return Path(value).expanduser().resolve()
+
+
+def _safe_name(value: Any) -> str | None:
+    if not isinstance(value, str) or not value:
+        return None
+    return Path(value).name
+
+
+def _mapping_len(value: Any) -> int | None:
+    if isinstance(value, (dict, list)):
+        return len(value)
+    return None
+
+
+def _summarize_liu_component_provenance(path: Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    payload = _read_json(path)
+    local = payload.get("local_projection_summary")
+    if not isinstance(local, dict):
+        local = {}
+
+    missing_subject_ids = payload.get("missing_subject_ids_from_behavior")
+    if not isinstance(missing_subject_ids, list):
+        missing_subject_ids = local.get("missing_subject_ids_from_behavior")
+    if not isinstance(missing_subject_ids, list):
+        missing_subject_ids = []
+
+    subjects_with_missing_items = local.get("subjects_with_missing_items_before_imputation")
+    if not isinstance(subjects_with_missing_items, dict):
+        subjects_with_missing_items = {}
+
+    supplementary_mapping = payload.get("supplementary_table4_mapping")
+    component_mapping = payload.get("component_row_mapping")
+    return {
+        "manifest_file": _file_record(path, "liu_component_behavior_provenance"),
+        "created_from_script_module": payload.get("created_from_script_module"),
+        "header_alignment_validated": payload.get("header_alignment_validated"),
+        "source_behavior_csv_sha256": payload.get("source_behavior_csv_sha256"),
+        "source_demixing_mat_url": payload.get("source_demixing_mat_url"),
+        "source_demixing_mat_sha256": payload.get("source_demixing_mat_sha256"),
+        "source_supplement_url": payload.get("source_supplement_url"),
+        "paper_method_summary": payload.get("paper_method_summary"),
+        "caveats": payload.get("caveats"),
+        "mapping_counts": {
+            "supplementary_table4_items": _mapping_len(supplementary_mapping),
+            "component_rows": _mapping_len(component_mapping),
+        },
+        "local_projection_summary": {
+            "source_row_count": local.get("source_row_count"),
+            "age_sex_available_row_count": local.get("age_sex_available_row_count"),
+            "complete_case_row_count": local.get("complete_case_row_count"),
+            "requested_subject_count": local.get("requested_subject_count"),
+            "output_row_count": local.get("output_row_count"),
+            "subject_selection_mode": local.get("subject_selection_mode"),
+            "selected_subject_list_name": _safe_name(local.get("selected_subject_list_path")),
+            "continuous_column_count": local.get("continuous_column_count"),
+            "continuous_selection_rule": local.get("continuous_selection_rule"),
+            "imputed_cell_count": local.get("imputed_cell_count"),
+            "raw_imputation_strategy": local.get("raw_imputation_strategy"),
+            "residual_imputation_strategy": local.get("residual_imputation_strategy"),
+            "missing_behavior_subject_count": len(missing_subject_ids),
+            "subjects_with_imputed_items_count": len(subjects_with_missing_items),
+        },
+        "redaction": {
+            "source_paths_exported": False,
+            "subject_ids_exported": False,
+            "full_column_mapping_exported": False,
+        },
+    }
+
+
+def _summarize_liu_target_manifest(path: Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    payload = _read_json(path)
+    validation = payload.get("validation")
+    if not isinstance(validation, dict):
+        validation = {}
+    return {
+        "manifest_file": _file_record(path, "liu_component_target_manifest"),
+        "source_paper": payload.get("source_paper"),
+        "benchmark_family": payload.get("benchmark_family"),
+        "benchmark_name": payload.get("benchmark_name"),
+        "phase_name": payload.get("phase_name"),
+        "comparability_status": payload.get("comparability_status"),
+        "comparability_rules": payload.get("comparability_rules"),
+        "primary_metric": payload.get("primary_metric"),
+        "reference_type": payload.get("reference_type"),
+        "targets": payload.get("targets"),
+        "validation": {
+            "row_count": validation.get("row_count"),
+            "column_count": validation.get("column_count"),
+            "sha256": validation.get("sha256"),
+            "fieldnames": validation.get("fieldnames"),
+            "target_columns": validation.get("target_columns"),
+            "subject_id_column": validation.get("subject_id_column"),
+            "validated_at_utc": validation.get("validated_at_utc"),
+        },
+        "redaction": {
+            "csv_path_exported": False,
+            "provenance_path_exported": False,
+            "subject_ids_exported": False,
+        },
+    }
+
+
+def _summarize_liu_osf_manifest(path: Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    payload = _read_json(path)
+    folders = payload.get("folders")
+    if not isinstance(folders, dict):
+        folders = {}
+
+    folder_summary: dict[str, Any] = {}
+    key_derivatives: list[dict[str, Any]] = []
+    derivative_keep = {
+        "bbpred_res_202401_2.pkl",
+        "pyspi_hcp_schaefer100x7_subj_term_profile_updated.npy",
+        "pyspi_terms_clean.txt",
+        "HCP_S1200_schaefer100x7_PhiIDFull_MMI.mat",
+    }
+    for folder_name, folder_payload in folders.items():
+        if not isinstance(folder_payload, dict):
+            continue
+        folder_summary[folder_name] = {
+            "file_count": folder_payload.get("file_count"),
+            "total_bytes": folder_payload.get("total_bytes"),
+        }
+        if folder_name != "derivatives":
+            continue
+        for entry in folder_payload.get("files", []):
+            if not isinstance(entry, dict):
+                continue
+            if entry.get("name") not in derivative_keep:
+                continue
+            key_derivatives.append(
+                {
+                    "name": entry.get("name"),
+                    "size_bytes": entry.get("size"),
+                    "download_url": entry.get("download_url"),
+                    "sha256": entry.get("sha256"),
+                }
+            )
+
+    return {
+        "manifest_file": _file_record(path, "liu_fc_pyspi_osf_manifest"),
+        "generated_by_entrypoint": (
+            "scripts/analysis/fc_benchmarking/setup_liu_fc_pyspi.py"
+        ),
+        "repo_url": payload.get("repo_url"),
+        "osf_project_url": "https://osf.io/75je2",
+        "osf_api_root": "https://api.osf.io/v2/nodes/75je2/files/osfstorage/",
+        "vendor_commit": payload.get("vendor_commit"),
+        "requested_folders": payload.get("requested_folders"),
+        "folders": folder_summary,
+        "key_derivative_files": key_derivatives,
+        "redaction": {
+            "download_dir_exported": False,
+            "destination_paths_exported": False,
+            "raw_subject_file_examples_exported": False,
+        },
+    }
+
+
+def _summarize_data_manifest(path: Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    payload = _read_json(path)
+    return {
+        "manifest_file": _file_record(path, "liu_project_data_manifest"),
+        "lane_id": payload.get("lane_id"),
+        "vendor_commit": payload.get("vendor_commit"),
+        "source_manifest_name": _safe_name(payload.get("source_manifest_path")),
+        "available_atlases": payload.get("available_atlases"),
+        "prediction_asset_name": _safe_name(payload.get("prediction_asset")),
+        "term_count": payload.get("term_count"),
+        "subject_count": payload.get("subject_count"),
+        "session_count": payload.get("session_count"),
+        "derivatives_file_count": payload.get("derivatives_file_count"),
+        "derivatives_total_bytes": payload.get("derivatives_total_bytes"),
+        "redaction": {
+            "local_roots_exported": False,
+            "absolute_paths_exported": False,
+        },
+    }
+
+
 def _zscore(values: Any):
     import numpy as np
 
@@ -263,6 +463,22 @@ def main() -> int:
     ap.add_argument("--prediction-column", help="prediction column in --predictions-csv")
     ap.add_argument("--fold-manifest", help="A1 fold manifest JSON with folds[].test_indices")
     ap.add_argument("--fold-column", help="fold column in --predictions-csv, if no manifest")
+    ap.add_argument(
+        "--liu-component-provenance-json",
+        help="redacted summary source for Liu component reconstruction provenance",
+    )
+    ap.add_argument(
+        "--liu-target-manifest",
+        help="redacted summary source for the reconstructed Liu component target manifest",
+    )
+    ap.add_argument(
+        "--liu-osf-manifest",
+        help="redacted summary source for Liu FC-pyspi OSF download URLs and checksums",
+    )
+    ap.add_argument(
+        "--data-manifest",
+        help="redacted summary source for the local Liu derivative/project data manifest",
+    )
     ap.add_argument("--subject-column", default="Subject")
     ap.add_argument("--expected-n", type=int, default=326)
     ap.add_argument(
@@ -355,9 +571,18 @@ def main() -> int:
     )
     target_values.to_csv(target_values_path, index=False)
 
+    liu_component_provenance = _summarize_liu_component_provenance(
+        _optional_path(args.liu_component_provenance_json)
+    )
+    liu_target_manifest = _summarize_liu_target_manifest(
+        _optional_path(args.liu_target_manifest)
+    )
+    liu_osf_manifest = _summarize_liu_osf_manifest(_optional_path(args.liu_osf_manifest))
+    project_data_manifest = _summarize_data_manifest(_optional_path(args.data_manifest))
+
     manifest = {
         "schema_version": "auditable-episode-local-data-v1",
-        "dataset": "HCP-YA A1 intelligence-residualized Cognition",
+        "dataset": "HCP-YA reconstructed Liu-component A1 Cognition",
         "source_dataset": "Human Connectome Project Young Adult behavioral data",
         "source_access": (
             "User-staged local HCP data under HCP Data Use Terms. This repository does not "
@@ -374,41 +599,53 @@ def main() -> int:
         },
         "download_or_staging_routes": [
             {
-                "name": "HCP ConnectomeDB access instructions",
+                "name": "Liu FC-pyspi OSF manifest",
+                "url": "https://osf.io/75je2",
+                "note": (
+                    "Use the manifest generated by "
+                    "scripts/analysis/fc_benchmarking/setup_liu_fc_pyspi.py from the "
+                    "netneurolab/liu_fc-pyspi OSF asset listing instead of inventing a "
+                    "new download route."
+                ),
+            },
+            {
+                "name": "Liu component behavior reconstruction provenance",
+                "url": "https://raw.githubusercontent.com/yetianmed/subcortex/master/Behavior/ica.mat",
+                "note": (
+                    "Record source supplement, demixing-matrix URL/checksum, source CSV "
+                    "checksum, and reconstruction caveats in the supplied "
+                    "--liu-component-provenance-json. Component targets are reconstructed "
+                    "from the paper mapping and published demixing matrix; they are not "
+                    "paper-exact subject weights."
+                ),
+            },
+            {
+                "name": "HCP ConnectomeDB behavior export",
                 "url": (
                     "https://wiki.humanconnectome.org/docs/"
                     "How%20to%20Access%20Data%20on%20ConnectomeDB.html"
                 ),
                 "note": (
-                    "Create/log into an HCP account and accept the applicable HCP "
-                    "data-use terms before downloading behavioral data."
+                    "Create/log into an HCP account and accept applicable HCP data-use "
+                    "terms before staging the behavior CSV used by the Liu projection."
                 ),
-            },
-            {
-                "name": "HCP-YA 2025 ConnectomeDB/BALSA release note",
-                "url": (
-                    "https://www.humanconnectome.org/study/hcp-young-adult/"
-                    "article/updated-hcp-young-adult-data-released-connectomedb-powered-balsa"
-                ),
-                "note": (
-                    "Current HCP-YA portal path; non-imaging data are unchanged from "
-                    "S1200 where applicable."
-                ),
-            },
-            {
-                "name": "HCP on AWS Open Data Registry",
-                "url": "https://registry.opendata.aws/hcp-openaccess/",
-                "note": "Cloud route for open-access HCP-YA objects; HCP DUA still applies.",
             },
         ],
         "sample_size": int(len(y_true)),
         "target_construction": target_provenance,
+        "source_manifests": {
+            "liu_component_behavior_provenance": liu_component_provenance,
+            "liu_component_target_manifest": liu_target_manifest,
+            "liu_fc_pyspi_osf_manifest": liu_osf_manifest,
+            "liu_project_data_manifest": project_data_manifest,
+        },
         "prediction_source": prediction_source,
         "prediction_column": pred_col,
         "privacy": {
             "raw_hcp_subject_rows_exported": False,
             "subject_identifiers_exported": False,
             "audit_npz_contains_subject_ids": False,
+            "absolute_local_paths_exported": False,
             "local_source_files_remain_user_controlled": True,
         },
         "local_inputs": {
