@@ -7,6 +7,7 @@ Per-skill license stance. The kit ships under MIT (see `LICENSE`); some skills b
 | Skill | License | Provenance |
 |---|---|---|
 | `brain-researcher-session-handoff/` | MIT | Authored for this kit. |
+| `neuroprogram-real-fmri/` | MIT | Authored for this kit; path-parameterized OpenNeuro/fMRIPrep workflow wrapper. |
 | `scientific-self-critique/` *(planned)* | MIT | Authored for this kit; thin wrapper over BR review tools. |
 | `plan-validation/` *(planned)* | MIT | Authored; wraps `pipeline_plan_validate` / `pipeline_plan_review`. |
 | `evidence-grounding/` *(planned)* | MIT | Authored; wraps `grounding_resolve` / `grounding_gate_evidence_basis`. |
