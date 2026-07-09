@@ -8,6 +8,7 @@ Per-skill license stance. The kit ships under MIT (see `LICENSE`); some skills b
 |---|---|---|
 | `brain-researcher-session-handoff/` | MIT | Authored for this kit. |
 | `banghcp-gcp-batch-orchestration/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `br-rollout/` | MIT | First-party BR operational skill, ported from Claude project skills with local paths generalized. |
 | `br-vs-host-benchmark/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `brain-researcher-docs-public-prune/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `brain-researcher-git-worktree-hygiene/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
@@ -20,6 +21,7 @@ Per-skill license stance. The kit ships under MIT (see `LICENSE`); some skills b
 | `neuroprogram-real-fmri/` | MIT | Authored for this kit; path-parameterized OpenNeuro/fMRIPrep workflow wrapper. |
 | `prod-mcp-health-sweep/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `repo-github-workflow/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
+| `tb-science-task-authoring/` | MIT | First-party BR benchmark-authoring skill, ported from Claude project skills with local paths generalized. |
 | `worktree-pr-cycle/` | MIT | First-party BR operational skill, ported from the private BR repo with public-safe paths. |
 | `scientific-self-critique/` *(planned)* | MIT | Authored for this kit; thin wrapper over BR review tools. |
 | `plan-validation/` *(planned)* | MIT | Authored; wraps `pipeline_plan_validate` / `pipeline_plan_review`. |
