@@ -1,0 +1,4 @@
+interface:
+  display_name: "Worktree PR Cycle"
+  short_description: "Ship one change as one PR from an isolated worktree off origin/master, then prune"
+  default_prompt: "Use $worktree-pr-cycle to ship this change: open a clean worktree off origin/master, run the gate, get a Codex review, open the PR, then stop for the user to merge and prune."

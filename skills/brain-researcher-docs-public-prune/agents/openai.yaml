@@ -1,0 +1,4 @@
+interface:
+  display_name: "BR Docs Public Prune"
+  short_description: "Build clean public docs cleanup branches without touching WIP."
+  default_prompt: "Use this skill for Brain Researcher public docs cleanup, stale-reference pruning, and clean PR branch preparation."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "BR vs Host Benchmark"
+  short_description: "Run BR-vs-no-BR (NIK / tool-calling) via the canonical launcher, then LLM-judge into stratified honest metrics"
+  default_prompt: "Use $br-vs-host-benchmark to run or re-score the BR-vs-no-BR benchmark fairly: reuse the canonical launcher, run only unfinished cells, then LLM-judge both traces into stratified honest metrics."

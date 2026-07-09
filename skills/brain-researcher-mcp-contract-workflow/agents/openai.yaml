@@ -1,0 +1,4 @@
+interface:
+  display_name: "BR MCP Contract Workflow"
+  short_description: "Keep Brain Researcher MCP code, schema, and tests in sync."
+  default_prompt: "Use this skill for a narrow Brain Researcher MCP contract or schema/test parity fix."
