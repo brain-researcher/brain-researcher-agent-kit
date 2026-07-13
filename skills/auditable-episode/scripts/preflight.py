@@ -33,22 +33,19 @@ from pathlib import Path
 # resolve; every AND item must resolve.
 _REQUIRED_SYMBOLS: list[tuple[str, str]] = [
     ("brain_researcher.autoresearch.society", "neuroclaim_compile"),
-    ("brain_researcher.autoresearch.society", "commit_and_adjudicate_claim"),
     ("brain_researcher.autoresearch.society", "lock_commitment"),
     ("brain_researcher.autoresearch.society", "compute_permutation_null_probe"),
     ("brain_researcher.autoresearch.society", "NimareBackend"),
     ("brain_researcher.autoresearch.society", "build_synthetic_annotated_corpus"),
     ("brain_researcher.autoresearch.society", "resolve_region"),
+    ("brain_researcher.services.review.audit_bundle", "persist_audit_bundle"),
+    ("brain_researcher.services.review.audit_bundle", "export_audit_bundle"),
 ]
 # OR-groups: at least one member must import.
 _REQUIRED_OR_GROUPS: list[list[tuple[str, str]]] = [
     [
         ("brain_researcher.autoresearch.society", "derive_default_battery"),
         ("brain_researcher.autoresearch.society", "compile_required_battery"),
-    ],
-    [
-        ("brain_researcher.services.review.audit_bundle", "persist_audit_bundle"),
-        ("brain_researcher.services.review.audit_bundle", "export_audit_bundle"),
     ],
 ]
 # The deterministic gate dispatcher (the permutation_null battery's real evaluator).

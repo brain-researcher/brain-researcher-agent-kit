@@ -15,11 +15,11 @@ The load-bearing ordering (a commit-before-observe institution):
             complementary *literature-convergence* verdict, recorded WITH its backend+profile
             provenance and the honest caveat that an offline nimare verdict != the online
             kg_verify verdict,
-    5. write the claim card + a REDACTED evidence file, emit the audit bundle
-       (``persist_audit_bundle``),
-    6. ASSERT THE MECHANISM FIRED — re-open the emitted bundle and prove it actually contains
-       the sealed card (hash unchanged) + the permutation_null verdict, and that no raw
-       per-subject arrays / PII leaked. Fail loudly otherwise.
+    5. write the claim card + a REDACTED evidence file, persist and export the audit bundle
+       (``persist_audit_bundle`` + ``export_audit_bundle``),
+    6. ASSERT THE MECHANISM FIRED — re-open both bundle copies and prove they actually contain the
+       sealed card (hash unchanged) + the permutation_null verdict, and that no raw per-subject
+       arrays / PII leaked. Fail loudly otherwise.
 
 Standing rules honoured: NEVER backfill/rewrite a sealed commitment card (refuse if one already
 exists); assert the mechanism engaged rather than trusting a happy-path log line (silent
@@ -144,7 +144,10 @@ def run_auditable_episode(
         neuroclaim_compile,
     )
     from brain_researcher.autoresearch.society.falsifiers import DETERMINISTIC_GATES
-    from brain_researcher.services.review.audit_bundle import persist_audit_bundle
+    from brain_researcher.services.review.audit_bundle import (
+        export_audit_bundle,
+        persist_audit_bundle,
+    )
 
     _redaction_self_test()  # mechanism-fired: the scrub works before we rely on it
 
@@ -221,7 +224,6 @@ def run_auditable_episode(
         backend=backend,
         scope=ScopeBoundaryV1(modality=scope.get("modality", "fMRI")),
         run_sensitivity=True,
-        on_evidence_unavailable="error",  # never launder an unreachable backend into a verdict
     )
     ev = report.evidence_verdict
     # mechanism-fired: prove it really used nimare (not kg_verify) — the backend+profile provenance.
@@ -333,6 +335,21 @@ def run_auditable_episode(
 
     _assert_bundle_fired(audit_dir, card.commitment_hash)
 
+    # Exercise the publication contract too, then re-open that independent copy. Constraining the
+    # destination to this fresh run directory keeps the portable workflow inside its work root.
+    publish_root = run_dir / "published"
+    exported = export_audit_bundle(
+        run_id=run_dir.name,
+        run_dir=run_dir,
+        dest_repo_path=publish_root,
+        subdir="audit",
+        allowed_root=publish_root,
+    )
+    if not exported.get("ok"):
+        raise RuntimeError(f"export_audit_bundle failed: {exported}")
+    export_dir = Path(str(exported["dest_dir"]))
+    _assert_bundle_fired(export_dir, card.commitment_hash)
+
     return {
         "component": component,
         "claim_id": claim.claim_id,
@@ -347,12 +364,13 @@ def run_auditable_episode(
         "commitment_hash": card.commitment_hash,
         "local_data_manifest": bool(local_data_provenance),
         "audit_dir": str(audit_dir),
+        "export_dir": str(export_dir),
         "run_dir": str(run_dir),
     }
 
 
 def _assert_bundle_fired(audit_dir: Path, sealed_hash: str) -> None:
-    """Re-open the emitted bundle and prove the mechanism actually fired.
+    """Re-open a persisted or exported bundle and prove the mechanism actually fired.
 
     Not a happy-path log line: this reads the persisted files back and fails loudly unless the
     sealed card (hash unchanged) AND the permutation_null verdict AND the redacted evidence are

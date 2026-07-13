@@ -223,6 +223,7 @@ def main() -> int:
         if res.get("local_data_manifest"):
             print("  local data manifest: included in claim_card/evidence")
         print(f"  audit bundle: {res['audit_dir']}")
+        print(f"  exported bundle: {res['export_dir']}")
 
         exp = _EXPECTED[comp]
         banked = res["survival_gated_score"] is not None

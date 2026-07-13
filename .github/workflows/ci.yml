@@ -54,3 +54,30 @@ jobs:
 
       - name: Whitespace check
         run: git diff --check
+
+  auditable-workflow:
+    runs-on: ubuntu-latest
+    env:
+      # Public audit-bundle implementation merged by brain-researcher-public PR #5.
+      BR_PUBLIC_REVISION: 9da89c8970f1b7b3915eb4ffedefdebce4f32166
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install public auditable-workflow dependencies
+        run: |
+          python -m pip install -e ".[runner]"
+          python -m pip install \
+            "brain-researcher @ git+https://github.com/brain-researcher/brain-researcher-public.git@${BR_PUBLIC_REVISION}" \
+            "nimare>=0.5.0" \
+            "nilearn>=0.11.0"
+
+      - name: Run public-only auditable workflow
+        run: |
+          python skills/auditable-episode/scripts/run_episode.py \
+            --workdir "${RUNNER_TEMP}/auditable-episode"
