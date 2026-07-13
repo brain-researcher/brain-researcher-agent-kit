@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use the Brain Researcher Agent Kit, please cite this software."
+title: "Brain Researcher Agent Kit"
+abstract: >-
+  Portable skills, agent-instruction templates, MCP adapters, sanitized demos,
+  and evaluation rubrics for the Brain Researcher research-agent stack.
+type: software
+version: "0.2.0"
+authors:
+  - family-names: "Chen"
+    given-names: "Zijiao"
+    affiliation: "Stanford University"
+  - name: "Brain Researcher contributors"
+license: MIT
+repository-code: "https://github.com/brain-researcher/brain-researcher-agent-kit"
+url: "https://github.com/brain-researcher/brain-researcher-agent-kit"
+keywords:
+  - "research agents"
+  - "neuroimaging"
+  - "Model Context Protocol"
+  - "reproducibility"
+  - "scientific review"
