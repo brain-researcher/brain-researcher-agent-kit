@@ -58,8 +58,8 @@ jobs:
   auditable-workflow:
     runs-on: ubuntu-latest
     env:
-      # Public audit-bundle implementation from brain-researcher-public PR #5.
-      BR_PUBLIC_REVISION: f28213185d97dfb8acc58e2d6c050ed4ddbe16ff
+      # Public audit-bundle implementation merged by brain-researcher-public PR #5.
+      BR_PUBLIC_REVISION: 9da89c8970f1b7b3915eb4ffedefdebce4f32166
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
