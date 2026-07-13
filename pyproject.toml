@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "brain-researcher-agent-kit"
-version = "0.1.0"
+version = "0.2.0"
 description = "Skills, AGENTS templates, MCP adapters, sanitized demos, and eval rubrics for the Brain Researcher research-agent OS."
 readme = "README.md"
 license = {file = "LICENSE"}
