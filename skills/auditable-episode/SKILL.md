@@ -149,8 +149,8 @@ the survival-gated score is withheld. The permutation p is reproducible byte-for
 
 ## How it works
 - `scripts/preflight.py` — import-checks the REAL primitives (`neuroclaim_compile`,
-  `commit_and_adjudicate_claim`, `lock_commitment`, `compute_permutation_null_probe`,
-  `derive_default_battery` OR `compile_required_battery`, `persist_audit_bundle` OR
+  `lock_commitment`, `compute_permutation_null_probe`,
+  `derive_default_battery` OR `compile_required_battery`, `persist_audit_bundle` AND
   `export_audit_bundle`, `NimareBackend`, the `DETERMINISTIC_GATES` dispatcher) and asserts
   `nimare`+`nilearn` import. Any miss ⇒ nonzero exit with a fix hint. (The audit symbol is
   `persist_audit_bundle`/`export_audit_bundle` — there is no `emit_audit_bundle`.)
@@ -161,8 +161,9 @@ the survival-gated score is withheld. The permutation p is reproducible byte-for
   (4) run the deterministic `permutation_null` battery + the offline `neuroclaim_compile`
   (asserting `evidence_verdict.backend == "nimare"` — proof it did not fall back to KG); (5) write
   the claim card (survival-gated on the permutation battery) + a **redacted** evidence file;
-  (6) emit via `persist_audit_bundle`, then **re-open the bundle and assert** it contains the sealed
-  card (hash unchanged), the `permutation_null` verdict, and no leaked PII.
+  (6) emit via `persist_audit_bundle`, export via `export_audit_bundle`, then **re-open both copies
+  and assert** they contain the sealed card (hash unchanged), the `permutation_null` verdict, and
+  no leaked PII.
 - `scripts/prepare_hcp_a1_local_inputs.py` — optional HCP/A1 local-data bridge. It validates
   user-staged HCP and Liu/Tian files, residualizes `ICA_Cognition` against PMAT24/ListSort/ReadEng
   when needed, binds subject-level predictions plus the A1 fold manifest, copies a redacted summary
@@ -177,12 +178,12 @@ the survival-gated score is withheld. The permutation p is reproducible byte-for
   battery runs. Nothing is emitted from an unverifiable card.
 - **Never backfill a sealed card.** The controller refuses if `society/commitment_card.json` already
   exists; the runner uses a fresh `run_dir` each time.
-- **Assert the mechanism fired.** The bundle is re-read from disk and its sealed hash, the
-  permutation verdict, and PII-absence are asserted — not trusted from a log line. Silent
-  degradation into a plausible-wrong "success" is this project's #1 trap.
+- **Assert the mechanism fired.** The persisted and exported bundles are re-read from disk and
+  their sealed hash, permutation verdict, and PII-absence are asserted — not trusted from a log
+  line. Silent degradation into a plausible-wrong "success" is this project's #1 trap.
 - **No silent KG fallback.** The NiMARE backend is passed as an instance and `available()` is
-  asserted; `on_evidence_unavailable="error"` means an unreachable backend raises rather than
-  laundering a verdict.
+  asserted before compile; the persisted verdict is then required to report `backend == "nimare"`
+  rather than laundering a fallback verdict.
 - **Redaction is tested, not claimed.** `_redaction_self_test()` injects a PII canary and asserts
   the scrub removes it before the real evidence is written; the permutation probe stores an
   `inputs_fingerprint`, never the raw per-subject arrays.
