@@ -1,0 +1,21 @@
+{
+  "name": "brain-researcher",
+  "description": "Connect your agent to the hosted Brain Researcher MCP server — BR knowledge-graph search, method-condition lookup, autoresearch, scientific review, and run management for neuroimaging research.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Brain Researcher contributors"
+  },
+  "homepage": "https://brain-researcher.com/mcp/setup",
+  "repository": "https://github.com/brain-researcher/brain-researcher-agent-kit",
+  "license": "MIT",
+  "keywords": ["mcp", "neuroimaging", "knowledge-graph", "fmri", "research-agent"],
+  "userConfig": {
+    "BR_MCP_TOKEN": {
+      "type": "string",
+      "title": "Brain Researcher MCP token",
+      "description": "Personal brk_<kid>.<secret> token from https://brain-researcher.com/mcp/setup",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}
