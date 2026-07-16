@@ -1,0 +1,17 @@
+{
+  "name": "brain-researcher-agent-kit",
+  "description": "Official Brain Researcher plugin for Claude Code — connect your agent to the hosted Brain Researcher neuroimaging-research MCP server.",
+  "owner": {
+    "name": "Brain Researcher"
+  },
+  "plugins": [
+    {
+      "name": "brain-researcher",
+      "source": "./plugins/brain-researcher",
+      "description": "Connect your agent to the hosted Brain Researcher MCP server — BR knowledge-graph search, method-condition lookup, autoresearch, scientific review, and run management for neuroimaging research.",
+      "category": "research",
+      "keywords": ["mcp", "neuroimaging", "knowledge-graph", "fmri", "research-agent"],
+      "homepage": "https://brain-researcher.com/mcp/setup"
+    }
+  ]
+}

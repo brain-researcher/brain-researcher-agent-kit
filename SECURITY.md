@@ -29,7 +29,7 @@ If the kit's `adapter-map.json` declares a `contract_version_required` that the 
 
 ## Secrets
 
-This repo must never contain real secrets. The pre-commit gitleaks hook runs on every commit. If you accidentally commit a secret:
+This repo must never contain real secrets. CI runs an automated secret/trace scan (`python scripts/redaction_guard.py`) on every push and pull request. If you accidentally commit a secret:
 
 1. Rotate the secret immediately at the provider.
 2. Open a security report so we can scrub the history if needed.
