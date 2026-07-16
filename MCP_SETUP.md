@@ -33,7 +33,6 @@ Add:
 ```bash
 # Brain Researcher MCP
 export BR_MCP_TOKEN="brk_<kid>.<secret>"
-export BR_MCP_AUTH_HEADER="Bearer ${BR_MCP_TOKEN}"
 ```
 
 Reload:

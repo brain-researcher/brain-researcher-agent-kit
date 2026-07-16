@@ -18,13 +18,15 @@ CHECKS = [
         "client-specific local MCP prefix",
         re.compile(r"mcp__[A-Za-z0-9_.-]*local[A-Za-z0-9_.-]*__"),
     ),
-    ("Brain Researcher token", re.compile(r"brk_user_[A-Za-z0-9_.-]+")),
+    ("Brain Researcher token", re.compile(r"brk_[A-Za-z0-9_]+\.[A-Za-z0-9_.-]{8,}")),
     ("GitHub token", re.compile(r"gh[opsu]_[A-Za-z0-9_]{20,}")),
     ("Stanford email", re.compile(r"\b[A-Za-z0-9._%+-]+@stanford\.edu\b")),
     ("legacy GitHub org link", re.compile(r"github\.com/zjc062/brain-researcher")),
     (
         "known private project codename",
-        re.compile(r"hai-gcp-dialogue-brain|liu_component_v1|sk-br-local|russ_poldrack"),
+        re.compile(
+            r"hai-gcp-dialogue-brain|liu_component_v1|sk-br-local|russ_poldrack"
+        ),
     ),
 ]
 
@@ -34,7 +36,7 @@ ALLOW = {
     "scripts/redaction_guard.py": [
         "brain-researcher-local",
         "mcp__[A-Za-z0-9_.-]*local[A-Za-z0-9_.-]*__",
-        "brk_user_[A-Za-z0-9_.-]+",
+        "brk_[A-Za-z0-9_]+\\.[A-Za-z0-9_.-]{8,}",
         "gh[opsu]_[A-Za-z0-9_]{20,}",
         "github\\.com/zjc062/brain-researcher",
         "hai-gcp-dialogue-brain",
